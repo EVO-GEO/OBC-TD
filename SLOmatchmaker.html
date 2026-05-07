@@ -1,0 +1,2247 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T&amp;D — SLO Doelen Mapping</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f1ea;
+    --bg-card: #fffdf8;
+    --bg-card-alt: #faf6ee;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-muted: #8a8275;
+    --line: #d9d2c4;
+    --line-soft: #e8e2d4;
+    --accent-21: #c44536;       /* kerndoel 21 - praktische kennis - warm rood */
+    --accent-22: #2e6e4f;       /* kerndoel 22 - ontwerpen en maken - groen */
+    --accent-23: #4a5d8f;       /* kerndoel 23 - gedigitaliseerde wereld - blauw */
+    --blok-basis: #8b6f47;
+    --blok-ambachten: #b5651d;
+    --blok-ontwerpen: #6b4e8b;
+    --blok-programmeren: #2c5f7c;
+    --blok-overig: #6e6e6e;
+    --yes: #2e6e4f;
+    --no: #c44536;
+    --maybe: #c8923d;
+    --shadow-sm: 0 1px 2px rgba(60, 50, 30, 0.06);
+    --shadow-md: 0 2px 8px rgba(60, 50, 30, 0.08);
+    --shadow-lg: 0 8px 24px rgba(60, 50, 30, 0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(196, 69, 54, 0.04), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(74, 93, 143, 0.04), transparent);
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent-22);
+  }
+
+  .subtitle {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-top: 12px;
+    max-width: 640px;
+    font-weight: 400;
+  }
+
+  /* MODE SELECTOR (intro screen) */
+  .intro-screen {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 40px;
+    margin: 24px 0;
+    box-shadow: var(--shadow-md);
+  }
+
+  .intro-screen h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .intro-screen p {
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+  }
+
+  .data-status {
+    background: rgba(46, 110, 79, 0.08);
+    border-left: 3px solid var(--accent-22);
+    padding: 12px 16px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .data-status strong {
+    color: var(--accent-22);
+    font-weight: 600;
+  }
+
+  .data-status.hidden { display: none; }
+
+  .mode-options {
+    display: grid;
+    gap: 16px;
+  }
+
+  .mode-card {
+    display: block;
+    padding: 24px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
+    font-family: inherit;
+  }
+
+  .mode-card:hover {
+    border-color: var(--ink);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .mode-card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .mode-card-desc {
+    font-size: 14px;
+    color: var(--ink-muted);
+  }
+
+  .focus-blok-picker {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .focus-blok-btn {
+    padding: 14px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    text-align: center;
+  }
+
+  .focus-blok-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .focus-blok-btn[data-blok="basis"]:hover { border-color: var(--blok-basis); color: var(--blok-basis); }
+  .focus-blok-btn[data-blok="ambachten"]:hover { border-color: var(--blok-ambachten); color: var(--blok-ambachten); }
+  .focus-blok-btn[data-blok="ontwerpen"]:hover { border-color: var(--blok-ontwerpen); color: var(--blok-ontwerpen); }
+  .focus-blok-btn[data-blok="programmeren"]:hover { border-color: var(--blok-programmeren); color: var(--blok-programmeren); }
+
+  /* TOOLBAR */
+  .toolbar {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 12px;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+    background: rgba(255, 253, 248, 0.95);
+  }
+
+  .toolbar-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .progress-block {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .progress-text {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  .progress-text strong {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    color: var(--ink);
+    font-weight: 500;
+    margin-right: 4px;
+  }
+
+  .progress-text.is-focus strong {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .progress-bar {
+    width: 140px;
+    height: 5px;
+    background: var(--line-soft);
+    border-radius: 3px;
+    overflow: hidden;
+    display: flex;
+  }
+
+  .progress-fill,
+  .progress-fill-twijfel,
+  .progress-fill-nee {
+    height: 100%;
+    transition: width 0.3s ease;
+  }
+
+  .progress-fill { background: var(--yes); }
+  .progress-fill-twijfel { background: var(--maybe); }
+  .progress-fill-nee { background: var(--no); opacity: 0.55; }
+
+  .mode-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .mode-indicator strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .toolbar-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--ink);
+    transition: all 0.15s ease;
+    font-weight: 500;
+  }
+
+  .btn:hover {
+    border-color: var(--ink);
+    background: var(--bg);
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--bg-card);
+    border-color: var(--ink);
+  }
+
+  .btn-primary:hover {
+    background: #000;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    border-color: var(--no);
+    color: var(--no);
+  }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line-soft);
+    align-items: center;
+  }
+
+  .filter-label {
+    font-size: 12px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-right: 4px;
+  }
+
+  .filter-btn {
+    padding: 5px 11px;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    color: var(--ink-soft);
+    transition: all 0.15s ease;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--ink-soft);
+  }
+
+  .filter-btn.active {
+    background: var(--ink);
+    color: var(--bg-card);
+    border-color: var(--ink);
+  }
+
+  /* KERNDOEL SECTION */
+  .kerndoel-section {
+    margin-bottom: 48px;
+  }
+
+  .kerndoel-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 8px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .kerndoel-section[data-kd="21"] .kerndoel-header { border-bottom-color: var(--accent-21); }
+  .kerndoel-section[data-kd="22"] .kerndoel-header { border-bottom-color: var(--accent-22); }
+  .kerndoel-section[data-kd="23"] .kerndoel-header { border-bottom-color: var(--accent-23); }
+
+  .kerndoel-num {
+    font-family: 'Fraunces', serif;
+    font-size: 56px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .kerndoel-section[data-kd="21"] .kerndoel-num { color: var(--accent-21); }
+  .kerndoel-section[data-kd="22"] .kerndoel-num { color: var(--accent-22); }
+  .kerndoel-section[data-kd="23"] .kerndoel-num { color: var(--accent-23); }
+
+  .kerndoel-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.25;
+    color: var(--ink);
+    flex: 1;
+  }
+
+  .kerndoel-domein {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+  }
+
+  /* SUBKERNDOEL */
+  .subkerndoel {
+    margin-top: 24px;
+  }
+
+  .subkerndoel-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding: 10px 14px;
+    background: var(--bg-card-alt);
+    border-left: 3px solid var(--ink);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .kerndoel-section[data-kd="21"] .subkerndoel-header { border-left-color: var(--accent-21); }
+  .kerndoel-section[data-kd="22"] .subkerndoel-header { border-left-color: var(--accent-22); }
+  .kerndoel-section[data-kd="23"] .subkerndoel-header { border-left-color: var(--accent-23); }
+
+  .subkerndoel-code {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .subkerndoel-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+
+  .havo-vwo-tag {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 8px;
+    background: rgba(196, 146, 61, 0.12);
+    color: #8a6420;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* BULLET CARD */
+  .bullets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .bullet-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 16px 18px;
+    transition: all 0.15s ease;
+  }
+
+  .bullet-card.is-havo-vwo {
+    background: linear-gradient(to right, rgba(196, 146, 61, 0.04), var(--bg-card));
+    border-left: 3px solid rgba(196, 146, 61, 0.4);
+  }
+
+  .bullet-card.has-assignment {
+    border-left: 3px solid var(--accent-22);
+  }
+
+  .bullet-card-top {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .bullet-code {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--bg-card-alt);
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 52px;
+    text-align: center;
+  }
+
+  .bullet-text {
+    flex: 1;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .bullet-card-bottom {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line-soft);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+  }
+
+  /* CHECKBOXES (full mode) */
+  .blok-checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .blok-checks-label {
+    font-size: 11px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-right: 4px;
+  }
+
+  .blok-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--ink-soft);
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+
+  .blok-check input { display: none; }
+
+  .blok-check:hover {
+    border-color: var(--ink-soft);
+  }
+
+  .blok-check.checked {
+    color: white;
+    border-color: transparent;
+    font-weight: 500;
+  }
+
+  .blok-check[data-blok="basis"].checked { background: var(--blok-basis); }
+  .blok-check[data-blok="ambachten"].checked { background: var(--blok-ambachten); }
+  .blok-check[data-blok="ontwerpen"].checked { background: var(--blok-ontwerpen); }
+  .blok-check[data-blok="programmeren"].checked { background: var(--blok-programmeren); }
+  .blok-check[data-blok="overig"].checked { background: var(--blok-overig); }
+
+  /* FOCUS MODE BUTTONS */
+  .focus-decision {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .focus-decision-label {
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-right: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .focus-btn {
+    padding: 6px 14px;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    transition: all 0.15s ease;
+  }
+
+  .focus-btn:hover { border-color: var(--ink-soft); }
+
+  .focus-btn.active[data-decision="ja"] { background: var(--yes); color: white; border-color: var(--yes); }
+  .focus-btn.active[data-decision="nee"] { background: var(--no); color: white; border-color: var(--no); }
+  .focus-btn.active[data-decision="twijfel"] { background: var(--maybe); color: white; border-color: var(--maybe); }
+
+  /* NOTE TOGGLE */
+  .note-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--ink-muted);
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: inherit;
+    margin-left: auto;
+    transition: all 0.15s ease;
+  }
+
+  .note-toggle:hover {
+    background: var(--bg-card-alt);
+    color: var(--ink);
+  }
+
+  .note-toggle.has-note {
+    color: var(--accent-22);
+  }
+
+  .note-area {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line-soft);
+    display: none;
+  }
+
+  .note-area.open { display: block; }
+
+  .note-area textarea {
+    width: 100%;
+    min-height: 70px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .note-area textarea:focus {
+    outline: none;
+    border-color: var(--ink-soft);
+  }
+
+  .note-area-label {
+    font-size: 11px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  /* HIDDEN STATE */
+  .bullet-card.hidden,
+  .subkerndoel.hidden,
+  .kerndoel-section.hidden {
+    display: none;
+  }
+
+  /* MODAL */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 18, 14, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+
+  .modal-backdrop.open { display: flex; }
+
+  .modal {
+    background: var(--bg-card);
+    border-radius: 4px;
+    padding: 32px;
+    max-width: 540px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .modal h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .modal p {
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 24px;
+  }
+
+  .modal textarea, .modal pre {
+    width: 100%;
+    min-height: 200px;
+    max-height: 400px;
+    padding: 12px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow: auto;
+    resize: vertical;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* SHARE MODAL */
+  .share-summary {
+    background: var(--bg-card-alt);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  .share-summary strong { color: var(--ink); font-weight: 600; }
+  .share-summary .empty { font-style: italic; color: var(--ink-muted); }
+
+  .share-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .share-actions .btn { flex: 1; min-width: 140px; padding: 12px 16px; }
+  .share-actions .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+
+  .share-details, .load-paste-details {
+    margin: 12px 0;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 12px;
+  }
+
+  .share-details summary, .load-paste-details summary {
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--ink-muted);
+    padding: 4px 0;
+    user-select: none;
+  }
+
+  .share-details summary:hover, .load-paste-details summary:hover { color: var(--ink-soft); }
+
+  .share-details textarea { margin-top: 10px; min-height: 120px; }
+  .load-paste-details textarea { margin-top: 10px; min-height: 100px; font-size: 12px; }
+
+  /* LOAD MODAL */
+  .load-dropzone {
+    border: 2px dashed var(--line);
+    border-radius: 6px;
+    padding: 32px 20px;
+    text-align: center;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    margin-bottom: 16px;
+    background: var(--bg);
+  }
+
+  .load-dropzone:hover, .load-dropzone.drag-over {
+    border-color: var(--accent-22);
+    background: rgba(46, 110, 79, 0.04);
+  }
+
+  .load-dropzone-icon {
+    font-size: 32px;
+    color: var(--ink-muted);
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+
+  .load-dropzone:hover .load-dropzone-icon,
+  .load-dropzone.drag-over .load-dropzone-icon { color: var(--accent-22); }
+
+  .load-dropzone-text {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .load-dropzone-text strong { color: var(--ink); font-weight: 600; }
+
+  .load-dropzone-hint {
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  .link-btn {
+    background: none;
+    border: none;
+    color: var(--accent-22);
+    text-decoration: underline;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 0;
+  }
+
+  .link-btn:hover { color: var(--ink); }
+
+  .load-preview {
+    background: rgba(46, 110, 79, 0.06);
+    border-left: 3px solid var(--accent-22);
+    padding: 14px 16px;
+    border-radius: 0 4px 4px 0;
+    margin: 16px 0;
+  }
+
+  .load-preview.hidden { display: none; }
+
+  .load-preview-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-22);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .load-preview-summary {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .load-preview-warning {
+    margin-top: 10px;
+    padding: 8px 10px;
+    background: rgba(200, 146, 61, 0.15);
+    border-radius: 3px;
+    font-size: 12px;
+    color: #8a6420;
+  }
+
+  .load-preview-warning:empty { display: none; }
+
+  .hidden { display: none; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: var(--bg-card);
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-size: 13px;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 200;
+  }
+
+  .toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink-muted);
+  }
+
+  .empty-state-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    color: var(--ink-muted);
+    font-size: 12px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 720px) {
+    .container { padding: 20px 16px 60px; }
+    .toolbar { padding: 16px; }
+    .toolbar-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .toolbar-actions { width: 100%; justify-content: flex-start; }
+    .kerndoel-num { font-size: 40px; }
+    .kerndoel-title { font-size: 17px; }
+    .bullet-card-top { flex-direction: column; gap: 8px; }
+    .bullet-card-bottom { gap: 10px; }
+    .note-toggle { margin-left: 0; }
+    .blok-checks { width: 100%; }
+    .focus-decision { width: 100%; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="eyebrow">Tech &amp; Design — Klas 1</div>
+    <h1>SLO-doelen <em>mapping</em></h1>
+    <p class="subtitle">Koppel kerndoelen digitale geletterdheid (21, 22 en 23) aan de blokken Basis, Ambachten, Ontwerpen en Programmeren.</p>
+  </header>
+
+  <!-- INTRO / MODE SELECTION -->
+  <section class="intro-screen" id="introScreen">
+    <h2>Hoe wil je werken?</h2>
+    <p>Kies een werkmodus. Je kunt later altijd wisselen tussen modi zonder dat je werk verloren gaat.</p>
+
+    <div class="data-status hidden" id="dataStatus">
+      <strong>Eerder werk staat klaar:</strong> <span id="dataStatusDetails"></span>
+    </div>
+
+    <div class="mode-options">
+      <button class="mode-card" id="modeFullBtn">
+        <div class="mode-card-title">Volledige mapping</div>
+        <div class="mode-card-desc">Per doel zie je alle vier de blokken (plus "Overig") tegelijk en vink je aan in welke blokken het doel behandeld wordt. Geschikt om in één sessie het hele curriculum te overzien.</div>
+      </button>
+
+      <div class="mode-card" style="cursor: default;">
+        <div class="mode-card-title">Focus op één blok</div>
+        <div class="mode-card-desc">Per doel beslis je alleen: behandelen we dit doel in dit blok? Drie keuzes: ja, nee, twijfel. Sneller voor gerichte sessies. Kies hieronder welk blok:</div>
+        <div class="focus-blok-picker">
+          <button class="focus-blok-btn" data-blok="basis">Basis</button>
+          <button class="focus-blok-btn" data-blok="ambachten">Ambachten</button>
+          <button class="focus-blok-btn" data-blok="ontwerpen">Ontwerpen</button>
+          <button class="focus-blok-btn" data-blok="programmeren">Programmeren</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN APP -->
+  <main id="app" style="display: none;">
+
+    <div class="toolbar">
+      <div class="toolbar-row">
+        <div class="progress-block">
+          <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+            <div class="progress-fill-twijfel" id="progressFillTwijfel"></div>
+            <div class="progress-fill-nee" id="progressFillNee"></div>
+          </div>
+          <div class="progress-text"><strong id="progressNum">0</strong> <span id="progressLabel">van 0 doelen behandeld</span></div>
+        </div>
+
+        <div class="mode-indicator" id="modeIndicator"></div>
+
+        <div class="toolbar-actions">
+          <button class="btn" id="changeModeBtn">Wissel modus</button>
+          <button class="btn" id="exportBtn">Exporteer overzicht</button>
+          <button class="btn" id="shareBtn" title="Download een bestand om je werk te delen of te bewaren">Delen</button>
+          <button class="btn" id="loadBtn" title="Laad een eerder gedeeld bestand in">Inladen</button>
+          <button class="btn btn-danger" id="resetBtn">Reset</button>
+        </div>
+      </div>
+
+      <div class="filter-bar" id="filterBar">
+        <span class="filter-label">Filter</span>
+        <button class="filter-btn active" data-filter="all">Alles tonen</button>
+        <button class="filter-btn" data-filter="unassigned">Nog niet behandeld</button>
+        <button class="filter-btn" data-filter="assigned">Wel behandeld</button>
+        <span class="filter-label" style="margin-left: 12px;">Kerndoel</span>
+        <button class="filter-btn active" data-kd-filter="all">Alle</button>
+        <button class="filter-btn" data-kd-filter="21">21</button>
+        <button class="filter-btn" data-kd-filter="22">22</button>
+        <button class="filter-btn" data-kd-filter="23">23</button>
+        <span class="filter-label" style="margin-left: 12px;">Havo-vwo</span>
+        <button class="filter-btn active" data-havo-filter="show" title="Toon ook bullets die alleen voor havo-vwo gelden">Tonen</button>
+        <button class="filter-btn" data-havo-filter="hide" title="Verberg bullets die alleen voor havo-vwo gelden — handig voor een dakpan- of brede brugklas">Verbergen</button>
+      </div>
+    </div>
+
+    <div id="content"></div>
+
+
+
+  </main>
+
+  <footer>
+    Gegevens worden lokaal opgeslagen in je browser. Gebruik <strong>Delen</strong> om je werk als bestand op te slaan of door te sturen.
+  </footer>
+
+</div>
+
+<!-- RESET MODAL -->
+<div class="modal-backdrop" id="resetModal">
+  <div class="modal">
+    <h3>Alle gegevens wissen?</h3>
+    <p>Hiermee verwijder je alle toewijzingen, notities en je modus-keuze. Dit kan niet ongedaan worden gemaakt.</p>
+    <div class="modal-actions">
+      <button class="btn" id="resetCancel">Annuleren</button>
+      <button class="btn btn-primary" id="resetConfirm" style="background: var(--no); border-color: var(--no);">Ja, alles wissen</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="modal-backdrop" id="exportModal">
+  <div class="modal">
+    <h3>Leesbaar overzicht</h3>
+    <p>Kopieer de tekst hieronder of download als bestand. Het overzicht toont alle toewijzingen per blok én per doel.</p>
+    <textarea id="exportText" readonly></textarea>
+    <div class="modal-actions">
+      <button class="btn" id="exportClose">Sluiten</button>
+      <button class="btn" id="exportCopy">Kopieer</button>
+      <button class="btn btn-primary" id="exportDownload">Download .txt</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHARE MODAL -->
+<div class="modal-backdrop" id="shareModal">
+  <div class="modal">
+    <h3>Werk delen of opslaan</h3>
+    <p>Sla je werk op als bestand om het later terug te laden of door te sturen naar een collega.</p>
+
+    <div class="share-summary" id="shareSummary"></div>
+
+    <div class="share-actions">
+      <button class="btn btn-primary" id="shareDownloadBtn">
+        <span style="font-size: 16px; line-height: 1;">↓</span> Download bestand
+      </button>
+      <button class="btn" id="shareCopyBtn">Kopieer naar klembord</button>
+    </div>
+
+    <details class="share-details">
+      <summary>Geavanceerd: ruwe gegevens tonen</summary>
+      <textarea id="shareRawText" readonly></textarea>
+    </details>
+
+    <div class="modal-actions">
+      <button class="btn" id="shareCloseBtn">Sluiten</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOAD MODAL -->
+<div class="modal-backdrop" id="loadModal">
+  <div class="modal">
+    <h3>Werk inladen</h3>
+    <p>Laad een eerder opgeslagen bestand of geplakte gegevens. Je huidige werk wordt vervangen.</p>
+
+    <div class="load-dropzone" id="loadDropzone">
+      <input type="file" id="loadFileInput" accept=".json,application/json" style="display: none;">
+      <div class="load-dropzone-icon">↓</div>
+      <div class="load-dropzone-text">
+        <strong>Sleep een bestand hierheen</strong><br>
+        of <button type="button" class="link-btn" id="loadFilePickBtn">kies een bestand</button>
+      </div>
+      <div class="load-dropzone-hint">Verwacht: een .json bestand van deze tool</div>
+    </div>
+
+    <details class="load-paste-details">
+      <summary>Of plak gegevens als tekst</summary>
+      <textarea id="loadPasteText" placeholder="Plak hier de inhoud van een eerder gedeeld bestand…"></textarea>
+      <button class="btn" id="loadPasteBtn" style="margin-top: 8px;">Lees plakte tekst</button>
+    </details>
+
+    <div class="load-preview hidden" id="loadPreview">
+      <div class="load-preview-title">Klaar om in te laden:</div>
+      <div class="load-preview-summary" id="loadPreviewSummary"></div>
+      <div class="load-preview-warning" id="loadPreviewWarning"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn" id="loadCancelBtn">Annuleren</button>
+      <button class="btn btn-primary hidden" id="loadConfirmBtn">Inladen en huidig werk vervangen</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   DATA — alle SLO-doelen voor digitale geletterdheid (21, 22, 23)
+   ============================================================ */
+const DATA = {
+  21: {
+    titel: "De leerling zet digitale technologie en digitale media in",
+    domein: "Praktische kennis en vaardigheden",
+    sub: {
+      "21A": {
+        titel: "De leerling zet digitale systemen functioneel in",
+        bullets: [
+          { code: "21A1", text: "beschrijven van wat technisch nodig is om digitale systemen te laten werken en in een netwerk te laten samenwerken" },
+          { code: "21A2", text: "beschrijven van de werking van internet en de plaats van slimme apparatuur daarin" },
+          { code: "21A3", text: "gebruiken van geavanceerde mogelijkheden van software voor communicatie, samenwerken en het creëren en bewerken van verschillende typen bestanden" },
+          { code: "21A4", text: "herkennen van digitale systemen die in bedrijven, in de wereld van de media en door de overheid gebruikt worden bij het uitvoeren van taken of het oplossen van problemen" },
+          { code: "21A5", text: "bijhouden van nieuwe technologische ontwikkelingen, hun mogelijkheden en beperkingen" }
+        ]
+      },
+      "21B": {
+        titel: "De leerling navigeert doelgericht in het digitale media- en informatielandschap voor het verwerven en verwerken van informatie",
+        bullets: [
+          { code: "21B1", text: "combineren van geschikte zoekhulpmiddelen, zoekopdrachten en zoekstrategieën" },
+          { code: "21B2", text: "beoordelen van aangeboden en gevonden informatie op betrouwbaarheid en bruikbaarheid, rekening houdend met eigenschappen van bronnen, zoekhulpmiddelen en gebruikte media" },
+          { code: "21B3", text: "reflecteren op de geschiktheid van gebruikte zoekstrategieën, zoekhulpmiddelen en zoekopdrachten voor het verkrijgen van het gewenste resultaat" },
+          { code: "21B4", text: "beschrijven hoe sociale media werken en hoe ze de aandacht van gebruikers trekken, vasthouden en beïnvloeden" },
+          { code: "21B5", text: "reflecteren op welke wijze eigen kennis, opvattingen en voorkeuren de interpretatie van digitale informatie beïnvloeden" },
+          { code: "21B6", text: "gebruikmaken van vakspecifieke zoekstrategieën, zoekhulpmiddelen en zoekopdrachten", havo: true }
+        ]
+      },
+      "21C": {
+        titel: "De leerling verkent het gebruik van data en dataverwerking",
+        bullets: [
+          { code: "21C1", text: "redeneren over hoe een dataset een beperkt beeld geeft van de werkelijkheid" },
+          { code: "21C2", text: "uitvoeren van onderzoek met een dataset om een vraag te beantwoorden, een taak uit te voeren of een probleem op te lossen" },
+          { code: "21C3", text: "beschrijven van het gebruik van data door bedrijven, instellingen en overheden" },
+          { code: "21C4", text: "beschrijven van de toenemende mogelijkheden om datagestuurd te werken" },
+          { code: "21C5", text: "reflecteren hoe AI nieuwe manieren om data te verwerken mogelijk maakt" },
+          { code: "21C6", text: "gebruiken van open data om een probleem op te lossen of een onderzoek uit te voeren", havo: true }
+        ]
+      },
+      "21D": {
+        titel: "De leerling verkent mogelijkheden en beperkingen van AI",
+        bullets: [
+          { code: "21D1", text: "beschrijven van de rol en invloed van de kwaliteit en eigenschappen van data voor de werking en resultaten van AI-systemen" },
+          { code: "21D2", text: "herkennen van veelvoorkomende AI-systemen en hun toepassingen door bedrijven, instellingen en overheden" },
+          { code: "21D3", text: "beschrijven van verschillen tussen op regels gebaseerde digitale systemen en op statistiek gebaseerde AI-systemen" },
+          { code: "21D4", text: "doelgericht, verantwoord en kritisch interacteren met een AI-systeem" },
+          { code: "21D5", text: "experimenteren met het trainen van AI-systemen" },
+          { code: "21D6", text: "beschrijven van machine learning, expertsystemen en gangbare manieren om AI-systemen te trainen", havo: true },
+          { code: "21D7", text: "reflecteren op de mogelijkheden en beperkingen van AI-systemen", havo: true }
+        ]
+      }
+    }
+  },
+  22: {
+    titel: "De leerling creëert digitale producten",
+    domein: "Ontwerpen en maken",
+    sub: {
+      "22A": {
+        titel: "De leerling gebruikt passende werkwijzen bij het creëren en gebruiken van verschillende typen digitale producten",
+        bullets: [
+          { code: "22A1", text: "experimenteren met ontwikkel- en bewerkingssoftware om gedachten, ideeën of gevoelens uit te drukken" },
+          { code: "22A2", text: "ontwikkelen en delen van een digitaal product gericht op het informeren, overtuigen of beïnvloeden" },
+          { code: "22A3", text: "afwegen met behulp van computationele denkstrategieën in hoeverre het doel met een digitaal product bereikt kan worden" },
+          { code: "22A4", text: "ontwerpen en realiseren van een product aan de hand van ontwerpeisen in een iteratief proces, inclusief reflectie op product en proces" },
+          { code: "22A5", text: "rekening houden met auteursrechten, licenties en bron- en naamsvermelding bij het creëren van digitale producten" },
+          { code: "22A6", text: "oplossen van een probleem of uitvoeren van een taak in een ander vak met behulp van computationele denkstrategieën", havo: true }
+        ]
+      },
+      "22B": {
+        titel: "De leerling programmeert een computerprogramma met behulp van computationele denkstrategieën",
+        bullets: [
+          { code: "22B1", text: "beschrijven van de taak en het doel van een computerprogramma" },
+          { code: "22B2", text: "ontwerpen en schematisch weergeven van het algoritme behorende bij een taak" },
+          { code: "22B3", text: "gebruikmaken van programmeerconcepten: events, datastructuren en combinaties van logische operatoren" },
+          { code: "22B4", text: "documenteren, testen en bijstellen van een eigen computerprogramma of een computerprogramma van anderen" },
+          { code: "22B5", text: "aanpakken van een probleem of taak zodanig, dat programmeren gebruikt kan worden om het op te lossen" }
+        ]
+      }
+    }
+  },
+  23: {
+    titel: "De leerling participeert in de gedigitaliseerde wereld",
+    domein: "De gedigitaliseerde wereld",
+    sub: {
+      "23A": {
+        titel: "De leerling gaat veilig om met digitale systemen, data en de privacy van zichzelf en anderen",
+        bullets: [
+          { code: "23A1", text: "kennis hebben van rechten en plichten van individuen en instellingen ten aanzien van de bescherming van persoonsgegevens, data en privacy" },
+          { code: "23A2", text: "herkennen van veiligheidsrisico's bij het gebruik van digitale systemen van bedrijven, instellingen en overheden" },
+          { code: "23A3", text: "beschermen tegen zwakke plekken in gebruikte digitale systemen en netwerken" },
+          { code: "23A4", text: "herkennen hoe anderen omgaan met privacy en de veiligheid van door hen verzamelde of bewaarde data" },
+          { code: "23A5", text: "adequaat omgaan met ongepaste content, ongepast gedrag en veiligheidsrisico's in digitale omgevingen" },
+          { code: "23A6", text: "beschrijven van malware en andere bedreigingen", havo: true }
+        ]
+      },
+      "23B": {
+        titel: "De leerling maakt weloverwogen keuzes bij het gebruik van digitale technologie en digitale media",
+        bullets: [
+          { code: "23B1", text: "online communiceren en handelen op respectvolle en verantwoorde wijze" },
+          { code: "23B2", text: "evalueren van de invloed van digitale technologie en digitale media op eigen denken, eigen gedrag en de interactie met anderen" },
+          { code: "23B3", text: "rekening houden met eigen fysieke en mentale gezondheid en die van anderen in relatie tot het gebruik van digitale technologie en digitale media" },
+          { code: "23B4", text: "reflecteren op en vormgeven van de eigen online identiteit in relatie met anderen" },
+          { code: "23B5", text: "verkennen van de eigen interesse in digitale technologie en digitale media in relatie tot studies en beroepen" }
+        ]
+      },
+      "23C": {
+        titel: "De leerling analyseert hoe digitale technologie, digitale media en de samenleving elkaar wederzijds beïnvloeden",
+        bullets: [
+          { code: "23C1", text: "verkennen van mogelijkheden om digitale technologie en digitale media te benutten bij het vormgeven van maatschappelijke betrokkenheid" },
+          { code: "23C2", text: "verkennen van mogelijkheden om de ontwikkeling van digitale technologie en digitale media te sturen en te reguleren en daarmee menselijke en democratische waarden te beschermen" },
+          { code: "23C3", text: "redeneren over kansen en risico's van het gebruik van digitale technologie in de samenleving vanuit ethisch, sociaal, economisch en ecologisch perspectief" },
+          { code: "23C4", text: "analyseren hoe samenlevingen afhankelijk zijn van digitale technologie en van grote technologiebedrijven" },
+          { code: "23C5", text: "beschrijven van ethische dilemma's bij het maken van keuzes voor de toekomst die gerelateerd zijn aan ontwikkelingen van digitale technologie en digitale media" }
+        ]
+      }
+    }
+  }
+};
+
+const BLOKKEN = ['basis', 'ambachten', 'ontwerpen', 'programmeren', 'overig'];
+const BLOK_LABELS = {
+  basis: 'Basis',
+  ambachten: 'Ambachten',
+  ontwerpen: 'Ontwerpen',
+  programmeren: 'Programmeren',
+  overig: 'Overig'
+};
+
+/* ============================================================
+   STATE & PERSISTENCE
+   ============================================================ */
+const STORAGE_KEY = 'td-slo-mapping-v1';
+
+function defaultState() {
+  return {
+    mode: null,           // 'full' | 'focus'
+    focusBlok: null,      // 'basis' | 'ambachten' | 'ontwerpen' | 'programmeren' (alleen in focus mode)
+    assignments: {},      // { "22A1": ['basis', 'ontwerpen'] }
+    focusDecisions: {},   // { "basis": { "22A1": "ja"|"nee"|"twijfel" }, ... }
+    notes: {},            // { "22A1": "vrije tekst" }
+    filter: 'all',        // 'all' | 'unassigned' | 'assigned'
+    kdFilter: 'all',      // 'all' | '21' | '22' | '23'
+    havoFilter: 'show',   // 'show' | 'hide'
+    openNotes: {}         // { "22A1": true }
+  };
+}
+
+let state = loadState();
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+    return Object.assign(defaultState(), parsed);
+  } catch (e) {
+    return defaultState();
+  }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) {
+    console.warn('Kon state niet opslaan', e);
+  }
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function getAllBullets() {
+  const list = [];
+  for (const kd of [21, 22, 23]) {
+    for (const subCode in DATA[kd].sub) {
+      for (const b of DATA[kd].sub[subCode].bullets) {
+        list.push({ ...b, kd, subCode });
+      }
+    }
+  }
+  return list;
+}
+
+function getAssignmentsForBullet(code) {
+  // In full mode: from state.assignments
+  // In focus mode: derived from focusDecisions across all blokken (only 'ja')
+  if (state.mode === 'focus') {
+    const result = [];
+    for (const blok of BLOKKEN.filter(b => b !== 'overig')) {
+      if (state.focusDecisions[blok] && state.focusDecisions[blok][code] === 'ja') {
+        result.push(blok);
+      }
+    }
+    // Merge with full-mode assignments too (in case user worked in both modes)
+    if (state.assignments[code]) {
+      for (const b of state.assignments[code]) {
+        if (!result.includes(b)) result.push(b);
+      }
+    }
+    return result;
+  }
+  return state.assignments[code] || [];
+}
+
+function isAssigned(code) {
+  return getAssignmentsForBullet(code).length > 0;
+}
+
+function countTotalBullets() {
+  return getAllBullets().length;
+}
+
+function countAssignedBullets() {
+  return getAllBullets().filter(b => isAssigned(b.code)).length;
+}
+
+/* ============================================================
+   RENDERING
+   ============================================================ */
+function render() {
+  if (!state.mode) {
+    document.getElementById('introScreen').style.display = 'block';
+    document.getElementById('app').style.display = 'none';
+    renderDataStatus();
+    return;
+  }
+
+  document.getElementById('introScreen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+
+  renderModeIndicator();
+  renderProgress();
+  renderContent();
+  renderFilterStates();
+}
+
+function renderDataStatus() {
+  const el = document.getElementById('dataStatus');
+  const details = document.getElementById('dataStatusDetails');
+  const allBullets = getAllBullets();
+  const assignedCount = allBullets.filter(b => isAssigned(b.code)).length;
+  const noteCount = Object.keys(state.notes).filter(k => state.notes[k] && state.notes[k].trim()).length;
+
+  if (assignedCount === 0 && noteCount === 0) {
+    el.classList.add('hidden');
+    return;
+  }
+
+  el.classList.remove('hidden');
+  const parts = [];
+  if (assignedCount > 0) parts.push(`${assignedCount} doel${assignedCount === 1 ? '' : 'en'} behandeld`);
+  if (noteCount > 0) parts.push(`${noteCount} notitie${noteCount === 1 ? '' : 's'}`);
+  details.textContent = parts.join(', ') + '. Je werk blijft bewaard als je een modus kiest.';
+}
+
+function renderModeIndicator() {
+  const el = document.getElementById('modeIndicator');
+  if (state.mode === 'full') {
+    el.innerHTML = 'Modus: <strong>volledige mapping</strong>';
+  } else {
+    el.innerHTML = `Modus: <strong>focus — ${BLOK_LABELS[state.focusBlok]}</strong>`;
+  }
+}
+
+function renderProgress() {
+  const total = countTotalBullets();
+  const fill = document.getElementById('progressFill');
+  const fillTwijfel = document.getElementById('progressFillTwijfel');
+  const fillNee = document.getElementById('progressFillNee');
+  const progressText = document.querySelector('.progress-text');
+
+  if (state.mode === 'focus') {
+    progressText.classList.add('is-focus');
+    const decisions = state.focusDecisions[state.focusBlok] || {};
+    const codes = Object.keys(decisions);
+    const ja = codes.filter(c => decisions[c] === 'ja').length;
+    const twijfel = codes.filter(c => decisions[c] === 'twijfel').length;
+    const nee = codes.filter(c => decisions[c] === 'nee').length;
+    const open = total - ja - twijfel - nee;
+
+    document.getElementById('progressNum').textContent = `${ja} ja · ${twijfel} twijfel · ${nee} nee`;
+    document.getElementById('progressLabel').textContent = `${open} nog open · focus: ${BLOK_LABELS[state.focusBlok]}`;
+
+    fill.style.width = (ja / total * 100) + '%';
+    fillTwijfel.style.width = (twijfel / total * 100) + '%';
+    fillNee.style.width = (nee / total * 100) + '%';
+  } else {
+    progressText.classList.remove('is-focus');
+    const done = countAssignedBullets();
+    document.getElementById('progressNum').textContent = done;
+    document.getElementById('progressLabel').textContent = `van ${total} doelen behandeld`;
+
+    fill.style.width = (total === 0 ? 0 : (done / total) * 100) + '%';
+    fillTwijfel.style.width = '0%';
+    fillNee.style.width = '0%';
+  }
+}
+
+function renderContent() {
+  const container = document.getElementById('content');
+  container.innerHTML = '';
+
+  let anyVisible = false;
+
+  for (const kd of [21, 22, 23]) {
+    const kdData = DATA[kd];
+    const section = document.createElement('section');
+    section.className = 'kerndoel-section';
+    section.dataset.kd = kd;
+
+    if (state.kdFilter !== 'all' && String(state.kdFilter) !== String(kd)) {
+      section.classList.add('hidden');
+    }
+
+    const header = document.createElement('div');
+    header.className = 'kerndoel-header';
+    header.innerHTML = `
+      <div class="kerndoel-num">${kd}</div>
+      <div style="flex:1;">
+        <div class="kerndoel-domein">${kdData.domein}</div>
+        <div class="kerndoel-title">${kdData.titel}</div>
+      </div>
+    `;
+    section.appendChild(header);
+
+    let sectionHasVisible = false;
+
+    for (const subCode in kdData.sub) {
+      const subData = kdData.sub[subCode];
+      const subEl = document.createElement('div');
+      subEl.className = 'subkerndoel';
+
+      const subHeader = document.createElement('div');
+      subHeader.className = 'subkerndoel-header';
+      subHeader.innerHTML = `
+        <span class="subkerndoel-code">${subCode}</span>
+        <span class="subkerndoel-title">${subData.titel}</span>
+      `;
+      subEl.appendChild(subHeader);
+
+      const bulletsList = document.createElement('div');
+      bulletsList.className = 'bullets-list';
+
+      let subHasVisible = false;
+
+      for (const bullet of subData.bullets) {
+        const bulletWithKd = { ...bullet, kd, subCode };
+        const card = createBulletCard(bulletWithKd);
+        const visible = shouldShowBullet(bulletWithKd);
+        if (!visible) card.classList.add('hidden');
+        else {
+          subHasVisible = true;
+          sectionHasVisible = true;
+          anyVisible = true;
+        }
+        bulletsList.appendChild(card);
+      }
+
+      subEl.appendChild(bulletsList);
+      if (!subHasVisible) subEl.classList.add('hidden');
+      section.appendChild(subEl);
+    }
+
+    if (!sectionHasVisible) section.classList.add('hidden');
+    container.appendChild(section);
+  }
+}
+
+function shouldShowBullet(bullet) {
+  // havo-vwo filter
+  if (state.havoFilter === 'hide' && bullet.havo) return false;
+  // KD filter
+  if (state.kdFilter !== 'all' && String(state.kdFilter) !== String(bullet.kd)) return false;
+  // assignment filter
+  if (state.filter === 'assigned' && !isAssigned(bullet.code)) return false;
+  if (state.filter === 'unassigned') {
+    if (state.mode === 'focus') {
+      const dec = (state.focusDecisions[state.focusBlok] || {})[bullet.code];
+      if (dec) return false; // already decided in focus mode
+    } else {
+      if (isAssigned(bullet.code)) return false;
+    }
+  }
+  return true;
+}
+
+function createBulletCard(bullet) {
+  const card = document.createElement('div');
+  card.className = 'bullet-card';
+  card.dataset.code = bullet.code;
+  if (bullet.havo) card.classList.add('is-havo-vwo');
+  if (isAssigned(bullet.code)) card.classList.add('has-assignment');
+
+  const top = document.createElement('div');
+  top.className = 'bullet-card-top';
+
+  const codeEl = document.createElement('div');
+  codeEl.className = 'bullet-code';
+  codeEl.textContent = bullet.code;
+  top.appendChild(codeEl);
+
+  const textEl = document.createElement('div');
+  textEl.className = 'bullet-text';
+  textEl.innerHTML = escapeHtml(bullet.text) + (bullet.havo ? '<span class="havo-vwo-tag">havo-vwo</span>' : '');
+  top.appendChild(textEl);
+
+  card.appendChild(top);
+
+  const bottom = document.createElement('div');
+  bottom.className = 'bullet-card-bottom';
+
+  if (state.mode === 'full') {
+    bottom.appendChild(createBlokChecks(bullet.code));
+  } else {
+    bottom.appendChild(createFocusDecision(bullet.code));
+  }
+
+  // note toggle
+  const noteToggle = document.createElement('button');
+  noteToggle.className = 'note-toggle';
+  const hasNote = !!(state.notes[bullet.code] && state.notes[bullet.code].trim());
+  if (hasNote) noteToggle.classList.add('has-note');
+  noteToggle.textContent = hasNote ? '✎ Notitie' : '✎ Voeg notitie toe';
+  noteToggle.addEventListener('click', () => {
+    state.openNotes[bullet.code] = !state.openNotes[bullet.code];
+    saveState();
+    const ne = card.querySelector('.note-area');
+    if (ne) ne.classList.toggle('open', !!state.openNotes[bullet.code]);
+  });
+  bottom.appendChild(noteToggle);
+  card.appendChild(bottom);
+
+  // note area
+  const noteArea = document.createElement('div');
+  noteArea.className = 'note-area';
+  if (state.openNotes[bullet.code]) noteArea.classList.add('open');
+
+  const noteLabel = document.createElement('div');
+  noteLabel.className = 'note-area-label';
+  noteLabel.textContent = 'Notitie / onderbouwing';
+  noteArea.appendChild(noteLabel);
+
+  const ta = document.createElement('textarea');
+  ta.value = state.notes[bullet.code] || '';
+  ta.placeholder = 'Bv. waarom hoort dit bij dit blok? Welke lesactiviteit dekt dit?';
+  ta.addEventListener('input', (e) => {
+    state.notes[bullet.code] = e.target.value;
+    saveState();
+    // update toggle state
+    const has = !!e.target.value.trim();
+    noteToggle.classList.toggle('has-note', has);
+    noteToggle.textContent = has ? '✎ Notitie' : '✎ Voeg notitie toe';
+  });
+  noteArea.appendChild(ta);
+  card.appendChild(noteArea);
+
+  return card;
+}
+
+function createBlokChecks(code) {
+  const wrap = document.createElement('div');
+  wrap.className = 'blok-checks';
+
+  const lbl = document.createElement('span');
+  lbl.className = 'blok-checks-label';
+  lbl.textContent = 'Behandeld in:';
+  wrap.appendChild(lbl);
+
+  for (const blok of BLOKKEN) {
+    const label = document.createElement('label');
+    label.className = 'blok-check';
+    label.dataset.blok = blok;
+    const checked = (state.assignments[code] || []).includes(blok);
+    if (checked) label.classList.add('checked');
+
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.checked = checked;
+    input.addEventListener('change', () => {
+      let arr = state.assignments[code] ? [...state.assignments[code]] : [];
+      if (input.checked) {
+        if (!arr.includes(blok)) arr.push(blok);
+      } else {
+        arr = arr.filter(b => b !== blok);
+      }
+      if (arr.length === 0) delete state.assignments[code];
+      else state.assignments[code] = arr;
+      saveState();
+      label.classList.toggle('checked', input.checked);
+      // update card visual + progress
+      const card = label.closest('.bullet-card');
+      if (card) card.classList.toggle('has-assignment', isAssigned(code));
+      renderProgress();
+      // re-evaluate filter visibility
+      if (state.filter !== 'all') {
+        const sy = window.scrollY;
+        renderContent();
+        window.scrollTo(0, sy);
+      }
+    });
+
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(BLOK_LABELS[blok]));
+    wrap.appendChild(label);
+  }
+
+  return wrap;
+}
+
+function createFocusDecision(code) {
+  const wrap = document.createElement('div');
+  wrap.className = 'focus-decision';
+
+  const lbl = document.createElement('span');
+  lbl.className = 'focus-decision-label';
+  lbl.textContent = `Behandelen in ${BLOK_LABELS[state.focusBlok]}?`;
+  wrap.appendChild(lbl);
+
+  const decisions = ['ja', 'twijfel', 'nee'];
+  const decisionLabels = { ja: 'Ja', twijfel: 'Twijfel', nee: 'Nee' };
+  const current = (state.focusDecisions[state.focusBlok] || {})[code];
+
+  for (const d of decisions) {
+    const btn = document.createElement('button');
+    btn.className = 'focus-btn';
+    btn.dataset.decision = d;
+    btn.textContent = decisionLabels[d];
+    if (current === d) btn.classList.add('active');
+    btn.addEventListener('click', () => {
+      if (!state.focusDecisions[state.focusBlok]) state.focusDecisions[state.focusBlok] = {};
+      const cur = state.focusDecisions[state.focusBlok][code];
+      if (cur === d) {
+        // toggle off
+        delete state.focusDecisions[state.focusBlok][code];
+      } else {
+        state.focusDecisions[state.focusBlok][code] = d;
+      }
+      saveState();
+      // update visuals
+      wrap.querySelectorAll('.focus-btn').forEach(b => b.classList.remove('active'));
+      if (state.focusDecisions[state.focusBlok][code]) {
+        btn.classList.add('active');
+      }
+      const card = btn.closest('.bullet-card');
+      if (card) card.classList.toggle('has-assignment', isAssigned(code));
+      renderProgress();
+      if (state.filter !== 'all') {
+        const sy = window.scrollY;
+        renderContent();
+        window.scrollTo(0, sy);
+      }
+    });
+    wrap.appendChild(btn);
+  }
+
+  return wrap;
+}
+
+function renderFilterStates() {
+  document.querySelectorAll('[data-filter]').forEach(b => {
+    b.classList.toggle('active', b.dataset.filter === state.filter);
+  });
+  document.querySelectorAll('[data-kd-filter]').forEach(b => {
+    b.classList.toggle('active', b.dataset.kdFilter === String(state.kdFilter));
+  });
+  document.querySelectorAll('[data-havo-filter]').forEach(b => {
+    b.classList.toggle('active', b.dataset.havoFilter === state.havoFilter);
+  });
+}
+
+/* ============================================================
+   EVENT HANDLERS
+   ============================================================ */
+document.getElementById('modeFullBtn').addEventListener('click', () => {
+  state.mode = 'full';
+  state.focusBlok = null;
+  saveState();
+  render();
+});
+
+document.querySelectorAll('.focus-blok-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    state.mode = 'focus';
+    state.focusBlok = btn.dataset.blok;
+    saveState();
+    render();
+  });
+});
+
+document.getElementById('changeModeBtn').addEventListener('click', () => {
+  state.mode = null;
+  state.focusBlok = null;
+  saveState();
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+document.querySelectorAll('[data-filter]').forEach(b => {
+  b.addEventListener('click', () => {
+    const sy = window.scrollY;
+    state.filter = b.dataset.filter;
+    saveState();
+    renderFilterStates();
+    renderContent();
+    window.scrollTo(0, sy);
+  });
+});
+
+document.querySelectorAll('[data-kd-filter]').forEach(b => {
+  b.addEventListener('click', () => {
+    const sy = window.scrollY;
+    state.kdFilter = b.dataset.kdFilter;
+    saveState();
+    renderFilterStates();
+    renderContent();
+    window.scrollTo(0, sy);
+  });
+});
+
+document.querySelectorAll('[data-havo-filter]').forEach(b => {
+  b.addEventListener('click', () => {
+    const sy = window.scrollY;
+    state.havoFilter = b.dataset.havoFilter;
+    saveState();
+    renderFilterStates();
+    renderContent();
+    window.scrollTo(0, sy);
+  });
+});
+
+/* ====== RESET ====== */
+const resetModal = document.getElementById('resetModal');
+document.getElementById('resetBtn').addEventListener('click', () => {
+  resetModal.classList.add('open');
+});
+document.getElementById('resetCancel').addEventListener('click', () => {
+  resetModal.classList.remove('open');
+});
+document.getElementById('resetConfirm').addEventListener('click', () => {
+  localStorage.removeItem(STORAGE_KEY);
+  state = defaultState();
+  resetModal.classList.remove('open');
+  render();
+});
+
+/* ====== EXPORT TEKST ====== */
+function buildReadableExport() {
+  const lines = [];
+  const title = 'T&D — SLO Doelen Mapping (Digitale Geletterdheid)';
+  lines.push(title);
+  lines.push('='.repeat(title.length));
+  lines.push('');
+  lines.push('Datum export: ' + new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' }));
+  if (state.mode === 'focus') {
+    lines.push('Werkmodus: focus op ' + BLOK_LABELS[state.focusBlok]);
+  } else {
+    lines.push('Werkmodus: volledige mapping');
+  }
+  lines.push('');
+  lines.push('');
+
+  // ===== DEEL 1: PER BLOK =====
+  lines.push('────────────────────────────────────────────');
+  lines.push('  DEEL 1 — PER BLOK');
+  lines.push('────────────────────────────────────────────');
+  lines.push('');
+
+  const allBullets = getAllBullets();
+
+  for (const blok of BLOKKEN) {
+    lines.push('');
+    lines.push('▸ BLOK: ' + BLOK_LABELS[blok].toUpperCase());
+    lines.push('-'.repeat(40));
+
+    const matched = allBullets.filter(b => getAssignmentsForBullet(b.code).includes(blok));
+
+    if (matched.length === 0) {
+      lines.push('  (geen doelen behandeld in dit blok)');
+    } else {
+      for (const b of matched) {
+        lines.push('');
+        lines.push(`  ${b.code}${b.havo ? ' [havo-vwo]' : ''}`);
+        lines.push(`    ${b.text}`);
+        if (state.notes[b.code] && state.notes[b.code].trim()) {
+          lines.push(`    Notitie: ${state.notes[b.code].trim()}`);
+        }
+      }
+    }
+    lines.push('');
+  }
+
+  // niet behandeld
+  const unassigned = allBullets.filter(b => !isAssigned(b.code));
+  lines.push('');
+  lines.push('▸ NOG NIET BEHANDELD');
+  lines.push('-'.repeat(40));
+  if (unassigned.length === 0) {
+    lines.push('  (alle doelen zijn aan minstens één blok gekoppeld)');
+  } else {
+    for (const b of unassigned) {
+      lines.push('');
+      lines.push(`  ${b.code}${b.havo ? ' [havo-vwo]' : ''}`);
+      lines.push(`    ${b.text}`);
+      if (state.notes[b.code] && state.notes[b.code].trim()) {
+        lines.push(`    Notitie: ${state.notes[b.code].trim()}`);
+      }
+    }
+  }
+
+  // focus mode: ook 'nee' en 'twijfel' meenemen
+  if (state.mode === 'focus' && state.focusDecisions[state.focusBlok]) {
+    const dec = state.focusDecisions[state.focusBlok];
+    const twijfels = Object.keys(dec).filter(c => dec[c] === 'twijfel');
+    const nees = Object.keys(dec).filter(c => dec[c] === 'nee');
+
+    if (twijfels.length > 0) {
+      lines.push('');
+      lines.push('');
+      lines.push(`▸ TWIJFELGEVALLEN (focus-modus, ${BLOK_LABELS[state.focusBlok]})`);
+      lines.push('-'.repeat(40));
+      for (const code of twijfels) {
+        const b = allBullets.find(x => x.code === code);
+        if (!b) continue;
+        lines.push('');
+        lines.push(`  ${b.code}${b.havo ? ' [havo-vwo]' : ''}`);
+        lines.push(`    ${b.text}`);
+        if (state.notes[code] && state.notes[code].trim()) {
+          lines.push(`    Notitie: ${state.notes[code].trim()}`);
+        }
+      }
+    }
+
+    if (nees.length > 0) {
+      lines.push('');
+      lines.push('');
+      lines.push(`▸ EXPLICIET UITGESLOTEN (focus-modus, ${BLOK_LABELS[state.focusBlok]})`);
+      lines.push('-'.repeat(40));
+      for (const code of nees) {
+        const b = allBullets.find(x => x.code === code);
+        if (!b) continue;
+        lines.push('');
+        lines.push(`  ${b.code}: ${b.text}`);
+      }
+    }
+  }
+
+  // ===== DEEL 2: PER DOEL =====
+  lines.push('');
+  lines.push('');
+  lines.push('────────────────────────────────────────────');
+  lines.push('  DEEL 2 — PER DOEL');
+  lines.push('────────────────────────────────────────────');
+
+  for (const kd of [21, 22, 23]) {
+    lines.push('');
+    lines.push('');
+    lines.push(`KERNDOEL ${kd} — ${DATA[kd].titel}`);
+    lines.push(`Domein: ${DATA[kd].domein}`);
+    lines.push('');
+
+    for (const subCode in DATA[kd].sub) {
+      const sub = DATA[kd].sub[subCode];
+      lines.push(`  ${subCode} — ${sub.titel}`);
+      lines.push('');
+
+      for (const b of sub.bullets) {
+        lines.push(`    ${b.code}${b.havo ? ' [havo-vwo]' : ''}`);
+        lines.push(`      ${b.text}`);
+        const assigned = getAssignmentsForBullet(b.code);
+        if (assigned.length > 0) {
+          lines.push(`      → Behandeld in: ${assigned.map(a => BLOK_LABELS[a]).join(', ')}`);
+        } else {
+          lines.push(`      → (nog niet behandeld)`);
+        }
+        if (state.notes[b.code] && state.notes[b.code].trim()) {
+          lines.push(`      Notitie: ${state.notes[b.code].trim()}`);
+        }
+        lines.push('');
+      }
+    }
+  }
+
+  return lines.join('\n');
+}
+
+const exportModal = document.getElementById('exportModal');
+const exportText = document.getElementById('exportText');
+document.getElementById('exportBtn').addEventListener('click', () => {
+  exportText.value = buildReadableExport();
+  exportModal.classList.add('open');
+});
+document.getElementById('exportClose').addEventListener('click', () => {
+  exportModal.classList.remove('open');
+});
+document.getElementById('exportCopy').addEventListener('click', () => {
+  exportText.select();
+  document.execCommand('copy');
+  const btn = document.getElementById('exportCopy');
+  const orig = btn.textContent;
+  btn.textContent = '✓ Gekopieerd';
+  setTimeout(() => btn.textContent = orig, 1500);
+});
+document.getElementById('exportDownload').addEventListener('click', () => {
+  const blob = new Blob([exportText.value], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const date = new Date().toISOString().slice(0, 10);
+  a.download = `td-slo-mapping-${date}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+/* ============================================================
+   SHARE & LOAD
+   ============================================================ */
+
+function showToast(message, duration = 2200) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('visible');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.classList.remove('visible'), duration);
+}
+
+function buildExportObject() {
+  return {
+    _meta: {
+      app: 'td-slo-mapping',
+      version: 1,
+      exportedAt: new Date().toISOString()
+    },
+    ...state
+  };
+}
+
+function buildShareSummary() {
+  const allBullets = getAllBullets();
+  const assigned = allBullets.filter(b => isAssigned(b.code)).length;
+  const noteCount = Object.keys(state.notes).filter(k => state.notes[k] && state.notes[k].trim()).length;
+
+  if (state.mode === 'focus') {
+    const decisions = state.focusDecisions[state.focusBlok] || {};
+    const ja = Object.values(decisions).filter(d => d === 'ja').length;
+    const twijfel = Object.values(decisions).filter(d => d === 'twijfel').length;
+    const nee = Object.values(decisions).filter(d => d === 'nee').length;
+    return {
+      lines: [
+        `<strong>Modus:</strong> focus op ${BLOK_LABELS[state.focusBlok]}`,
+        `<strong>Beoordeeld:</strong> ${ja} ja, ${twijfel} twijfel, ${nee} nee`,
+        `<strong>Notities:</strong> ${noteCount}`
+      ],
+      isEmpty: assigned === 0 && noteCount === 0 && ja + twijfel + nee === 0
+    };
+  }
+  return {
+    lines: [
+      `<strong>Modus:</strong> volledige mapping`,
+      `<strong>Doelen behandeld:</strong> ${assigned} van ${allBullets.length}`,
+      `<strong>Notities:</strong> ${noteCount}`
+    ],
+    isEmpty: assigned === 0 && noteCount === 0
+  };
+}
+
+function downloadAsFile(content, filename, mimeType) {
+  const blob = new Blob([content], { type: mimeType + ';charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ====== SHARE MODAL ====== */
+const shareModal = document.getElementById('shareModal');
+
+document.getElementById('shareBtn').addEventListener('click', () => {
+  const summary = buildShareSummary();
+  const summaryEl = document.getElementById('shareSummary');
+  if (summary.isEmpty) {
+    summaryEl.innerHTML = '<span class="empty">Je hebt nog geen toewijzingen of notities. Je kunt wel een leeg bestand opslaan, maar er staat niets in.</span>';
+  } else {
+    summaryEl.innerHTML = summary.lines.join('<br>');
+  }
+  document.getElementById('shareRawText').value = JSON.stringify(buildExportObject(), null, 2);
+  shareModal.classList.add('open');
+});
+
+document.getElementById('shareDownloadBtn').addEventListener('click', () => {
+  const date = new Date().toISOString().slice(0, 10);
+  const filename = `td-slo-mapping-${date}.json`;
+  const content = JSON.stringify(buildExportObject(), null, 2);
+  downloadAsFile(content, filename, 'application/json');
+  showToast('Bestand gedownload: ' + filename);
+});
+
+document.getElementById('shareCopyBtn').addEventListener('click', async () => {
+  const content = JSON.stringify(buildExportObject(), null, 2);
+  try {
+    await navigator.clipboard.writeText(content);
+    showToast('Gekopieerd naar klembord');
+  } catch (e) {
+    // fallback
+    const ta = document.getElementById('shareRawText');
+    ta.select();
+    document.execCommand('copy');
+    showToast('Gekopieerd naar klembord');
+  }
+});
+
+document.getElementById('shareCloseBtn').addEventListener('click', () => {
+  shareModal.classList.remove('open');
+});
+
+/* ====== LOAD MODAL ====== */
+const loadModal = document.getElementById('loadModal');
+const loadDropzone = document.getElementById('loadDropzone');
+const loadFileInput = document.getElementById('loadFileInput');
+const loadPreview = document.getElementById('loadPreview');
+const loadPreviewSummary = document.getElementById('loadPreviewSummary');
+const loadPreviewWarning = document.getElementById('loadPreviewWarning');
+const loadConfirmBtn = document.getElementById('loadConfirmBtn');
+const loadPasteText = document.getElementById('loadPasteText');
+
+let pendingImportData = null;
+
+function resetLoadModal() {
+  pendingImportData = null;
+  loadPreview.classList.add('hidden');
+  loadConfirmBtn.classList.add('hidden');
+  loadPreviewSummary.innerHTML = '';
+  loadPreviewWarning.textContent = '';
+  loadPasteText.value = '';
+  loadFileInput.value = '';
+  loadDropzone.classList.remove('drag-over');
+}
+
+document.getElementById('loadBtn').addEventListener('click', () => {
+  resetLoadModal();
+  loadModal.classList.add('open');
+});
+
+document.getElementById('loadCancelBtn').addEventListener('click', () => {
+  loadModal.classList.remove('open');
+});
+
+// Klik op dropzone (behalve op nested button) opent file picker
+loadDropzone.addEventListener('click', (e) => {
+  if (e.target.classList.contains('link-btn')) return; // de "kies een bestand" button doet zijn eigen ding hieronder
+  loadFileInput.click();
+});
+
+document.getElementById('loadFilePickBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  loadFileInput.click();
+});
+
+loadFileInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  readFileAsText(file).then(text => parseAndPreview(text, file.name)).catch(err => {
+    showToast('Kon bestand niet lezen: ' + err.message);
+  });
+});
+
+// Drag & drop
+['dragover', 'dragenter'].forEach(ev => {
+  loadDropzone.addEventListener(ev, (e) => {
+    e.preventDefault();
+    loadDropzone.classList.add('drag-over');
+  });
+});
+['dragleave', 'dragend'].forEach(ev => {
+  loadDropzone.addEventListener(ev, (e) => {
+    e.preventDefault();
+    loadDropzone.classList.remove('drag-over');
+  });
+});
+loadDropzone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  loadDropzone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (!file) return;
+  readFileAsText(file).then(text => parseAndPreview(text, file.name)).catch(err => {
+    showToast('Kon bestand niet lezen: ' + err.message);
+  });
+});
+
+document.getElementById('loadPasteBtn').addEventListener('click', () => {
+  const text = loadPasteText.value.trim();
+  if (!text) {
+    showToast('Geen tekst geplakt');
+    return;
+  }
+  parseAndPreview(text, '(geplakte tekst)');
+});
+
+function readFileAsText(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Bestand kon niet gelezen worden'));
+    reader.readAsText(file);
+  });
+}
+
+function parseAndPreview(text, source) {
+  let parsed;
+  try {
+    parsed = JSON.parse(text);
+  } catch (e) {
+    loadPreview.classList.remove('hidden');
+    loadPreviewSummary.innerHTML = '<strong style="color: var(--no);">Geen geldige JSON.</strong> Het bestand of de geplakte tekst kon niet worden gelezen.';
+    loadPreviewWarning.textContent = '';
+    loadConfirmBtn.classList.add('hidden');
+    return;
+  }
+
+  if (typeof parsed !== 'object' || parsed === null) {
+    loadPreview.classList.remove('hidden');
+    loadPreviewSummary.innerHTML = '<strong style="color: var(--no);">Onverwachte inhoud.</strong> Dit lijkt geen geldig export-bestand.';
+    loadConfirmBtn.classList.add('hidden');
+    return;
+  }
+
+  const { _meta, ...rest } = parsed;
+  let warning = '';
+
+  // valideer dat het er ongeveer uitziet als onze state
+  const looksValid = 'mode' in rest || 'assignments' in rest || 'focusDecisions' in rest || 'notes' in rest;
+  if (!looksValid) {
+    loadPreview.classList.remove('hidden');
+    loadPreviewSummary.innerHTML = '<strong style="color: var(--no);">Niet herkend.</strong> Dit bestand bevat geen herkenbare gegevens van deze tool.';
+    loadConfirmBtn.classList.add('hidden');
+    return;
+  }
+
+  if (_meta && _meta.app && _meta.app !== 'td-slo-mapping') {
+    warning = 'Het bestand komt mogelijk uit een andere applicatie. Importeren kan onverwachte gevolgen hebben.';
+  } else if (_meta && _meta.version && _meta.version > 1) {
+    warning = `Dit bestand komt uit een nieuwere versie van de app (v${_meta.version}). Sommige gegevens worden mogelijk niet correct geladen.`;
+  }
+
+  // bouw samenvatting
+  const tempState = Object.assign(defaultState(), rest);
+  const allBullets = getAllBullets();
+  let lines = [];
+
+  if (tempState.mode === 'focus') {
+    const decisions = tempState.focusDecisions[tempState.focusBlok] || {};
+    const ja = Object.values(decisions).filter(d => d === 'ja').length;
+    const twijfel = Object.values(decisions).filter(d => d === 'twijfel').length;
+    const nee = Object.values(decisions).filter(d => d === 'nee').length;
+    lines.push(`<strong>Modus:</strong> focus op ${BLOK_LABELS[tempState.focusBlok] || tempState.focusBlok}`);
+    lines.push(`<strong>Beoordelingen:</strong> ${ja} ja, ${twijfel} twijfel, ${nee} nee`);
+  } else if (tempState.mode === 'full') {
+    const assignedCount = Object.keys(tempState.assignments).filter(k => tempState.assignments[k] && tempState.assignments[k].length > 0).length;
+    lines.push(`<strong>Modus:</strong> volledige mapping`);
+    lines.push(`<strong>Doelen behandeld:</strong> ${assignedCount}`);
+  } else {
+    // mode is null but data may still exist (e.g. old data)
+    const assignedCount = Object.keys(tempState.assignments || {}).filter(k => tempState.assignments[k] && tempState.assignments[k].length > 0).length;
+    lines.push(`<strong>Modus:</strong> nog niet gekozen`);
+    lines.push(`<strong>Doelen behandeld:</strong> ${assignedCount}`);
+  }
+
+  const noteCount = Object.keys(tempState.notes || {}).filter(k => tempState.notes[k] && tempState.notes[k].trim()).length;
+  lines.push(`<strong>Notities:</strong> ${noteCount}`);
+
+  if (_meta && _meta.exportedAt) {
+    try {
+      const d = new Date(_meta.exportedAt);
+      lines.push(`<strong>Geëxporteerd op:</strong> ${d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })}`);
+    } catch (e) {}
+  }
+
+  loadPreview.classList.remove('hidden');
+  loadPreviewSummary.innerHTML = lines.join('<br>');
+  loadPreviewWarning.textContent = warning;
+  loadConfirmBtn.classList.remove('hidden');
+
+  pendingImportData = rest;
+}
+
+loadConfirmBtn.addEventListener('click', () => {
+  if (!pendingImportData) return;
+  state = Object.assign(defaultState(), pendingImportData);
+  saveState();
+  loadModal.classList.remove('open');
+  resetLoadModal();
+  render();
+  showToast('Werk ingeladen');
+});
+
+/* ====== UTIL ====== */
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+render();
+
+// klik buiten modal sluit modal
+document.querySelectorAll('.modal-backdrop').forEach(bd => {
+  bd.addEventListener('click', (e) => {
+    if (e.target === bd) bd.classList.remove('open');
+  });
+});
+
+// escape sluit modals
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-backdrop.open').forEach(m => m.classList.remove('open'));
+  }
+});
+</script>
+
+</body>
+</html>

@@ -179,6 +179,309 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* === In het kort (samenvattings-tab) === */
+  .kort-quote {
+    margin: 0 0 36px;
+    padding: 0;
+    border: none;
+  }
+  .kort-quote blockquote {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--ink);
+    margin: 0;
+    padding: 0 0 0 32px;
+    border-left: 3px solid var(--obc-green);
+    font-style: italic;
+    max-width: 900px;
+    letter-spacing: -0.005em;
+  }
+  .kort-quote blockquote::before {
+    content: "\201C";
+    font-family: var(--serif);
+    font-size: 60px;
+    color: var(--obc-green);
+    line-height: 1;
+    margin-right: 6px;
+    vertical-align: -10px;
+    font-style: normal;
+  }
+  .kort-quote blockquote em {
+    font-style: normal;
+    color: var(--obc-green-dark);
+    font-weight: 500;
+  }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 44px;
+  }
+  .kpi {
+    background: white;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--obc-green);
+    padding: 22px 22px 20px;
+    border-radius: 0 0 4px 4px;
+  }
+  .kpi-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .kpi-value {
+    font-family: var(--serif);
+    font-size: 38px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .kpi-value .small {
+    font-size: 22px;
+    color: var(--ink-muted);
+    font-weight: 400;
+  }
+  .kpi-sub {
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  /* Optie B — stacked bar per cluster */
+  .cluster-bars {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 24px 26px 22px;
+    margin-bottom: 40px;
+  }
+  .cluster-bars-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .cluster-bars-head h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 20px;
+    margin: 0;
+  }
+  .cluster-bars-head .variant {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+  }
+  .cluster-bar-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 80px;
+    gap: 16px;
+    align-items: center;
+    padding: 8px 0;
+  }
+  .cluster-bar-label {
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .cluster-bar-label .code {
+    font-family: var(--mono);
+    font-weight: 600;
+    color: var(--obc-green-dark);
+    margin-right: 8px;
+  }
+  .cluster-bar-track {
+    display: flex;
+    height: 22px;
+    background: var(--paper-warm);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .cluster-bar-seg {
+    height: 100%;
+    transition: opacity 0.15s;
+  }
+  .cluster-bar-seg.zuiver { background: var(--status-zuiver); }
+  .cluster-bar-seg.over { background: var(--status-over); }
+  .cluster-bar-seg.onder { background: var(--status-onder); opacity: 0.7; }
+  .cluster-bar-seg.wit { background: var(--status-leeg-bg); }
+  .cluster-bar-count {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-muted);
+    text-align: right;
+  }
+  .cluster-bar-count strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .chart-legend {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line-soft);
+    font-size: 11.5px;
+    color: var(--ink-soft);
+  }
+  .chart-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chart-legend-swatch {
+    width: 14px;
+    height: 10px;
+    border-radius: 2px;
+  }
+  .chart-legend-swatch.zuiver { background: var(--status-zuiver); }
+  .chart-legend-swatch.over { background: var(--status-over); }
+  .chart-legend-swatch.onder { background: var(--status-onder); opacity: 0.7; }
+  .chart-legend-swatch.wit { background: var(--status-leeg-bg); }
+
+  /* Optie C — mini-matrix (clusters × blokken) */
+  .mini-matrix-wrap {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 24px 26px 22px;
+    margin-bottom: 40px;
+  }
+  table.mini-matrix {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 4px;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  table.mini-matrix th {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    padding: 6px 8px;
+    text-align: center;
+  }
+  table.mini-matrix th.row-head {
+    text-align: left;
+    width: 220px;
+    font-family: var(--serif);
+    font-style: italic;
+    text-transform: none;
+    font-weight: 400;
+    font-size: 13.5px;
+    color: var(--ink);
+    letter-spacing: 0;
+  }
+  table.mini-matrix th.row-head .code {
+    font-family: var(--mono);
+    font-style: normal;
+    font-weight: 600;
+    color: var(--obc-green-dark);
+    margin-right: 8px;
+    font-size: 12px;
+  }
+  table.mini-matrix th.ambachten {
+    color: var(--ink-muted);
+  }
+  table.mini-matrix td.mini-cell {
+    width: 80px;
+    height: 44px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 3px;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    line-height: 1;
+  }
+  table.mini-matrix td.intensity-0 {
+    background: var(--paper-warm);
+    color: var(--ink-muted);
+  }
+  table.mini-matrix td.intensity-1 { background: rgba(165, 205, 57, 0.35); color: var(--obc-green-dark); }
+  table.mini-matrix td.intensity-2 { background: rgba(165, 205, 57, 0.6); color: var(--obc-green-dark); }
+  table.mini-matrix td.intensity-3 { background: var(--obc-green); color: white; }
+  table.mini-matrix td.intensity-4 { background: var(--obc-green-dark); color: white; }
+  table.mini-matrix td.ambachten {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--status-ambachten-bg),
+      var(--status-ambachten-bg) 4px,
+      var(--paper-warm) 4px,
+      var(--paper-warm) 8px
+    );
+    color: var(--ink-muted);
+  }
+  table.mini-matrix td.has-over {
+    box-shadow: inset 0 0 0 2px var(--status-over);
+  }
+
+  /* Korte tekstblokken */
+  .kort-blocks {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .kort-block {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 26px;
+  }
+  .kort-block h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--obc-green-dark);
+    margin: 0 0 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .kort-block h4::before {
+    content: "";
+    width: 18px;
+    height: 2px;
+    background: var(--obc-green);
+    display: inline-block;
+  }
+  .kort-block p {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  @media (max-width: 880px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .kort-blocks { grid-template-columns: 1fr; }
+    .cluster-bar-row { grid-template-columns: 1fr; gap: 6px; }
+    .kort-quote blockquote { font-size: 22px; padding-left: 20px; }
+    table.mini-matrix th.row-head { width: 140px; font-size: 12px; }
+    table.mini-matrix td.mini-cell { width: 50px; height: 38px; }
+  }
+
   /* === Section headings === */
   .section-head {
     margin-bottom: 28px;
@@ -792,6 +1095,39 @@
   .vlek-doel .suggestie.gap {
     color: var(--status-over);
   }
+  .vlek-cluster.aandacht {
+    border-color: var(--status-over);
+    background: linear-gradient(to bottom, #fdf4ea 0%, white 60px);
+  }
+  .vlek-cluster.aandacht .vlek-cluster-head {
+    border-bottom-color: rgba(217, 122, 30, 0.3);
+  }
+  .aandacht-badge {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 3px 9px;
+    background: var(--status-over);
+    color: white;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 2px;
+    vertical-align: middle;
+    line-height: 1.2;
+  }
+  .aandacht-note {
+    background: var(--status-over-bg);
+    border-left: 3px solid var(--status-over);
+    padding: 14px 18px;
+    margin: 0 0 16px;
+    font-family: var(--serif);
+    font-size: 14px;
+    line-height: 1.55;
+    color: #6b3c0e;
+    border-radius: 0 3px 3px 0;
+  }
 
   /* === Onder-matching kansen === */
   .kans-card {
@@ -938,7 +1274,8 @@
 
 <nav class="tabs">
   <div class="tabs-inner">
-    <button class="tab active" data-tab="overzicht"><span class="num">01</span>Overzicht</button>
+    <button class="tab active" data-tab="kort"><span class="num">00</span>In het kort</button>
+    <button class="tab" data-tab="overzicht"><span class="num">01</span>Overzicht</button>
     <button class="tab" data-tab="perblok"><span class="num">02</span>Per blok</button>
     <button class="tab" data-tab="vlekken"><span class="num">03</span>Witte vlekken</button>
     <button class="tab" data-tab="vragen"><span class="num">04</span>Terugkoppelvragen</button>
@@ -948,8 +1285,31 @@
 
 <main class="content">
 
+<!-- ===================== PANEL 0: IN HET KORT ===================== -->
+<section class="panel active" id="panel-kort">
+
+  <div class="section-head">
+    <div class="section-eyebrow">Tab 00 — Voor wie weinig tijd heeft</div>
+    <h2>In het kort</h2>
+    <p>De hoofdlijn van dit overzicht in één scherm. Voor de onderbouwing per blok en de open vragen: zie de overige tabs.</p>
+  </div>
+
+  <div class="kort-quote">
+    <blockquote id="kort-lede"></blockquote>
+  </div>
+
+  <div class="kpi-grid" id="kort-kpis"></div>
+
+  <div class="cluster-bars" id="cluster-bars"></div>
+
+  <div class="mini-matrix-wrap" id="mini-matrix-wrap"></div>
+
+  <div class="kort-blocks" id="kort-blocks"></div>
+
+</section>
+
 <!-- ===================== PANEL 1: OVERZICHT ===================== -->
-<section class="panel active" id="panel-overzicht">
+<section class="panel" id="panel-overzicht">
 
   <div class="section-head">
     <div class="section-eyebrow">Tab 01 — Het grote beeld</div>
@@ -959,7 +1319,7 @@
 
   <div class="callout">
     <strong>Lees-aanwijzing</strong>
-    Dit overzicht is bedoeld als denkhulp, niet als afvinklijst. Dekking is geen doel op zichzelf — een blok met vijf zuivere koppelingen kan onderwijskundig sterker zijn dan een blok met twaalf geforceerde. Doelen die niet in T&amp;D klas 1 landen, worden bewust elders in het curriculum belegd (burgerschap, leerjaar 2, keuzevakken).
+    Dit overzicht is bedoeld als denkhulp, niet als afvinklijst. Dekking is geen doel op zichzelf — een blok met vijf zuivere koppelingen kan onderwijskundig sterker zijn dan een blok met twaalf geforceerde. Voor doelen die niet in T&amp;D klas 1 landen geldt: sommige zijn bewust elders belegd, andere vragen nog een afweging (burgerschap, leerjaar 2, keuzevakken).
   </div>
 
   <div class="legend">
@@ -1021,7 +1381,7 @@
 
   <div class="callout">
     <strong>Belangrijke kanttekening</strong>
-    T&amp;D klas 1 hoeft niet alle SLO-doelen voor digitale geletterdheid te dekken. Het is één bouwsteen in een breder curriculum. Veel doelen — vooral rond data, sociale media en privacy — passen inhoudelijk beter bij burgerschap of een vervolgjaar.
+    T&amp;D klas 1 hoeft niet alle SLO-doelen voor digitale geletterdheid te dekken. Het is één bouwsteen in een breder curriculum. Voor elk doel hieronder geldt: er moet nog een bewuste keuze gemaakt worden over wáár het thuishoort — binnen T&amp;D, bij burgerschap, in leerjaar 2, of in een keuzevak. De suggesties zijn een startpunt voor die afweging, geen besluit.
   </div>
 
   <div id="vlekken-container"></div>
@@ -1206,12 +1566,6 @@ const WITTE_VLEKKEN_SUGGESTIE = {
   "21B3": "Onderzoeksvaardigheden — verschillende vakken",
   "21B4": "Burgerschap (mediawijsheid)",
   "21B5": "Burgerschap / mens & maatschappij",
-  "21C1": "Wiskunde of burgerschap (data-onderdeel)",
-  "21C2": "Wiskunde of onderzoeksvaardigheden",
-  "21C3": "Burgerschap (digitale samenleving)",
-  "21C4": "Burgerschap (digitale samenleving)",
-  "21C5": "Klas 2 AI-blok of keuzevak",
-  "21C6": "Klas 2 of keuzevak (havo-vwo)",
   "21D1": "Klas 2 AI-blok of keuzevak",
   "21D3": "Klas 2 AI-blok of keuzevak",
   "21D5": "Klas 2 AI-blok of keuzevak",
@@ -1377,9 +1731,9 @@ const VRAGEN_ALGEMEEN = [
   },
   {
     eyebrow: "Data-cluster",
-    titel: "Heel domein 21C (data) ontbreekt — is dit een bewuste keuze?",
-    context: "Geen enkel blok dekt het 21C-cluster: dataset-onderzoek, data-gebruik door bedrijven, datagestuurd werken. De werkgroep Programmeren noteert dat Delightex hier potentie biedt, maar nog niet geïmplementeerd is.",
-    vraag: "Is data een bewuste keuze om te beleggen in burgerschap of leerjaar 2, of een blinde vlek die we voor klas 1 alsnog willen invullen?"
+    titel: "Heel domein 21C (data) ontbreekt — waar leggen we dit neer?",
+    context: "Geen enkel blok dekt het 21C-cluster: dataset-onderzoek, data-gebruik door bedrijven, datagestuurd werken. De werkgroep Programmeren noteert dat Delightex hier potentie biedt, maar nog niet geïmplementeerd is. Dit is een echte witte vlek waarvoor nog geen plek is gevonden.",
+    vraag: "Pakken we 21C alsnog op in T&amp;D klas 1, beleggen we het bij burgerschap, schuiven we het naar leerjaar 2, of plaatsen we het in een keuzevak? Dit vraagt een afweging — niet alleen binnen onze werkgroep, maar in afstemming met de betrokken collega's."
   },
   {
     eyebrow: "Informatievaardigheden",
@@ -1595,11 +1949,17 @@ function renderVlekken() {
     const vlekken = doelen.filter(d => getEindStatus(d.code) === "wit");
     if (vlekken.length === 0) return;
 
-    html += `<div class="vlek-cluster">
+    const isAandacht = cluster.id === "21C";
+
+    html += `<div class="vlek-cluster${isAandacht ? " aandacht" : ""}">
       <div class="vlek-cluster-head">
-        <h3>${cluster.id} — ${cluster.name}</h3>
+        <h3>${cluster.id} — ${cluster.name}${isAandacht ? ' <span class="aandacht-badge">vraagt aandacht</span>' : ''}</h3>
         <span class="count">${vlekken.length} doel${vlekken.length === 1 ? "" : "en"} niet behandeld</span>
       </div>`;
+
+    if (isAandacht) {
+      html += `<div class="aandacht-note">Voor dit volledige cluster is nog geen logische landingsplek bepaald. Anders dan bij 21B (informatievaardigheden, dat goed bij burgerschap aansluit), past data inhoudelijk eerder bij wiskunde, onderzoeksvaardigheden, een AI-blok in leerjaar 2, of een keuzevak. Hier ligt een open afweging die in overleg met collega-secties opgepakt moet worden.</div>`;
+    }
 
     vlekken.forEach(d => {
       const sug = WITTE_VLEKKEN_SUGGESTIE[d.code] || "Nog geen voorgestelde plek — bespreken";
@@ -1657,6 +2017,203 @@ function renderKansen() {
   c.innerHTML = html;
 }
 
+// === IN HET KORT — berekeningen ===
+function computeStats() {
+  let totaalDoelen = DOELEN.length;
+  let gedekt = 0, discussie = 0, kans = 0, wit = 0;
+  let zuiverKoppelingen = 0;
+
+  DOELEN.forEach(d => {
+    const es = getEindStatus(d.code);
+    if (es === "gedekt") gedekt++;
+    else if (es === "discussie") discussie++;
+    else if (es === "kans") kans++;
+    else wit++;
+
+    const koppels = KOPPELINGEN[d.code] || {};
+    Object.values(koppels).forEach(s => {
+      if (s === "zuiver") zuiverKoppelingen++;
+    });
+  });
+
+  return { totaalDoelen, gedekt, discussie, kans, wit, zuiverKoppelingen };
+}
+
+function renderKortLede() {
+  const s = computeStats();
+  const lede = `T&D klas 1 dekt <em>${s.gedekt} van de ${s.totaalDoelen}</em> SLO-doelen digitale geletterdheid, verdeeld over drie van de vier blokken. Ambachten is bewust leeg gelaten; bij de overige witte vlekken — met name het data-cluster — moet nog afgewogen worden waar deze landen.`;
+  document.getElementById("kort-lede").innerHTML = lede;
+}
+
+function renderKortKPIs() {
+  const s = computeStats();
+  const specifiekeVragen = VRAGEN_SPECIFIEK.length;
+  const algemeneVragen = VRAGEN_ALGEMEEN.length;
+
+  const kpis = [
+    {
+      label: "Doelen behandeld",
+      value: `${s.gedekt}<span class="small"> / ${s.totaalDoelen}</span>`,
+      sub: `${s.discussie} verdienen heroverweging, ${s.wit} nog niet belegd`
+    },
+    {
+      label: "Zuivere koppelingen",
+      value: `${s.zuiverKoppelingen}`,
+      sub: "Concrete blokactiviteiten die SLO-doelen dekken"
+    },
+    {
+      label: "Open vragen werkgroep",
+      value: `${specifiekeVragen}<span class="small"> + ${algemeneVragen}</span>`,
+      sub: "Specifiek over koppelingen + bredere vragen over koers"
+    },
+    {
+      label: "Witte vlekken",
+      value: `${s.wit}<span class="small"> doelen</span>`,
+      sub: "Waaronder het volledige data-cluster (21C) — landingsplek nog af te wegen"
+    }
+  ];
+
+  let html = "";
+  kpis.forEach(k => {
+    html += `<div class="kpi">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value">${k.value}</div>
+      <div class="kpi-sub">${k.sub}</div>
+    </div>`;
+  });
+  document.getElementById("kort-kpis").innerHTML = html;
+}
+
+function renderClusterBars() {
+  let html = `<div class="cluster-bars-head">
+    <h3>Dekking per cluster</h3>
+    <span class="variant">Variant B — stacked bars</span>
+  </div>`;
+
+  CLUSTERS.forEach(c => {
+    const doelen = DOELEN.filter(d => d.cluster === c.id);
+    let zuiver = 0, over = 0, onder = 0, wit = 0;
+    doelen.forEach(d => {
+      const es = getEindStatus(d.code);
+      if (es === "gedekt") zuiver++;
+      else if (es === "discussie") over++;
+      else if (es === "kans") onder++;
+      else wit++;
+    });
+    const total = doelen.length;
+
+    html += `<div class="cluster-bar-row">
+      <div class="cluster-bar-label"><span class="code">${c.id}</span>${c.name}</div>
+      <div class="cluster-bar-track">
+        ${zuiver > 0 ? `<div class="cluster-bar-seg zuiver" style="width:${(zuiver/total*100)}%" title="Gedekt: ${zuiver}"></div>` : ""}
+        ${over > 0 ? `<div class="cluster-bar-seg over" style="width:${(over/total*100)}%" title="Discussie: ${over}"></div>` : ""}
+        ${onder > 0 ? `<div class="cluster-bar-seg onder" style="width:${(onder/total*100)}%" title="Kans: ${onder}"></div>` : ""}
+        ${wit > 0 ? `<div class="cluster-bar-seg wit" style="width:${(wit/total*100)}%" title="Witte vlek: ${wit}"></div>` : ""}
+      </div>
+      <div class="cluster-bar-count"><strong>${zuiver + over}</strong> / ${total}</div>
+    </div>`;
+  });
+
+  html += `<div class="chart-legend">
+    <div class="chart-legend-item"><span class="chart-legend-swatch zuiver"></span>Gedekt</div>
+    <div class="chart-legend-item"><span class="chart-legend-swatch over"></span>Discussie</div>
+    <div class="chart-legend-item"><span class="chart-legend-swatch onder"></span>Kans</div>
+    <div class="chart-legend-item"><span class="chart-legend-swatch wit"></span>Witte vlek</div>
+  </div>`;
+
+  document.getElementById("cluster-bars").innerHTML = html;
+}
+
+function renderMiniMatrix() {
+  let html = `<div class="cluster-bars-head">
+    <h3>Cluster × blok — dekking-intensiteit</h3>
+    <span class="variant">Variant C — mini-matrix</span>
+  </div>`;
+
+  html += `<table class="mini-matrix"><thead><tr><th class="row-head"></th>`;
+  BLOKKEN.forEach(b => {
+    const cls = b === "ambachten" ? "ambachten" : "";
+    html += `<th class="${cls}">${BLOK_LABELS[b]}</th>`;
+  });
+  html += `</tr></thead><tbody>`;
+
+  CLUSTERS.forEach(c => {
+    html += `<tr><th class="row-head"><span class="code">${c.id}</span>${c.name}</th>`;
+    BLOKKEN.forEach(b => {
+      if (b === "ambachten") {
+        html += `<td class="mini-cell ambachten" title="Bewust leeg">—</td>`;
+        return;
+      }
+      // Tel zuiver en over voor deze cluster/blok-combinatie
+      const doelen = DOELEN.filter(d => d.cluster === c.id);
+      let zuiver = 0, over = 0;
+      doelen.forEach(d => {
+        const s = getStatus(d.code, b);
+        if (s === "zuiver") zuiver++;
+        if (s === "over") over++;
+      });
+      const total = zuiver + over;
+      let intensity = 0;
+      if (total === 0) intensity = 0;
+      else if (total === 1) intensity = 1;
+      else if (total === 2) intensity = 2;
+      else if (total === 3) intensity = 3;
+      else intensity = 4;
+      const overClass = over > 0 ? " has-over" : "";
+      const display = total === 0 ? "·" : total;
+      const titleParts = [];
+      if (zuiver > 0) titleParts.push(`${zuiver} zuiver`);
+      if (over > 0) titleParts.push(`${over} discussie`);
+      const title = titleParts.length ? titleParts.join(", ") : "Niet behandeld";
+      html += `<td class="mini-cell intensity-${intensity}${overClass}" title="${title}">${display}</td>`;
+    });
+    html += `</tr>`;
+  });
+
+  html += `</tbody></table>`;
+
+  html += `<div class="chart-legend">
+    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--paper-warm);border:1px solid var(--line);"></span>Niet behandeld</div>
+    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:rgba(165,205,57,0.35);"></span>1 doel</div>
+    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:rgba(165,205,57,0.6);"></span>2 doelen</div>
+    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--obc-green);"></span>3 doelen</div>
+    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--obc-green-dark);"></span>4+ doelen</div>
+    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:white;border:2px solid var(--status-over);"></span>Bevat discussiekoppeling</div>
+  </div>`;
+
+  document.getElementById("mini-matrix-wrap").innerHTML = html;
+}
+
+function renderKortBlocks() {
+  const blocks = [
+    {
+      titel: "Wat T&D klas 1 sterk dekt",
+      tekst: "De clusters <strong>22A (digitale creatie)</strong> en <strong>22B (programmeren)</strong> worden krachtig en zuiver behandeld, met name in de blokken Ontwerpen en Programmeren. Het hele iteratieve ontwerpproces — van brainstorm via 3D-modelleren tot poster, pitch en eigen Micro:bit-programma — sluit naadloos aan op de SLO-doelen rond digitale producten en computational thinking."
+    },
+    {
+      titel: "Bewuste keuze + open afweging",
+      tekst: "Het blok <strong>Ambachten</strong> blijft bewust leeg — een klassiek techniek-blok zonder natuurlijke digitale aanknopingspunten. Het hele <strong>data-cluster (21C)</strong> is daarentegen een echte witte vlek; voor klas 1 ligt hier nog een afweging: oppakken in klas 1, doorschuiven naar leerjaar 2, beleggen bij burgerschap, of een keuzevak."
+    },
+    {
+      titel: "Wat heroverweging vraagt",
+      tekst: "Twee koppelingen in Ontwerpen verdienen herziening: <strong>21A1</strong> (over netwerken) en <strong>22B1</strong> (over programma's) staan gekoppeld aan ontwerpactiviteiten die inhoudelijk niet aansluiten. Daarnaast: <strong>22A5</strong> (auteursrecht) ontbreekt overal, terwijl leerlingen in Ontwerpen wél beelden in Canva gebruiken."
+    },
+    {
+      titel: "Mogelijke volgende stap",
+      tekst: "Dit overzicht dient als startpunt voor: (1) een werkgroep-overleg over de open vragen, (2) afstemming met de sectie burgerschap over doelen die daar landen, en (3) bewuste verbindingen leggen met leerjaar 2 voor doelen die nu naar later worden geschoven."
+    }
+  ];
+
+  let html = "";
+  blocks.forEach(b => {
+    html += `<div class="kort-block">
+      <h4>${b.titel}</h4>
+      <p>${b.tekst}</p>
+    </div>`;
+  });
+  document.getElementById("kort-blocks").innerHTML = html;
+}
+
 /* ===========================================================
    TAB INTERACTIE
    =========================================================== */
@@ -1692,6 +2249,11 @@ BLOKKEN.forEach(renderBlokDetail);
 renderVlekken();
 renderVragen();
 renderKansen();
+renderKortLede();
+renderKortKPIs();
+renderClusterBars();
+renderMiniMatrix();
+renderKortBlocks();
 
 </script>
 </body>

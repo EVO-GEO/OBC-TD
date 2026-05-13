@@ -2036,7 +2036,10 @@ function computeStats() {
     });
   });
 
-  return { totaalDoelen, gedekt, discussie, kans, wit, zuiverKoppelingen };
+  // Voor bestuurders-samenvatting: 'kans' telt als witte vlek (nog niet gekoppeld)
+  const witTotaal = wit + kans;
+
+  return { totaalDoelen, gedekt, discussie, kans, wit, witTotaal, zuiverKoppelingen };
 }
 
 function renderKortLede() {
@@ -2054,7 +2057,7 @@ function renderKortKPIs() {
     {
       label: "Doelen behandeld",
       value: `${s.gedekt}<span class="small"> / ${s.totaalDoelen}</span>`,
-      sub: `${s.discussie} verdienen heroverweging, ${s.wit} nog niet belegd`
+      sub: `${s.witTotaal} doelen nog niet belegd in T&amp;D klas 1`
     },
     {
       label: "Zuivere koppelingen",
@@ -2068,7 +2071,7 @@ function renderKortKPIs() {
     },
     {
       label: "Witte vlekken",
-      value: `${s.wit}<span class="small"> doelen</span>`,
+      value: `${s.witTotaal}<span class="small"> doelen</span>`,
       sub: "Waaronder het volledige data-cluster (21C) — landingsplek nog af te wegen"
     }
   ];

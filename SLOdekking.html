@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>T&D klas 1 — SLO-dekkingsoverzicht digitale geletterdheid</title>
+<title>SLO-positionering digitale geletterdheid · T&D klas 1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -482,6 +482,263 @@
     table.mini-matrix td.mini-cell { width: 50px; height: 38px; }
   }
 
+  /* === Kerndoel-componenten === */
+  :root {
+    --niveau-0: #c7332b;        /* Niet geraakt — rood */
+    --niveau-0-bg: #fbe3e1;
+    --niveau-1: #d97a1e;        /* Minimaal — oranje */
+    --niveau-1-bg: #fbeada;
+    --niveau-2: #c9a635;        /* Deels — geel/oker */
+    --niveau-2-bg: #f8eecd;
+    --niveau-3: #4f9c44;        /* Substantieel — groen */
+    --niveau-3-bg: #e2f0de;
+  }
+
+  .kerndoel-kop {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 18px 22px;
+    margin: 28px 0 12px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    align-items: center;
+  }
+  .kerndoel-kop.niveau-0 { border-left: 4px solid var(--niveau-0); }
+  .kerndoel-kop.niveau-1 { border-left: 4px solid var(--niveau-1); }
+  .kerndoel-kop.niveau-2 { border-left: 4px solid var(--niveau-2); }
+  .kerndoel-kop.niveau-3 { border-left: 4px solid var(--niveau-3); }
+  .kerndoel-kop-text { min-width: 0; }
+  .kerndoel-kop-meta {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--obc-green-dark);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .kerndoel-kop h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 19px;
+    margin: 0 0 6px;
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+  }
+  .kerndoel-kop .kerndoel-formulering {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .kerndoel-status {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .kerndoel-status .niveau-pill {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+  }
+  .niveau-pill.niveau-0 { background: var(--niveau-0-bg); color: var(--niveau-0); }
+  .niveau-pill.niveau-1 { background: var(--niveau-1-bg); color: var(--niveau-1); }
+  .niveau-pill.niveau-2 { background: var(--niveau-2-bg); color: var(--niveau-2); }
+  .niveau-pill.niveau-3 { background: var(--niveau-3-bg); color: var(--niveau-3); }
+  .kerndoel-status .geraakt-tel {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-muted);
+  }
+  .kerndoel-status .geraakt-tel strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* Aspect-marker (afgeleid uit voorbeeldactiviteit) */
+  .aspect-marker {
+    font-family: var(--sans);
+    font-size: 9px;
+    color: var(--ink-muted);
+    cursor: help;
+    margin-left: 4px;
+    vertical-align: super;
+    font-weight: 400;
+  }
+
+  /* Methode-blok — uitvouwbaar */
+  .methode-block {
+    background: var(--paper-warm);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    margin-top: 40px;
+    overflow: hidden;
+  }
+  .methode-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 16px 22px;
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--sans);
+    color: var(--ink);
+    transition: background 0.15s;
+  }
+  .methode-toggle:hover { background: var(--obc-green-faint); }
+  .methode-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .methode-toggle-label .eyebrow {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--obc-green-dark);
+    font-weight: 700;
+  }
+  .methode-toggle-label .title {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .methode-toggle-icon {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--ink-muted);
+    transition: transform 0.2s;
+  }
+  .methode-block.open .methode-toggle-icon {
+    transform: rotate(45deg);
+  }
+  .methode-body {
+    display: none;
+    padding: 0 26px 24px;
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink);
+    border-top: 1px solid var(--line-soft);
+    padding-top: 18px;
+    margin-top: 0;
+  }
+  .methode-block.open .methode-body { display: block; }
+  .methode-body p { margin: 0 0 12px; }
+  .methode-body p:last-child { margin-bottom: 0; }
+  .methode-body strong {
+    font-family: var(--sans);
+    font-weight: 600;
+  }
+  .methode-body ul {
+    margin: 8px 0 16px;
+    padding-left: 22px;
+  }
+  .methode-body ul li {
+    margin-bottom: 6px;
+  }
+
+  /* Diepgang-legenda */
+  .diepgang-legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 12px 18px;
+    background: var(--paper-warm);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    margin-bottom: 24px;
+    font-size: 12px;
+  }
+  .diepgang-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ink-soft);
+  }
+  .diepgang-legend-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .diepgang-legend-swatch.niveau-0 { background: var(--niveau-0); }
+  .diepgang-legend-swatch.niveau-1 { background: var(--niveau-1); }
+  .diepgang-legend-swatch.niveau-2 { background: var(--niveau-2); }
+  .diepgang-legend-swatch.niveau-3 { background: var(--niveau-3); }
+
+  /* === Kerndoel-filter (tab 01) === */
+  .kerndoel-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 14px 18px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .kerndoel-filter-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-right: 8px;
+    font-weight: 600;
+  }
+  .filter-pill {
+    background: none;
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    border-radius: 3px;
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: -0.005em;
+  }
+  .filter-pill:hover {
+    border-color: var(--obc-green);
+    color: var(--ink);
+  }
+  .filter-pill.active {
+    background: var(--obc-green);
+    border-color: var(--obc-green);
+    color: white;
+    font-weight: 600;
+  }
+  .filter-pill.active:hover {
+    background: var(--obc-green-dark);
+    border-color: var(--obc-green-dark);
+  }
+  .filter-pill .pill-code {
+    font-family: var(--mono);
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .filter-pill.active .pill-code {
+    color: white;
+  }
+
   /* === Section headings === */
   .section-head {
     margin-bottom: 28px;
@@ -628,10 +885,19 @@
   /* Cluster row */
   table.matrix tbody tr.cluster-row td {
     background: var(--paper-warm);
-    padding: 16px 14px 8px;
+    padding: 18px 18px 14px;
     border-bottom: 1px solid var(--line);
     border-top: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
   }
+  table.matrix tbody tr.cluster-row.niveau-0 td { border-left: 4px solid var(--niveau-0); }
+  table.matrix tbody tr.cluster-row.niveau-1 td { border-left: 4px solid var(--niveau-1); }
+  table.matrix tbody tr.cluster-row.niveau-2 td { border-left: 4px solid var(--niveau-2); }
+  table.matrix tbody tr.cluster-row.niveau-3 td { border-left: 4px solid var(--niveau-3); }
+  .cluster-label-wrap { flex: 1; min-width: 0; }
   .cluster-label {
     font-family: var(--sans);
     font-weight: 700;
@@ -642,6 +908,7 @@
     display: flex;
     align-items: baseline;
     gap: 12px;
+    margin-bottom: 4px;
   }
   .cluster-label .cluster-name {
     font-family: var(--serif);
@@ -651,6 +918,38 @@
     text-transform: none;
     letter-spacing: 0;
     color: var(--ink-soft);
+  }
+  .cluster-kerndoel {
+    font-family: var(--serif);
+    font-size: 13.5px;
+    color: var(--ink);
+    line-height: 1.5;
+    font-style: italic;
+  }
+  .cluster-status {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .cluster-status .niveau-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .cluster-status .geraakt-tel {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-muted);
+  }
+  .cluster-status .geraakt-tel strong {
+    color: var(--ink);
+    font-weight: 600;
   }
 
   /* Cell markers */
@@ -1260,9 +1559,9 @@
 
 <header class="masthead">
   <div class="masthead-inner">
-    <div class="masthead-eyebrow">SLO-dekkingsoverzicht · Intern werkdocument</div>
+    <div class="masthead-eyebrow">SLO-positionering · Intern werkdocument</div>
     <h1>Digitale geletterdheid <em>in T&D klas 1</em></h1>
-    <p class="masthead-sub">Een analyse van hoe het vak Tech &amp; Design in leerjaar 1 de SLO-doelen voor digitale geletterdheid behandelt — per blok, met onderbouwing en open vragen.</p>
+    <p class="masthead-sub">Hoe verhouden de blokken van het vak Tech &amp; Design in leerjaar 1 zich tot de SLO-kerndoelen voor digitale geletterdheid — met onderbouwing, open vragen, en een methodische verantwoording.</p>
     <div class="masthead-meta">
       <span><strong>Vak:</strong> Tech &amp; Design</span>
       <span><strong>Leerjaar:</strong> 1</span>
@@ -1306,6 +1605,26 @@
 
   <div class="kort-blocks" id="kort-blocks"></div>
 
+  <div class="methode-block" id="methode-block">
+    <button class="methode-toggle" onclick="document.getElementById('methode-block').classList.toggle('open');">
+      <div class="methode-toggle-label">
+        <span class="eyebrow">Methodische verantwoording</span>
+        <span class="title">Hoe lees je dit overzicht?</span>
+      </div>
+      <span class="methode-toggle-icon">+</span>
+    </button>
+    <div class="methode-body">
+      <p><strong>Twee niveaus.</strong> Dit overzicht onderscheidt twee niveaus van SLO-doelen voor digitale geletterdheid:</p>
+      <ul>
+        <li><strong>Kerndoelen</strong> (9 in totaal, codes 21A t/m 23C) zijn de officiële SLO-doelen. Een leerling beheerst een kerndoel wanneer hij of zij het overkoepelend kan: bijvoorbeeld "veiligheid &amp; privacy in digitale omgevingen". Dit is het niveau waarop het SLO meet en waarop bestuurlijk verantwoord wordt.</li>
+        <li><strong>Aspecten</strong> (de codes met cijfer, zoals 23A1, 23A2, 23A3) zijn géén losse SLO-doelen. Het zijn door de werkgroep onderscheiden aspecten, afgeleid uit de voorbeeldactiviteiten die het SLO bij elk kerndoel noemt. Ze helpen om concreet te plannen, maar bestaan niet zelfstandig in het SLO-curriculum.</li>
+      </ul>
+      <p><strong>Wat dit betekent voor de cijfers.</strong> Een kerndoel kan stevig geraakt zijn zonder dat alle aspecten zijn afgevinkt — net zoals een leerling het vak "Nederlands" beheerst zonder alle voorbeeldteksten gelezen te hebben. Daarom rapporteert dit overzicht op het kerndoel-niveau als "diepgang": niet geraakt, minimaal, deels, of substantieel. De aspecten daaronder geven detail, geen score.</p>
+      <p><strong>Diepgang-niveaus.</strong> Substantieel betekent dat 4 of meer aspecten worden geraakt — een breed palet binnen het kerndoel. Deels betekent 2 tot 3 aspecten; minimaal betekent 1 aspect. Niet geraakt betekent dat geen enkel aspect aan bod komt. Deze grenzen zijn pragmatisch: een kerndoel met veel raakvlakken hoeft niet "compleet" te zijn om als substantieel geraakt te gelden.</p>
+      <p><strong>Wat dit overzicht níét is.</strong> Geen afvinklijst, geen score op een toets, geen oordeel over de kwaliteit van het vak T&amp;D. Wel: een hulpmiddel om curriculaire keuzes inzichtelijk te maken — voor de werkgroep, voor afstemming met andere secties, en voor verantwoording.</p>
+    </div>
+  </div>
+
 </section>
 
 <!-- ===================== PANEL 1: OVERZICHT ===================== -->
@@ -1319,15 +1638,24 @@
 
   <div class="callout">
     <strong>Lees-aanwijzing</strong>
-    Dit overzicht is bedoeld als denkhulp, niet als afvinklijst. Dekking is geen doel op zichzelf — een blok met vijf zuivere koppelingen kan onderwijskundig sterker zijn dan een blok met twaalf geforceerde. Voor doelen die niet in T&amp;D klas 1 landen geldt: sommige zijn bewust elders belegd, andere vragen nog een afweging (burgerschap, leerjaar 2, keuzevakken).
+    Dit overzicht onderscheidt twee niveaus: <em>kerndoelen</em> (de officiële 9 SLO-doelen) en <em>aspecten</em> (afgeleid uit de SLO-voorbeeldactiviteiten — herkenbaar aan de asterisk). Bestuurlijk relevant is vooral het kerndoel-niveau. De aspectmatrix daaronder helpt bij curriculumontwerp. Voor doelen die niet in T&amp;D klas 1 landen geldt: sommige zijn bewust elders belegd, andere vragen nog een afweging (burgerschap, leerjaar 2, keuzevakken).
+  </div>
+
+  <div class="diepgang-legend">
+    <div class="diepgang-legend-item"><span class="diepgang-legend-swatch niveau-3"></span><strong>Substantieel</strong> — 4 of meer aspecten geraakt</div>
+    <div class="diepgang-legend-item"><span class="diepgang-legend-swatch niveau-2"></span><strong>Deels</strong> — 2-3 aspecten geraakt</div>
+    <div class="diepgang-legend-item"><span class="diepgang-legend-swatch niveau-1"></span><strong>Minimaal</strong> — 1 aspect geraakt</div>
+    <div class="diepgang-legend-item"><span class="diepgang-legend-swatch niveau-0"></span><strong>Niet geraakt</strong> — geen enkel aspect</div>
   </div>
 
   <div class="legend">
-    <div class="legend-item"><span class="marker zuiver">✓</span> Zuivere koppeling — inhoud blok dekt het SLO-doel</div>
+    <div class="legend-item"><span class="marker zuiver">✓</span> Zuivere koppeling — inhoud blok dekt het aspect</div>
     <div class="legend-item"><span class="marker over">?</span> Over-matching — koppeling staat, maar vraagt heroverweging</div>
     <div class="legend-item"><span class="marker onder">⟡</span> Onder-matching kans — niet gekoppeld, maar zou bij dit blok kunnen</div>
-    <div class="legend-item"><span class="marker leeg">·</span> Niet behandeld in dit blok</div>
+    <div class="legend-item"><span class="marker leeg">·</span> Niet door dit blok behandeld</div>
   </div>
+
+  <div class="kerndoel-filter" id="kerndoel-filter"></div>
 
   <div class="matrix-wrap">
     <div class="matrix-scroller">
@@ -1374,14 +1702,14 @@
 <section class="panel" id="panel-vlekken">
 
   <div class="section-head">
-    <div class="section-eyebrow">Tab 03 — Wat T&amp;D klas 1 niet dekt</div>
+    <div class="section-eyebrow">Tab 03 — Wat T&amp;D klas 1 niet of nauwelijks raakt</div>
     <h2>Witte vlekken &amp; waar ze landen</h2>
-    <p>SLO-doelen die in geen enkel blok van T&amp;D klas 1 zijn behandeld. De boodschap is niet "er is een gat", maar: <em>waar landt dit doel wel?</em> — in burgerschap, leerjaar 2, een keuzevak, of moet hier nog een oplossing voor gevonden worden?</p>
+    <p>Kerndoelen waarvan in T&amp;D klas 1 geen of slechts enkele aspecten aan bod komen. Per kerndoel: waar landt dit logisch? Burgerschap, leerjaar 2, een keuzevak, of moet hier nog een oplossing voor gevonden worden?</p>
   </div>
 
   <div class="callout">
     <strong>Belangrijke kanttekening</strong>
-    T&amp;D klas 1 hoeft niet alle SLO-doelen voor digitale geletterdheid te dekken. Het is één bouwsteen in een breder curriculum. Voor elk doel hieronder geldt: er moet nog een bewuste keuze gemaakt worden over wáár het thuishoort — binnen T&amp;D, bij burgerschap, in leerjaar 2, of in een keuzevak. De suggesties zijn een startpunt voor die afweging, geen besluit.
+    Een kerndoel hoeft niet alle aspecten te dekken om als geraakt te gelden. De kerndoelen die hier getoond worden, zijn "niet geraakt", "minimaal" of "deels" — voor elk geldt dat er nog een bewuste keuze gemaakt moet worden over wáár het verder uitgewerkt wordt: binnen T&amp;D, bij burgerschap, in leerjaar 2, of in een keuzevak. De suggesties zijn een startpunt voor die afweging, geen besluit.
   </div>
 
   <div id="vlekken-container"></div>
@@ -1421,7 +1749,7 @@
 </main>
 
 <footer class="doc-footer">
-  <strong>SLO-dekkingsoverzicht T&amp;D klas 1</strong> · OBC Bemmel · Intern werkdocument, mei 2026
+  <strong>SLO-positionering digitale geletterdheid · T&amp;D klas 1</strong> · OBC Bemmel · Intern werkdocument, mei 2026
 </footer>
 
 <script>
@@ -1438,14 +1766,15 @@ const BLOK_LABELS = {
 };
 
 const CLUSTERS = [
-  { id: "21A", name: "Digitale systemen & technologie" },
-  { id: "21B", name: "Informatievaardigheden & media" },
-  { id: "21C", name: "Data" },
-  { id: "21D", name: "Kunstmatige intelligentie" },
-  { id: "22A", name: "Digitale creatie & ontwerp" },
-  { id: "22B", name: "Programmeren & computational thinking" },
-  { id: "23A", name: "Veiligheid & privacy" },
-  { id: "23B", name: "Digitale samenleving" }
+  { id: "21A", name: "Digitale systemen & technologie", kerndoel: "De leerling zet digitale systemen functioneel in." },
+  { id: "21B", name: "Informatievaardigheden & media", kerndoel: "De leerling navigeert doelgericht in het digitale media- en informatielandschap voor het verwerven en verwerken van informatie." },
+  { id: "21C", name: "Data", kerndoel: "De leerling gebruikt en interpreteert data." },
+  { id: "21D", name: "Kunstmatige intelligentie", kerndoel: "De leerling gaat doelgericht en kritisch om met systemen die gebruikmaken van kunstmatige intelligentie." },
+  { id: "22A", name: "Digitale creatie & ontwerp", kerndoel: "De leerling maakt en deelt eigen digitale producten met behulp van digitale technologie en digitale media." },
+  { id: "22B", name: "Programmeren & computational thinking", kerndoel: "De leerling lost problemen op met behulp van programmeren en computationeel denken." },
+  { id: "23A", name: "Veiligheid & privacy", kerndoel: "De leerling beschermt zichzelf en anderen tegen risico's bij het gebruik van digitale technologie en digitale media." },
+  { id: "23B", name: "Digitale samenleving", kerndoel: "De leerling reflecteert op de rol van digitale technologie en digitale media in het eigen leven en in de samenleving." },
+  { id: "23C", name: "Maatschappij & ethiek", kerndoel: "De leerling neemt deel aan een digitale samenleving en draagt bij aan de vormgeving daarvan vanuit menselijke en democratische waarden." }
 ];
 
 // Alle SLO-doelen, met cluster, code, tekst, havo-vwo-flag
@@ -1479,6 +1808,7 @@ const DOELEN = [
   { code: "21D3", cluster: "21D", text: "beschrijven van verschillen tussen op regels gebaseerde digitale systemen en op statistiek gebaseerde AI-systemen" },
   { code: "21D4", cluster: "21D", text: "doelgericht, verantwoord en kritisch interacteren met een AI-systeem" },
   { code: "21D5", cluster: "21D", text: "experimenteren met het trainen van AI-systemen" },
+  { code: "21D6", cluster: "21D", text: "beschrijven van machine learning, expertsystemen en gangbare manieren om AI-systemen te trainen", havo: true },
   { code: "21D7", cluster: "21D", text: "reflecteren op de mogelijkheden en beperkingen van AI-systemen", havo: true },
 
   // 22A
@@ -1487,6 +1817,7 @@ const DOELEN = [
   { code: "22A3", cluster: "22A", text: "afwegen met behulp van computationele denkstrategieën in hoeverre het doel met een digitaal product bereikt kan worden" },
   { code: "22A4", cluster: "22A", text: "ontwerpen en realiseren van een product aan de hand van ontwerpeisen in een iteratief proces, inclusief reflectie op product en proces" },
   { code: "22A5", cluster: "22A", text: "rekening houden met auteursrechten, licenties en bron- en naamsvermelding bij het creëren van digitale producten" },
+  { code: "22A6", cluster: "22A", text: "oplossen van een probleem of uitvoeren van een taak in een ander vak met behulp van computationele denkstrategieën", havo: true },
 
   // 22B
   { code: "22B1", cluster: "22B", text: "beschrijven van de taak en het doel van een computerprogramma" },
@@ -1498,11 +1829,24 @@ const DOELEN = [
   // 23A
   { code: "23A1", cluster: "23A", text: "kennis hebben van rechten en plichten van individuen en instellingen ten aanzien van de bescherming van persoonsgegevens, data en privacy" },
   { code: "23A2", cluster: "23A", text: "herkennen van veiligheidsrisico's bij het gebruik van digitale systemen van bedrijven, instellingen en overheden" },
+  { code: "23A3", cluster: "23A", text: "beschermen tegen zwakke plekken in gebruikte digitale systemen en netwerken" },
+  { code: "23A4", cluster: "23A", text: "herkennen hoe anderen omgaan met privacy en de veiligheid van door hen verzamelde of bewaarde data" },
+  { code: "23A5", cluster: "23A", text: "adequaat omgaan met ongepaste content, ongepast gedrag en veiligheidsrisico's in digitale omgevingen" },
   { code: "23A6", cluster: "23A", text: "beschrijven van malware en andere bedreigingen", havo: true },
 
   // 23B
   { code: "23B1", cluster: "23B", text: "online communiceren en handelen op respectvolle en verantwoorde wijze" },
-  { code: "23B5", cluster: "23B", text: "verkennen van de eigen interesse in digitale technologie en digitale media in relatie tot studies en beroepen" }
+  { code: "23B2", cluster: "23B", text: "evalueren van de invloed van digitale technologie en digitale media op eigen denken, eigen gedrag en de interactie met anderen" },
+  { code: "23B3", cluster: "23B", text: "rekening houden met eigen fysieke en mentale gezondheid en die van anderen in relatie tot het gebruik van digitale technologie en digitale media" },
+  { code: "23B4", cluster: "23B", text: "reflecteren op en vormgeven van de eigen online identiteit in relatie met anderen" },
+  { code: "23B5", cluster: "23B", text: "verkennen van de eigen interesse in digitale technologie en digitale media in relatie tot studies en beroepen" },
+
+  // 23C
+  { code: "23C1", cluster: "23C", text: "verkennen van mogelijkheden om digitale technologie en digitale media te benutten bij het vormgeven van maatschappelijke betrokkenheid" },
+  { code: "23C2", cluster: "23C", text: "verkennen van mogelijkheden om de ontwikkeling van digitale technologie en digitale media te sturen en te reguleren en daarmee menselijke en democratische waarden te beschermen" },
+  { code: "23C3", cluster: "23C", text: "redeneren over kansen en risico's van het gebruik van digitale technologie in de samenleving vanuit ethisch, sociaal, economisch en ecologisch perspectief" },
+  { code: "23C4", cluster: "23C", text: "analyseren hoe samenlevingen afhankelijk zijn van digitale technologie en van grote technologiebedrijven" },
+  { code: "23C5", cluster: "23C", text: "beschrijven van ethische dilemma's bij het maken van keuzes voor de toekomst die gerelateerd zijn aan ontwikkelingen van digitale technologie en digitale media" }
 ];
 
 /* Status per (doel, blok). Waarden:
@@ -1524,7 +1868,7 @@ const KOPPELINGEN = {
   "21B3": {},
   "21B4": {},
   "21B5": {},
-  "21B6": { basis: "zuiver" },
+  "21B6": {},
 
   "21C1": {},
   "21C2": {},
@@ -1538,13 +1882,15 @@ const KOPPELINGEN = {
   "21D3": {},
   "21D4": { basis: "zuiver" },
   "21D5": {},
-  "21D7": { basis: "zuiver" },
+  "21D6": {},
+  "21D7": {},
 
   "22A1": { basis: "zuiver", ontwerpen: "zuiver", programmeren: "zuiver" },
   "22A2": { basis: "zuiver", ontwerpen: "zuiver", programmeren: "zuiver" },
   "22A3": { programmeren: "zuiver", ontwerpen: "onder" },
   "22A4": { ontwerpen: "zuiver", programmeren: "zuiver" },
-  "22A5": {},
+  "22A5": { programmeren: "over" },
+  "22A6": {},
 
   "22B1": { ontwerpen: "over", programmeren: "zuiver" },
   "22B2": { programmeren: "zuiver" },
@@ -1554,10 +1900,22 @@ const KOPPELINGEN = {
 
   "23A1": { basis: "zuiver" },
   "23A2": { basis: "zuiver" },
-  "23A6": { basis: "zuiver" },
+  "23A3": {},
+  "23A4": {},
+  "23A5": {},
+  "23A6": {},
 
   "23B1": { basis: "zuiver", ontwerpen: "zuiver" },
-  "23B5": { ontwerpen: "zuiver" }
+  "23B2": {},
+  "23B3": {},
+  "23B4": {},
+  "23B5": { ontwerpen: "zuiver" },
+
+  "23C1": {},
+  "23C2": {},
+  "23C3": {},
+  "23C4": {},
+  "23C5": {}
 };
 
 // Witte-vlekken-suggesties per doel
@@ -1566,10 +1924,25 @@ const WITTE_VLEKKEN_SUGGESTIE = {
   "21B3": "Onderzoeksvaardigheden — verschillende vakken",
   "21B4": "Burgerschap (mediawijsheid)",
   "21B5": "Burgerschap / mens & maatschappij",
+  "21B6": "Havo-vwo — onderzoeksvaardigheden bovenbouw",
   "21D1": "Klas 2 AI-blok of keuzevak",
   "21D3": "Klas 2 AI-blok of keuzevak",
   "21D5": "Klas 2 AI-blok of keuzevak",
-  "22A5": "Doorschuiven naar leerjaar 2 — werkgroep Programmeren noteerde dit reeds"
+  "21D6": "Havo-vwo — klas 2 AI-blok of keuzevak",
+  "21D7": "Havo-vwo — klas 2 AI-blok of keuzevak",
+  "22A6": "Havo-vwo — vakoverstijgend, leerjaar 2 of keuzevak",
+  "23A3": "Klas 2 of digitale veiligheidsmodule",
+  "23A4": "Burgerschap of klas 2",
+  "23A5": "Burgerschap (mediawijsheid) of mentoruur",
+  "23A6": "Havo-vwo — digitale veiligheidsmodule",
+  "23B2": "Burgerschap of mentoruur",
+  "23B3": "Mentoruur, LO of gezondheidsonderwijs",
+  "23B4": "Burgerschap of mentoruur",
+  "23C1": "Burgerschap",
+  "23C2": "Burgerschap (democratie & rechtsstaat)",
+  "23C3": "Burgerschap (ethiek & duurzaamheid)",
+  "23C4": "Burgerschap (digitale samenleving)",
+  "23C5": "Burgerschap (ethiek)"
 };
 
 // Werkbestand-info per blok
@@ -1660,15 +2033,12 @@ const KOPPEL_DETAILS = {
     { code: "21A3", oordeel: "zuiver", vanuit: "Leerlingen werken met Word (opslaan, opmaken met kopjes, afbeeldingen invoegen) en PowerPoint (meerdere dia's, vormgeving). Dit valt onder \"geavanceerde mogelijkheden van software voor het creëren en bewerken van verschillende typen bestanden\".", leerdoelen: ["Ik kan tekst opmaken in Word met kopjes en afbeeldingen", "Ik kan een PowerPoint maken met overzichtelijke dia's"], oordeel_tekst: "Goede match — de softwarevaardigheden zijn precies wat het doel beschrijft." },
     { code: "21B1", oordeel: "zuiver", vanuit: "Leerlingen leren wat een zoekmachine is en hoe je goede zoekwoorden kiest.", leerdoelen: ["Ik kan uitleggen wat een zoekmachine is", "Ik kan goede zoekwoorden gebruiken"], oordeel_tekst: "Past goed bij het combineren van zoekhulpmiddelen en zoekstrategieën." },
     { code: "21B2", oordeel: "zuiver", vanuit: "Beoordelen of een website betrouwbaar is wordt expliciet behandeld.", leerdoelen: ["Ik kan beoordelen of een website betrouwbaar is"], oordeel_tekst: "Zuivere match — dit is exact wat het doel vraagt." },
-    { code: "21B6", oordeel: "zuiver", vanuit: "De zoek-vaardigheden worden ook gericht op vakspecifieke zoekstrategieën aangeboden (havo/vwo-niveau).", leerdoelen: ["Verdieping op zoekstrategieën voor havo-vwo"], oordeel_tekst: "Logische uitbreiding voor havo-vwo." },
     { code: "21D2", oordeel: "zuiver", vanuit: "Leerlingen maken kennis met AI: wat is het, waarvoor wordt het gebruikt door bedrijven en instellingen.", leerdoelen: ["Ik kan uitleggen wat AI is en waarvoor je het kunt gebruiken"], oordeel_tekst: "Past bij herkennen van veelvoorkomende AI-systemen." },
     { code: "21D4", oordeel: "zuiver", vanuit: "Leerlingen leren een vraag stellen aan AI en AI veilig en eerlijk te gebruiken voor school.", leerdoelen: ["Ik kan een duidelijke vraag stellen aan AI", "Ik kan AI veilig en eerlijk gebruiken voor school"], oordeel_tekst: "Sluit goed aan op doelgericht en verantwoord interacteren met AI." },
-    { code: "21D7", oordeel: "zuiver", vanuit: "Voor havo-vwo wordt aandacht besteed aan mogelijkheden én beperkingen van AI.", leerdoelen: ["Reflectie op wat AI wel en niet kan"], oordeel_tekst: "Logische uitbreiding voor havo-vwo." },
     { code: "22A1", oordeel: "zuiver", vanuit: "Leerlingen experimenteren met PowerPoint om presentaties te maken die ideeën uitdrukken.", leerdoelen: ["Ik kan een PowerPoint maken met meerdere dia's", "Ik kan titels, tekst en afbeeldingen goed gebruiken"], oordeel_tekst: "Goede match — PowerPoint als ontwikkel- en bewerkingssoftware." },
     { code: "22A2", oordeel: "zuiver", vanuit: "Een PowerPoint-presentatie maken is een digitaal product om mee te informeren.", leerdoelen: ["Ik kan een overzichtelijke en aantrekkelijke presentatie maken"], oordeel_tekst: "Zuivere match met het ontwikkelen en delen van een informerend digitaal product." },
     { code: "23A1", oordeel: "zuiver", vanuit: "Leerlingen leren veilig en respectvol omgaan met anderen online en onveilige online situaties herkennen.", leerdoelen: ["Ik kan veilig omgaan met anderen online", "Ik kan onveilige situaties herkennen"], oordeel_tekst: "Sluit aan bij kennis over privacy en persoonsgegevens." },
     { code: "23A2", oordeel: "zuiver", vanuit: "Het herkennen van onveilige online situaties dekt veiligheidsrisico's bij digitale systemen.", leerdoelen: ["Ik kan onveilige online situaties herkennen"], oordeel_tekst: "Zuivere match." },
-    { code: "23A6", oordeel: "zuiver", vanuit: "Voor havo-vwo wordt malware en online bedreigingen besproken.", leerdoelen: ["Verdieping bedreigingen voor havo-vwo"], oordeel_tekst: "Logische havo-vwo-uitbreiding." },
     { code: "23B1", oordeel: "zuiver", vanuit: "Respectvol online communiceren is een expliciet leerpunt in dit blok.", leerdoelen: ["Ik kan veilig en respectvol omgaan met anderen online"], oordeel_tekst: "Zuivere match." }
   ],
   ontwerpen: [
@@ -1688,6 +2058,7 @@ const KOPPEL_DETAILS = {
     { code: "22A2", oordeel: "zuiver", vanuit: "De Delightex-tentoonstelling is een digitaal product met een doel of thema, gericht op vertellen of beïnvloeden.", leerdoelen: ["Ik kan een eigen 3D-wereld ontwerpen met een doel of thema"], oordeel_tekst: "Past bij ontwikkelen en delen van digitaal product." },
     { code: "22A3", oordeel: "zuiver", vanuit: "Leerlingen leren stroomdiagrammen lezen, denken in volgorde van stappen en fouten opsporen — kerncomponenten van computational thinking.", leerdoelen: ["Ik kan fouten in een programma opsporen en verbeteren", "Ik weet dat volgorde van stappen belangrijk is", "Ik kan een stroomdiagram lezen"], oordeel_tekst: "Sterke match met computationele denkstrategieën." },
     { code: "22A4", oordeel: "zuiver", vanuit: "Het eigen Micro:bit-programma wordt iteratief gebouwd via DTMC: ontwerpen, programmeren, testen, verbeteren.", leerdoelen: ["Ik kan een nieuw project aanmaken en uploaden naar Micro:bit", "Ik kan blokken gebruiken voor beweging en reactie", "Ik kan een als-dan-anders-blok gebruiken"], oordeel_tekst: "Past bij iteratief ontwerpen met reflectie." },
+    { code: "22A5", oordeel: "over", vanuit: "22A5 is door de werkgroep aangevinkt voor Programmeren, maar in het werkbestand komt auteursrecht, licenties of bronvermelding niet expliciet terug als leerdoel of activiteit.", leerdoelen: ["(geen expliciete leerdoelen in werkbestand)"], oordeel_tekst: "Heroverweging: wat is de feitelijke behandeling van dit doel in Programmeren? Als het niet expliciet aan bod komt, zou Ontwerpen (Canva-poster met beelden) een logischer plek kunnen zijn." },
     { code: "22B1", oordeel: "zuiver", vanuit: "Het beschrijven van taak en doel van een programma is impliciet onderdeel van het werken aan eigen Micro:bit-programma's met sensoren en actuatoren.", leerdoelen: ["DTMC-formulier waarin doel en plan worden vastgelegd"], oordeel_tekst: "Goede match met dit programmeerdoel." },
     { code: "22B2", oordeel: "zuiver", vanuit: "Leerlingen leren een stroomdiagram lezen en zelf maken — schematisch weergeven van algoritmen.", leerdoelen: ["Ik kan een stroomdiagram lezen", "Ik teken een stroomdiagram voor mijn eigen programma"], oordeel_tekst: "Zuivere match." },
     { code: "22B3", oordeel: "zuiver", vanuit: "Leerlingen werken met events (knopdrukken, sensoren), variabelen en als-dan-anders-blokken (logische operatoren).", leerdoelen: ["Ik kan invoerblokken gebruiken", "Ik weet wat een variabele is", "Ik kan een als-dan-anders-blok gebruiken"], oordeel_tekst: "Sterke match — alle drie de programmeerconcepten worden expliciet behandeld." },
@@ -1713,6 +2084,14 @@ const VRAGEN_SPECIFIEK = [
     titel: "22B1 in Ontwerpen: hoort dit hier of bij Programmeren?",
     context: "22B1 (\"beschrijven van de taak en het doel van een computerprogramma\") is in Ontwerpen gekoppeld aan Tinkercad, lasersnijder-software en Canva. Dit doel hoort echter inhoudelijk thuis bij programmeren — het gaat om het beschrijven van een programma als softwareproduct, niet over CAD- of ontwerptools.",
     vraag: "Kan deze koppeling losgelaten worden bij Ontwerpen, aangezien Programmeren dit doel al zuiver afdekt?"
+  },
+  {
+    code: "22A5",
+    blok: "Programmeren",
+    eyebrow: "Over-matching — Programmeren, 22A5",
+    titel: "22A5 in Programmeren: waar zit het auteursrecht-onderdeel?",
+    context: "22A5 (\"rekening houden met auteursrechten, licenties en bron- en naamsvermelding bij het creëren van digitale producten\") is door de werkgroep aangevinkt voor Programmeren, maar in het werkbestand komt auteursrecht, licenties of bronvermelding niet expliciet terug als leerdoel of activiteit. Tegelijk maken leerlingen in Ontwerpen volop gebruik van beelden in Canva, waar dit doel ook natuurlijk zou landen.",
+    vraag: "Wat is de feitelijke behandeling van 22A5 in Programmeren? Als het niet expliciet aan bod komt, zou Ontwerpen — bij de productposter-opdracht — een passender plek zijn."
   }
 ];
 
@@ -1724,10 +2103,10 @@ const VRAGEN_ALGEMEEN = [
     vraag: "Willen we deze keuze vastleggen in een korte onderbouwing die bij dit overzicht hoort, zodat de \"witte kolom\" niet als gebrek wordt geïnterpreteerd?"
   },
   {
-    eyebrow: "Auteursrecht & bronvermelding",
-    titel: "22A5 ontbreekt in alle blokken — terwijl leerlingen wél Canva, beelden en social media gebruiken",
-    context: "Het doel 22A5 (\"rekening houden met auteursrechten, licenties en bron- en naamsvermelding bij het creëren van digitale producten\") staat in geen enkel blok aangevinkt. De werkgroep Programmeren noteerde \"Oppakken voor leerjaar 2\". Tegelijk maken leerlingen in Ontwerpen wél een Canva-poster met beelden, en wordt social media-promotie genoemd.",
-    vraag: "Verschuiven we 22A5 inderdaad naar leerjaar 2, of nemen we het in Ontwerpen kort op bij de productposter-opdracht (waar het natuurlijk landt)?"
+    eyebrow: "Veiligheid in Basis",
+    titel: "23A5 (omgaan met ongepaste content) — hoort dit nog bij Basis?",
+    context: "Basis dekt 23A1 (privacy en persoonsgegevens) en 23A2 (veiligheidsrisico's), maar 23A5 — \"adequaat omgaan met ongepaste content, ongepast gedrag en veiligheidsrisico's in digitale omgevingen\" — staat niet aangevinkt. Dit is voor klas 1-leerlingen wel een zeer praktisch relevant onderwerp, en de werkgroep-notities bij 23A1 noemen al \"onveilige situaties herkennen\". Het lijkt erop dat dit doel inhoudelijk dichtbij ligt zonder als zodanig benoemd te worden.",
+    vraag: "Is omgaan met ongepaste content al onderdeel van Basis (impliciet bij 23A1/A2), of moet dit als apart leerdoel worden opgenomen? En zo niet bij Basis, waar dan wel?"
   },
   {
     eyebrow: "Data-cluster",
@@ -1794,6 +2173,23 @@ function getEindStatusLabel(status) {
   }
 }
 
+// Diepgang per kerndoel: aantal geraakte aspecten (zuiver of discussie tellen mee)
+function getKerndoelDiepgang(clusterId) {
+  const doelen = DOELEN.filter(d => d.cluster === clusterId);
+  let geraakt = 0;
+  doelen.forEach(d => {
+    const koppels = KOPPELINGEN[d.code] || {};
+    const v = Object.values(koppels);
+    if (v.includes("zuiver") || v.includes("over")) geraakt++;
+  });
+  let niveau, label, cls;
+  if (geraakt === 0)      { niveau = 0; label = "Niet geraakt";  cls = "niveau-0"; }
+  else if (geraakt === 1) { niveau = 1; label = "Minimaal";      cls = "niveau-1"; }
+  else if (geraakt <= 3)  { niveau = 2; label = "Deels";         cls = "niveau-2"; }
+  else                    { niveau = 3; label = "Substantieel";  cls = "niveau-3"; }
+  return { geraakt, totaal: doelen.length, niveau, label, cls };
+}
+
 function markerHTML(status, isAmbachten) {
   if (isAmbachten) return '<span class="marker leeg">·</span>';
   if (status === "zuiver") return '<span class="marker zuiver">✓</span>';
@@ -1813,13 +2209,21 @@ function renderMatrix() {
   html += '<th class="col-status">Status</th></tr></thead><tbody>';
 
   CLUSTERS.forEach(cluster => {
-    html += `<tr class="cluster-row"><td colspan="${3 + BLOKKEN.length}">
-      <div class="cluster-label">${cluster.id} <span class="cluster-name">${cluster.name}</span></div>
+    const dpg = getKerndoelDiepgang(cluster.id);
+    html += `<tr class="cluster-row ${dpg.cls}" data-cluster="${cluster.id}"><td colspan="${3 + BLOKKEN.length}">
+      <div class="cluster-label-wrap">
+        <div class="cluster-label">${cluster.id} <span class="cluster-name">${cluster.name}</span></div>
+        <div class="cluster-kerndoel">${cluster.kerndoel}</div>
+      </div>
+      <div class="cluster-status">
+        <span class="niveau-pill ${dpg.cls}">${dpg.label}</span>
+        <span class="geraakt-tel"><strong>${dpg.geraakt}</strong> / ${dpg.totaal} aspecten</span>
+      </div>
     </td></tr>`;
 
     const doelen = DOELEN.filter(d => d.cluster === cluster.id);
     doelen.forEach(d => {
-      html += `<tr><td class="cell-code">${d.code}${d.havo ? '<span class="havo-tag">havo-vwo</span>' : ''}</td>`;
+      html += `<tr class="aspect-row" data-cluster="${cluster.id}"><td class="cell-code">${d.code}<span class="aspect-marker" title="Aspect afgeleid uit SLO-voorbeeldactiviteit">*</span>${d.havo ? '<span class="havo-tag">havo-vwo</span>' : ''}</td>`;
       html += `<td class="cell-text">${d.text}</td>`;
       BLOKKEN.forEach(b => {
         const status = getStatus(d.code, b);
@@ -1838,6 +2242,37 @@ function renderMatrix() {
 
   html += "</tbody>";
   t.innerHTML = html;
+}
+
+// === KERNDOEL-FILTER (tab 01) ===
+function renderKerndoelFilter() {
+  const c = document.getElementById("kerndoel-filter");
+  let html = `<span class="kerndoel-filter-label">Toon:</span>`;
+  html += `<button class="filter-pill active" data-filter="alles">Alles</button>`;
+  CLUSTERS.forEach(cl => {
+    html += `<button class="filter-pill" data-filter="${cl.id}"><span class="pill-code">${cl.id}</span>${cl.name}</button>`;
+  });
+  c.innerHTML = html;
+
+  // Click-handlers
+  c.querySelectorAll(".filter-pill").forEach(btn => {
+    btn.addEventListener("click", () => {
+      c.querySelectorAll(".filter-pill").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      filterMatrix(btn.dataset.filter);
+    });
+  });
+}
+
+function filterMatrix(filter) {
+  const rows = document.querySelectorAll('#matrix tbody tr[data-cluster]');
+  rows.forEach(row => {
+    if (filter === "alles" || row.dataset.cluster === filter) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
 }
 
 // === KOPPELLIJNEN OVERZICHT ===
@@ -1944,28 +2379,43 @@ function renderVlekken() {
   const c = document.getElementById("vlekken-container");
   let html = "";
 
-  CLUSTERS.forEach(cluster => {
-    const doelen = DOELEN.filter(d => d.cluster === cluster.id);
-    const vlekken = doelen.filter(d => getEindStatus(d.code) === "wit");
-    if (vlekken.length === 0) return;
+  // Sorteer kerndoelen: niet-geraakt eerst (rood), dan minimaal/deels
+  const gesorteerd = CLUSTERS.map(cl => ({ cl, dpg: getKerndoelDiepgang(cl.id) }))
+    .filter(x => x.dpg.niveau < 3)  // toon alleen kerndoelen die niet substantieel zijn
+    .sort((a, b) => a.dpg.niveau - b.dpg.niveau);
 
-    const isAandacht = cluster.id === "21C";
+  gesorteerd.forEach(({ cl, dpg }) => {
+    const doelen = DOELEN.filter(d => d.cluster === cl.id);
+    const vlekkenAspecten = doelen.filter(d => {
+      const es = getEindStatus(d.code);
+      return es === "wit" || es === "kans";
+    });
+    if (vlekkenAspecten.length === 0) return;
+
+    const isAandacht = dpg.niveau === 0;
 
     html += `<div class="vlek-cluster${isAandacht ? " aandacht" : ""}">
       <div class="vlek-cluster-head">
-        <h3>${cluster.id} — ${cluster.name}${isAandacht ? ' <span class="aandacht-badge">vraagt aandacht</span>' : ''}</h3>
-        <span class="count">${vlekken.length} doel${vlekken.length === 1 ? "" : "en"} niet behandeld</span>
+        <div>
+          <h3>${cl.id} — ${cl.name} <span class="niveau-pill ${dpg.cls}" style="margin-left:8px;vertical-align:middle;">${dpg.label}</span></h3>
+          <div style="font-family:var(--serif);font-style:italic;font-size:13.5px;color:var(--ink-soft);margin-top:4px;">${cl.kerndoel}</div>
+        </div>
+        <span class="count"><strong>${dpg.geraakt}</strong> / ${dpg.totaal} aspecten geraakt</span>
       </div>`;
 
     if (isAandacht) {
-      html += `<div class="aandacht-note">Voor dit volledige cluster is nog geen logische landingsplek bepaald. Anders dan bij 21B (informatievaardigheden, dat goed bij burgerschap aansluit), past data inhoudelijk eerder bij wiskunde, onderzoeksvaardigheden, een AI-blok in leerjaar 2, of een keuzevak. Hier ligt een open afweging die in overleg met collega-secties opgepakt moet worden.</div>`;
+      const aandachtTekst = cl.id === "21C"
+        ? "Voor dit volledige kerndoel is nog geen logische landingsplek bepaald. Anders dan bij 21B (informatievaardigheden, dat goed bij burgerschap aansluit), past data inhoudelijk eerder bij wiskunde, onderzoeksvaardigheden, een AI-blok in leerjaar 2, of een keuzevak. Hier ligt een open afweging die in overleg met collega-secties opgepakt moet worden."
+        : "Dit volledige kerndoel — ethische dilemma's, maatschappelijke invloed van techbedrijven, democratische waarden in digitale context — komt in T&amp;D klas 1 niet aan bod. Inhoudelijk past het sterk bij burgerschap. Een afweging met de sectie burgerschap is hier op zijn plaats.";
+      html += `<div class="aandacht-note">${aandachtTekst}</div>`;
     }
 
-    vlekken.forEach(d => {
+    vlekkenAspecten.forEach(d => {
       const sug = WITTE_VLEKKEN_SUGGESTIE[d.code] || "Nog geen voorgestelde plek — bespreken";
       const isGap = !WITTE_VLEKKEN_SUGGESTIE[d.code];
+      const isKans = getEindStatus(d.code) === "kans";
       html += `<div class="vlek-doel">
-        <div class="code">${d.code}${d.havo ? ' <span style="font-size:9px;color:var(--ink-muted);">havo-vwo</span>' : ''}</div>
+        <div class="code">${d.code}<span class="aspect-marker" title="Aspect afgeleid uit SLO-voorbeeldactiviteit">*</span>${d.havo ? ' <span style="font-size:9px;color:var(--ink-muted);">havo-vwo</span>' : ''}${isKans ? ' <span class="status-badge kans" style="margin-left:6px;font-size:9px;">kans</span>' : ''}</div>
         <div class="doel-tekst">${d.text}</div>
         <div class="suggestie ${isGap ? "gap" : ""}">${isGap ? "↗ " : "→ "}${sug}</div>
       </div>`;
@@ -2043,26 +2493,42 @@ function computeStats() {
 }
 
 function renderKortLede() {
-  const s = computeStats();
-  const lede = `T&D klas 1 dekt <em>${s.gedekt} van de ${s.totaalDoelen}</em> SLO-doelen digitale geletterdheid, verdeeld over drie van de vier blokken. Ambachten is bewust leeg gelaten; bij de overige witte vlekken — met name het data-cluster — moet nog afgewogen worden waar deze landen.`;
+  // Tel kerndoelen per diepgang
+  let geraakt = 0, nietGeraakt = 0;
+  CLUSTERS.forEach(c => {
+    const d = getKerndoelDiepgang(c.id);
+    if (d.niveau === 0) nietGeraakt++;
+    else geraakt++;
+  });
+  const totaal = CLUSTERS.length;
+  const lede = `T&D klas 1 raakt <em>${geraakt} van de ${totaal}</em> SLO-kerndoelen voor digitale geletterdheid, met wisselende diepgang. Twee kerndoelen — data (21C) en maatschappij & ethiek (23C) — komen niet aan bod en vragen een afweging waar ze elders landen.`;
   document.getElementById("kort-lede").innerHTML = lede;
 }
 
 function renderKortKPIs() {
-  const s = computeStats();
+  // Diepgang-tellingen
+  let geraakt = 0, substantieel = 0, deels = 0, minimaal = 0, nietGeraakt = 0;
+  CLUSTERS.forEach(c => {
+    const d = getKerndoelDiepgang(c.id);
+    if (d.niveau === 3) { substantieel++; geraakt++; }
+    else if (d.niveau === 2) { deels++; geraakt++; }
+    else if (d.niveau === 1) { minimaal++; geraakt++; }
+    else nietGeraakt++;
+  });
+  const totaalKerndoelen = CLUSTERS.length;
   const specifiekeVragen = VRAGEN_SPECIFIEK.length;
   const algemeneVragen = VRAGEN_ALGEMEEN.length;
 
   const kpis = [
     {
-      label: "Doelen behandeld",
-      value: `${s.gedekt}<span class="small"> / ${s.totaalDoelen}</span>`,
-      sub: `${s.witTotaal} doelen nog niet belegd in T&amp;D klas 1`
+      label: "Kerndoelen geraakt",
+      value: `${geraakt}<span class="small"> / ${totaalKerndoelen}</span>`,
+      sub: `${substantieel} substantieel, ${deels} deels${minimaal ? `, ${minimaal} minimaal` : ""}`
     },
     {
-      label: "Zuivere koppelingen",
-      value: `${s.zuiverKoppelingen}`,
-      sub: "Concrete blokactiviteiten die SLO-doelen dekken"
+      label: "Niet geraakt",
+      value: `${nietGeraakt}`,
+      sub: "Kerndoelen waarbij geen enkel aspect aan bod komt"
     },
     {
       label: "Open vragen werkgroep",
@@ -2070,9 +2536,16 @@ function renderKortKPIs() {
       sub: "Specifiek over koppelingen + bredere vragen over koers"
     },
     {
-      label: "Witte vlekken",
-      value: `${s.witTotaal}<span class="small"> doelen</span>`,
-      sub: "Waaronder het volledige data-cluster (21C) — landingsplek nog af te wegen"
+      label: "Aspecten geraakt",
+      value: (() => {
+        let g = 0, t = 0;
+        CLUSTERS.forEach(c => {
+          const d = getKerndoelDiepgang(c.id);
+          g += d.geraakt; t += d.totaal;
+        });
+        return `${g}<span class="small"> / ${t}</span>`;
+      })(),
+      sub: "Aspecten zijn afgeleid uit SLO-voorbeeldactiviteiten — zie verantwoording onderaan"
     }
   ];
 
@@ -2089,39 +2562,27 @@ function renderKortKPIs() {
 
 function renderClusterBars() {
   let html = `<div class="cluster-bars-head">
-    <h3>Dekking per cluster</h3>
-    <span class="variant">Variant B — stacked bars</span>
+    <h3>Diepgang per kerndoel</h3>
+    <span class="variant">Variant B — diepgangsbars</span>
   </div>`;
 
   CLUSTERS.forEach(c => {
-    const doelen = DOELEN.filter(d => d.cluster === c.id);
-    let zuiver = 0, over = 0, onder = 0, wit = 0;
-    doelen.forEach(d => {
-      const es = getEindStatus(d.code);
-      if (es === "gedekt") zuiver++;
-      else if (es === "discussie") over++;
-      else if (es === "kans") onder++;
-      else wit++;
-    });
-    const total = doelen.length;
-
+    const d = getKerndoelDiepgang(c.id);
+    const pct = d.totaal === 0 ? 0 : (d.geraakt / d.totaal * 100);
     html += `<div class="cluster-bar-row">
       <div class="cluster-bar-label"><span class="code">${c.id}</span>${c.name}</div>
-      <div class="cluster-bar-track">
-        ${zuiver > 0 ? `<div class="cluster-bar-seg zuiver" style="width:${(zuiver/total*100)}%" title="Gedekt: ${zuiver}"></div>` : ""}
-        ${over > 0 ? `<div class="cluster-bar-seg over" style="width:${(over/total*100)}%" title="Discussie: ${over}"></div>` : ""}
-        ${onder > 0 ? `<div class="cluster-bar-seg onder" style="width:${(onder/total*100)}%" title="Kans: ${onder}"></div>` : ""}
-        ${wit > 0 ? `<div class="cluster-bar-seg wit" style="width:${(wit/total*100)}%" title="Witte vlek: ${wit}"></div>` : ""}
+      <div class="cluster-bar-track" style="background: var(--paper-warm);">
+        <div class="cluster-bar-seg ${d.cls}" style="width:${pct}%;background:var(--${d.cls === 'niveau-0' ? 'niveau-0' : d.cls === 'niveau-1' ? 'niveau-1' : d.cls === 'niveau-2' ? 'niveau-2' : 'niveau-3'});" title="${d.label}: ${d.geraakt} van ${d.totaal} aspecten"></div>
       </div>
-      <div class="cluster-bar-count"><strong>${zuiver + over}</strong> / ${total}</div>
+      <div class="cluster-bar-count"><strong>${d.geraakt}</strong> / ${d.totaal}</div>
     </div>`;
   });
 
   html += `<div class="chart-legend">
-    <div class="chart-legend-item"><span class="chart-legend-swatch zuiver"></span>Gedekt</div>
-    <div class="chart-legend-item"><span class="chart-legend-swatch over"></span>Discussie</div>
-    <div class="chart-legend-item"><span class="chart-legend-swatch onder"></span>Kans</div>
-    <div class="chart-legend-item"><span class="chart-legend-swatch wit"></span>Witte vlek</div>
+    <div class="chart-legend-item"><span class="diepgang-legend-swatch niveau-3"></span>Substantieel (4+ aspecten)</div>
+    <div class="chart-legend-item"><span class="diepgang-legend-swatch niveau-2"></span>Deels (2-3 aspecten)</div>
+    <div class="chart-legend-item"><span class="diepgang-legend-swatch niveau-1"></span>Minimaal (1 aspect)</div>
+    <div class="chart-legend-item"><span class="diepgang-legend-swatch niveau-0"></span>Niet geraakt</div>
   </div>`;
 
   document.getElementById("cluster-bars").innerHTML = html;
@@ -2129,7 +2590,7 @@ function renderClusterBars() {
 
 function renderMiniMatrix() {
   let html = `<div class="cluster-bars-head">
-    <h3>Cluster × blok — dekking-intensiteit</h3>
+    <h3>Kerndoel × blok — diepgang per blok</h3>
     <span class="variant">Variant C — mini-matrix</span>
   </div>`;
 
@@ -2155,19 +2616,18 @@ function renderMiniMatrix() {
         if (s === "zuiver") zuiver++;
         if (s === "over") over++;
       });
-      const total = zuiver + over;
+      const totaal = zuiver + over;
       let intensity = 0;
-      if (total === 0) intensity = 0;
-      else if (total === 1) intensity = 1;
-      else if (total === 2) intensity = 2;
-      else if (total === 3) intensity = 3;
-      else intensity = 4;
+      if (totaal === 0) intensity = 0;
+      else if (totaal === 1) intensity = 1;
+      else if (totaal <= 3) intensity = 2;
+      else intensity = 3;
       const overClass = over > 0 ? " has-over" : "";
-      const display = total === 0 ? "·" : total;
+      const display = totaal === 0 ? "·" : totaal;
       const titleParts = [];
       if (zuiver > 0) titleParts.push(`${zuiver} zuiver`);
       if (over > 0) titleParts.push(`${over} discussie`);
-      const title = titleParts.length ? titleParts.join(", ") : "Niet behandeld";
+      const title = titleParts.length ? titleParts.join(", ") : "Niet geraakt door dit blok";
       html += `<td class="mini-cell intensity-${intensity}${overClass}" title="${title}">${display}</td>`;
     });
     html += `</tr>`;
@@ -2176,11 +2636,10 @@ function renderMiniMatrix() {
   html += `</tbody></table>`;
 
   html += `<div class="chart-legend">
-    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--paper-warm);border:1px solid var(--line);"></span>Niet behandeld</div>
-    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:rgba(165,205,57,0.35);"></span>1 doel</div>
-    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:rgba(165,205,57,0.6);"></span>2 doelen</div>
-    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--obc-green);"></span>3 doelen</div>
-    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--obc-green-dark);"></span>4+ doelen</div>
+    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--paper-warm);border:1px solid var(--line);"></span>Niet door dit blok</div>
+    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:rgba(165,205,57,0.35);"></span>1 aspect</div>
+    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:rgba(165,205,57,0.6);"></span>2-3 aspecten</div>
+    <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:var(--obc-green);"></span>4+ aspecten</div>
     <div class="chart-legend-item"><span class="chart-legend-swatch" style="background:white;border:2px solid var(--status-over);"></span>Bevat discussiekoppeling</div>
   </div>`;
 
@@ -2190,20 +2649,20 @@ function renderMiniMatrix() {
 function renderKortBlocks() {
   const blocks = [
     {
-      titel: "Wat T&D klas 1 sterk dekt",
-      tekst: "De clusters <strong>22A (digitale creatie)</strong> en <strong>22B (programmeren)</strong> worden krachtig en zuiver behandeld, met name in de blokken Ontwerpen en Programmeren. Het hele iteratieve ontwerpproces — van brainstorm via 3D-modelleren tot poster, pitch en eigen Micro:bit-programma — sluit naadloos aan op de SLO-doelen rond digitale producten en computational thinking."
+      titel: "Wat T&D klas 1 substantieel raakt",
+      tekst: "De kerndoelen <strong>22B (programmeren &amp; computational thinking)</strong>, <strong>22A (digitale creatie)</strong> en <strong>21A (digitale systemen)</strong> worden substantieel geraakt — met name in de blokken Programmeren en Ontwerpen. Het iteratieve ontwerpproces — van brainstorm via 3D-modelleren tot poster, pitch en eigen Micro:bit-programma — vormt de inhoudelijke kern van het vak."
     },
     {
       titel: "Bewuste keuze + open afweging",
-      tekst: "Het blok <strong>Ambachten</strong> blijft bewust leeg — een klassiek techniek-blok zonder natuurlijke digitale aanknopingspunten. Het hele <strong>data-cluster (21C)</strong> is daarentegen een echte witte vlek; voor klas 1 ligt hier nog een afweging: oppakken in klas 1, doorschuiven naar leerjaar 2, beleggen bij burgerschap, of een keuzevak."
+      tekst: "Het blok <strong>Ambachten</strong> blijft bewust leeg — een klassiek techniek-blok zonder natuurlijke digitale aanknopingspunten. Twee hele kerndoelen worden niet geraakt: <strong>21C (data)</strong> en <strong>23C (maatschappij &amp; ethiek)</strong>. Hier ligt een open afweging waar deze landen: in T&amp;D klas 1, burgerschap, leerjaar 2, of een keuzevak."
     },
     {
       titel: "Wat heroverweging vraagt",
-      tekst: "Twee koppelingen in Ontwerpen verdienen herziening: <strong>21A1</strong> (over netwerken) en <strong>22B1</strong> (over programma's) staan gekoppeld aan ontwerpactiviteiten die inhoudelijk niet aansluiten. Daarnaast: <strong>22A5</strong> (auteursrecht) ontbreekt overal, terwijl leerlingen in Ontwerpen wél beelden in Canva gebruiken."
+      tekst: "Drie koppelingen verdienen herziening: <strong>21A1</strong> en <strong>22B1</strong> in Ontwerpen (gekoppeld aan ontwerpactiviteiten die inhoudelijk niet aansluiten op netwerken resp. programmeren), en <strong>22A5</strong> in Programmeren (auteursrecht is aangevinkt, maar komt in het werkbestand niet expliciet terug)."
     },
     {
       titel: "Mogelijke volgende stap",
-      tekst: "Dit overzicht dient als startpunt voor: (1) een werkgroep-overleg over de open vragen, (2) afstemming met de sectie burgerschap over doelen die daar landen, en (3) bewuste verbindingen leggen met leerjaar 2 voor doelen die nu naar later worden geschoven."
+      tekst: "Dit overzicht dient als startpunt voor: (1) een werkgroep-overleg over de open vragen, (2) afstemming met de sectie burgerschap over kerndoelen die daar landen, en (3) bewuste verbindingen leggen met leerjaar 2 voor kerndoelen die nu naar later worden geschoven."
     }
   ];
 
@@ -2247,6 +2706,7 @@ document.querySelectorAll(".subtab").forEach(btn => {
    =========================================================== */
 
 renderMatrix();
+renderKerndoelFilter();
 renderKoppellijnen();
 BLOKKEN.forEach(renderBlokDetail);
 renderVlekken();

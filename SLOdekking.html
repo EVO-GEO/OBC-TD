@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T&D klas 1 — SLO-dekkingsoverzicht digitale geletterdheid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* OBC-tinten */
+    --obc-green: #a5cd39;
+    --obc-green-dark: #7fa427;
+    --obc-green-soft: #eaf3d2;
+    --obc-green-faint: #f6faea;
+
+    /* Neutralen */
+    --ink: #1a1d1a;
+    --ink-soft: #4a4f4a;
+    --ink-muted: #6e756e;
+    --paper: #fafaf7;
+    --paper-warm: #f4f3ec;
+    --line: #d8d8d0;
+    --line-soft: #e8e8e0;
+
+    /* Status */
+    --status-zuiver: #4f9c44;
+    --status-zuiver-bg: #e2f0de;
+    --status-over: #d97a1e;
+    --status-over-bg: #fbeada;
+    --status-onder: #2b7fb8;
+    --status-onder-bg: #dceaf5;
+    --status-leeg: #c4c4bc;
+    --status-leeg-bg: #efeee8;
+    --status-ambachten: #6e756e;
+    --status-ambachten-bg: #e3e3da;
+
+    /* Typografie */
+    --serif: "Fraunces", "Iowan Old Style", "Palatino", Georgia, serif;
+    --sans: "Inter Tight", "Helvetica Neue", system-ui, sans-serif;
+    --mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* === Header === */
+  .masthead {
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--line);
+    padding: 36px 48px 28px;
+  }
+  .masthead-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .masthead-eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .masthead-eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 3px;
+    background: var(--obc-green);
+    display: inline-block;
+  }
+  .masthead h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 42px;
+    line-height: 1.1;
+    margin: 0 0 8px;
+    letter-spacing: -0.015em;
+  }
+  .masthead h1 em {
+    font-style: italic;
+    color: var(--obc-green-dark);
+  }
+  .masthead-sub {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 400;
+    color: var(--ink-soft);
+    max-width: 720px;
+    margin: 0;
+    line-height: 1.5;
+  }
+  .masthead-meta {
+    margin-top: 22px;
+    display: flex;
+    gap: 28px;
+    font-size: 13px;
+    color: var(--ink-muted);
+    flex-wrap: wrap;
+  }
+  .masthead-meta span strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* === Tabs === */
+  .tabs {
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    padding: 0 48px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 1px 0 var(--line);
+  }
+  .tabs-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+  }
+  .tab {
+    background: none;
+    border: none;
+    padding: 18px 22px 16px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+    letter-spacing: -0.005em;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--obc-green);
+    font-weight: 600;
+  }
+  .tab .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-right: 6px;
+    font-weight: 500;
+  }
+  .tab.active .num { color: var(--obc-green-dark); }
+
+  /* === Content === */
+  .content {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 44px 48px 80px;
+  }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fade-in 0.25s ease; }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === Section headings === */
+  .section-head {
+    margin-bottom: 28px;
+  }
+  .section-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+  }
+  .section-head h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 32px;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  .section-head p {
+    font-family: var(--serif);
+    font-size: 17px;
+    color: var(--ink-soft);
+    max-width: 780px;
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  /* === Callout box === */
+  .callout {
+    background: var(--obc-green-faint);
+    border-left: 3px solid var(--obc-green);
+    padding: 18px 22px;
+    margin: 24px 0 32px;
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .callout strong {
+    font-family: var(--sans);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--obc-green-dark);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* === Matrix === */
+  .matrix-wrap {
+    border: 1px solid var(--line);
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .matrix-scroller {
+    overflow-x: auto;
+  }
+  table.matrix {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table.matrix th, table.matrix td {
+    border-bottom: 1px solid var(--line-soft);
+    border-right: 1px solid var(--line-soft);
+    padding: 0;
+    text-align: left;
+    vertical-align: middle;
+  }
+  table.matrix thead th {
+    background: var(--paper-warm);
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    padding: 14px 16px;
+    border-bottom: 2px solid var(--line);
+    white-space: nowrap;
+  }
+  table.matrix thead th.col-blok {
+    text-align: center;
+    width: 110px;
+  }
+  table.matrix thead th.col-blok.ambachten {
+    background: var(--status-ambachten-bg);
+    color: var(--ink-soft);
+  }
+  table.matrix thead th.col-status {
+    width: 200px;
+  }
+  table.matrix tbody td.cell-code {
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 13px;
+    padding: 12px 14px;
+    color: var(--ink);
+    width: 88px;
+    background: var(--paper-warm);
+  }
+  table.matrix tbody td.cell-code .havo-tag {
+    display: block;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 10px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+  }
+  table.matrix tbody td.cell-text {
+    padding: 12px 16px;
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    min-width: 320px;
+  }
+  table.matrix tbody td.cell-blok {
+    text-align: center;
+    padding: 8px;
+    font-size: 16px;
+  }
+  table.matrix tbody td.cell-blok.ambachten {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--status-ambachten-bg),
+      var(--status-ambachten-bg) 4px,
+      var(--paper-warm) 4px,
+      var(--paper-warm) 8px
+    );
+  }
+  table.matrix tbody td.cell-status {
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  /* Cluster row */
+  table.matrix tbody tr.cluster-row td {
+    background: var(--paper-warm);
+    padding: 16px 14px 8px;
+    border-bottom: 1px solid var(--line);
+    border-top: 1px solid var(--line);
+  }
+  .cluster-label {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--obc-green-dark);
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .cluster-label .cluster-name {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink-soft);
+  }
+
+  /* Cell markers */
+  .marker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .marker.zuiver {
+    background: var(--status-zuiver);
+    color: white;
+  }
+  .marker.over {
+    background: var(--status-over);
+    color: white;
+  }
+  .marker.onder {
+    background: white;
+    color: var(--status-onder);
+    border: 2px dashed var(--status-onder);
+    font-size: 13px;
+  }
+  .marker.leeg {
+    background: transparent;
+    color: transparent;
+  }
+
+  /* Status badge */
+  .status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+  }
+  .status-badge.gedekt { background: var(--status-zuiver-bg); color: var(--status-zuiver); }
+  .status-badge.discussie { background: var(--status-over-bg); color: var(--status-over); }
+  .status-badge.kans { background: var(--status-onder-bg); color: var(--status-onder); }
+  .status-badge.wit { background: var(--status-leeg-bg); color: var(--ink-muted); }
+
+  /* === Legend === */
+  .legend {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    background: var(--paper-warm);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    margin-bottom: 28px;
+    font-size: 12.5px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink-soft);
+  }
+  .legend-item .marker {
+    flex-shrink: 0;
+  }
+
+  /* === Koppellijnen === */
+  .koppel-section {
+    margin-top: 48px;
+  }
+  .koppel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 20px;
+  }
+  .koppel-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 24px;
+  }
+  .koppel-card.ambachten {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--status-ambachten-bg),
+      var(--status-ambachten-bg) 8px,
+      var(--paper-warm) 8px,
+      var(--paper-warm) 16px
+    );
+    border-style: dashed;
+  }
+  .koppel-card h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0 0 4px;
+    letter-spacing: -0.005em;
+  }
+  .koppel-card .blok-subtitle {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-bottom: 18px;
+  }
+  .koppel-line {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px dotted var(--line-soft);
+    font-size: 13.5px;
+  }
+  .koppel-line:last-child { border-bottom: none; }
+  .koppel-line .activity {
+    flex: 1;
+    color: var(--ink);
+  }
+  .koppel-line .arrow {
+    color: var(--obc-green-dark);
+    font-family: var(--mono);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .koppel-line .codes {
+    flex-shrink: 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .koppel-line .codes .code {
+    background: var(--obc-green-soft);
+    padding: 2px 6px;
+    border-radius: 2px;
+    color: var(--obc-green-dark);
+  }
+
+  /* === Per-blok detail kaarten === */
+  .blok-intro {
+    background: white;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--obc-green);
+    padding: 22px 26px;
+    margin-bottom: 28px;
+    border-radius: 0 4px 4px 0;
+  }
+  .blok-intro.ambachten {
+    border-left-color: var(--ink-muted);
+    background: var(--status-ambachten-bg);
+  }
+  .blok-intro h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 24px;
+    margin: 0 0 8px;
+  }
+  .blok-intro .blok-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-bottom: 14px;
+  }
+  .blok-intro p {
+    margin: 0 0 10px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .blok-intro .blok-stats {
+    margin-top: 16px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .blok-stat {
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .blok-stat .num {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .blok-stat .num.zuiver { color: var(--status-zuiver); }
+  .blok-stat .num.over { color: var(--status-over); }
+
+  .blok-section-head {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    margin: 36px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .leerdoelen-block {
+    background: var(--paper-warm);
+    padding: 18px 22px;
+    border-radius: 4px;
+    margin-bottom: 24px;
+    border: 1px solid var(--line-soft);
+  }
+  .leerdoelen-block h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin: 0 0 10px;
+    font-weight: 600;
+  }
+  .leerdoelen-block ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13.5px;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .leerdoelen-block .note {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* Koppelingskaarten in blok-detail */
+  .koppel-detail {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 26px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .koppel-detail.zuiver { border-left: 4px solid var(--status-zuiver); }
+  .koppel-detail.over { border-left: 4px solid var(--status-over); }
+  .koppel-detail-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .koppel-detail-head .code-big {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--obc-green-dark);
+    background: var(--obc-green-soft);
+    padding: 6px 10px;
+    border-radius: 3px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .koppel-detail-head .doel-text {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--ink);
+    flex: 1;
+  }
+  .koppel-detail-head .doel-text .havo-tag {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: 6px;
+    padding: 2px 6px;
+    background: var(--paper-warm);
+    border-radius: 2px;
+    vertical-align: middle;
+  }
+  .koppel-detail-body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 8px;
+  }
+  .koppel-detail-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 18px;
+    padding: 6px 0;
+    align-items: baseline;
+  }
+  .koppel-detail-row .label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    font-weight: 600;
+  }
+  .koppel-detail-row .value {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .koppel-detail-row .value ul {
+    margin: 0;
+    padding-left: 16px;
+  }
+  .koppel-detail-row .value ul li {
+    margin-bottom: 4px;
+  }
+  .koppel-detail-row .value em {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  .koppel-detail-row.oordeel .value {
+    font-family: var(--serif);
+    font-size: 14.5px;
+    color: var(--ink);
+  }
+
+  /* === Vraag-cards (terugkoppeling) === */
+  .vraag-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--status-over);
+    border-radius: 0 4px 4px 0;
+    padding: 20px 26px;
+    margin-bottom: 16px;
+  }
+  .vraag-card.algemeen {
+    border-left-color: var(--ink-muted);
+  }
+  .vraag-card .vraag-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--status-over);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .vraag-card.algemeen .vraag-eyebrow {
+    color: var(--ink-muted);
+  }
+  .vraag-card h4 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 19px;
+    margin: 0 0 10px;
+    line-height: 1.35;
+  }
+  .vraag-card .context {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin: 0 0 12px;
+  }
+  .vraag-card .vraag-zelf {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 15.5px;
+    color: var(--ink);
+    line-height: 1.5;
+    padding: 12px 16px;
+    background: var(--paper-warm);
+    border-radius: 3px;
+  }
+
+  /* === Witte vlekken === */
+  .vlek-cluster {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 26px;
+    margin-bottom: 18px;
+  }
+  .vlek-cluster-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .vlek-cluster-head h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0;
+  }
+  .vlek-cluster-head .count {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .vlek-doel {
+    display: grid;
+    grid-template-columns: 80px 1fr 200px;
+    gap: 18px;
+    padding: 12px 0;
+    border-bottom: 1px dotted var(--line-soft);
+    align-items: baseline;
+  }
+  .vlek-doel:last-child { border-bottom: none; }
+  .vlek-doel .code {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .vlek-doel .doel-tekst {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .vlek-doel .suggestie {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--status-onder);
+    text-align: right;
+  }
+  .vlek-doel .suggestie.gap {
+    color: var(--status-over);
+  }
+
+  /* === Onder-matching kansen === */
+  .kans-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--status-onder);
+    border-radius: 0 4px 4px 0;
+    padding: 20px 26px;
+    margin-bottom: 16px;
+  }
+  .kans-card .kans-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--status-onder);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .kans-card h4 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 19px;
+    margin: 0 0 10px;
+    line-height: 1.35;
+  }
+  .kans-card .kans-context {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin: 0 0 12px;
+  }
+  .kans-card .kans-actie {
+    font-family: var(--serif);
+    font-size: 14.5px;
+    color: var(--ink);
+    line-height: 1.55;
+    padding: 12px 16px;
+    background: var(--status-onder-bg);
+    border-radius: 3px;
+  }
+  .kans-card .kans-actie strong {
+    font-family: var(--sans);
+    font-weight: 600;
+    color: var(--status-onder);
+  }
+
+  /* === Sub-tabs binnen blok-tab === */
+  .subtabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+  }
+  .subtab {
+    background: none;
+    border: none;
+    padding: 12px 20px;
+    font-family: var(--sans);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s;
+  }
+  .subtab:hover { color: var(--ink); }
+  .subtab.active {
+    color: var(--obc-green-dark);
+    border-bottom-color: var(--obc-green);
+    font-weight: 600;
+  }
+  .subpanel { display: none; }
+  .subpanel.active { display: block; }
+
+  /* === Footer === */
+  .doc-footer {
+    border-top: 1px solid var(--line);
+    background: var(--paper-warm);
+    padding: 24px 48px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    text-align: center;
+  }
+  .doc-footer strong { color: var(--ink-soft); font-weight: 600; }
+
+  /* === Disclaimer === */
+  .disclaimer {
+    background: #fff8e7;
+    border: 1px solid #e8d18a;
+    border-left: 3px solid #c89b2c;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: #6b5418;
+    line-height: 1.5;
+    border-radius: 0 3px 3px 0;
+  }
+  .disclaimer strong {
+    font-weight: 600;
+    color: #4d3c11;
+  }
+
+  /* === Print === */
+  @media print {
+    .tabs { display: none; }
+    .panel { display: block !important; page-break-after: always; }
+    .panel:last-child { page-break-after: avoid; }
+    body { background: white; font-size: 11pt; }
+    .masthead { padding: 20px 30px; }
+    .content { padding: 24px 30px; }
+    .matrix-scroller { overflow: visible; }
+    table.matrix { font-size: 9pt; }
+  }
+
+  /* === Responsive === */
+  @media (max-width: 880px) {
+    .masthead { padding: 24px 24px 20px; }
+    .masthead h1 { font-size: 30px; }
+    .tabs { padding: 0 24px; }
+    .content { padding: 28px 24px 60px; }
+    .koppel-detail-row { grid-template-columns: 1fr; gap: 4px; }
+    .vlek-doel { grid-template-columns: 1fr; gap: 4px; }
+    .vlek-doel .suggestie { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-eyebrow">SLO-dekkingsoverzicht · Intern werkdocument</div>
+    <h1>Digitale geletterdheid <em>in T&D klas 1</em></h1>
+    <p class="masthead-sub">Een analyse van hoe het vak Tech &amp; Design in leerjaar 1 de SLO-doelen voor digitale geletterdheid behandelt — per blok, met onderbouwing en open vragen.</p>
+    <div class="masthead-meta">
+      <span><strong>Vak:</strong> Tech &amp; Design</span>
+      <span><strong>Leerjaar:</strong> 1</span>
+      <span><strong>Blokken:</strong> Basis · Ambachten · Ontwerpen · Programmeren</span>
+      <span><strong>Bron:</strong> SLO digitale geletterdheid + werkbestanden &amp; mapping-sessies werkgroep</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-inner">
+    <button class="tab active" data-tab="overzicht"><span class="num">01</span>Overzicht</button>
+    <button class="tab" data-tab="perblok"><span class="num">02</span>Per blok</button>
+    <button class="tab" data-tab="vlekken"><span class="num">03</span>Witte vlekken</button>
+    <button class="tab" data-tab="vragen"><span class="num">04</span>Terugkoppelvragen</button>
+    <button class="tab" data-tab="kansen"><span class="num">05</span>Onder-matching kansen</button>
+  </div>
+</nav>
+
+<main class="content">
+
+<!-- ===================== PANEL 1: OVERZICHT ===================== -->
+<section class="panel active" id="panel-overzicht">
+
+  <div class="section-head">
+    <div class="section-eyebrow">Tab 01 — Het grote beeld</div>
+    <h2>Dekking in één oogopslag</h2>
+    <p>Welke SLO-doelen voor digitale geletterdheid worden in welk blok van T&amp;D klas 1 behandeld? Onder de matrix staan compacte koppellijnen per blok die laten zien welke blokactiviteit naar welk doel verwijst.</p>
+  </div>
+
+  <div class="callout">
+    <strong>Lees-aanwijzing</strong>
+    Dit overzicht is bedoeld als denkhulp, niet als afvinklijst. Dekking is geen doel op zichzelf — een blok met vijf zuivere koppelingen kan onderwijskundig sterker zijn dan een blok met twaalf geforceerde. Doelen die niet in T&amp;D klas 1 landen, worden bewust elders in het curriculum belegd (burgerschap, leerjaar 2, keuzevakken).
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="marker zuiver">✓</span> Zuivere koppeling — inhoud blok dekt het SLO-doel</div>
+    <div class="legend-item"><span class="marker over">?</span> Over-matching — koppeling staat, maar vraagt heroverweging</div>
+    <div class="legend-item"><span class="marker onder">⟡</span> Onder-matching kans — niet gekoppeld, maar zou bij dit blok kunnen</div>
+    <div class="legend-item"><span class="marker leeg">·</span> Niet behandeld in dit blok</div>
+  </div>
+
+  <div class="matrix-wrap">
+    <div class="matrix-scroller">
+      <table class="matrix" id="matrix"></table>
+    </div>
+  </div>
+
+  <div class="koppel-section">
+    <div class="section-head">
+      <div class="section-eyebrow">Koppellijnen — van blokactiviteit naar SLO-doel</div>
+      <h2 style="font-size: 26px;">Hoe de koppeling vanuit de blokken werkt</h2>
+      <p style="font-size: 15px;">Compacte vertaling: welke concrete activiteit in een blok leidt naar welke SLO-doelen? Voor uitgebreide onderbouwing per koppeling: zie tab "Per blok".</p>
+    </div>
+
+    <div class="koppel-grid" id="koppellijnen"></div>
+  </div>
+
+</section>
+
+<!-- ===================== PANEL 2: PER BLOK ===================== -->
+<section class="panel" id="panel-perblok">
+
+  <div class="section-head">
+    <div class="section-eyebrow">Tab 02 — De vier blokken</div>
+    <h2>Per blok in detail</h2>
+    <p>Voor elk blok: een korte beschrijving, de eigen leerdoelen uit het werkbestand (indien beschikbaar), en per gekoppeld SLO-doel de redenering — welke blokactiviteit dekt dit doel, welke leerdoelen horen erbij, en is de koppeling zuiver?</p>
+  </div>
+
+  <div class="subtabs">
+    <button class="subtab active" data-subtab="basis">Basis</button>
+    <button class="subtab" data-subtab="ambachten">Ambachten</button>
+    <button class="subtab" data-subtab="ontwerpen">Ontwerpen</button>
+    <button class="subtab" data-subtab="programmeren">Programmeren</button>
+  </div>
+
+  <div class="subpanel active" id="subpanel-basis"></div>
+  <div class="subpanel" id="subpanel-ambachten"></div>
+  <div class="subpanel" id="subpanel-ontwerpen"></div>
+  <div class="subpanel" id="subpanel-programmeren"></div>
+
+</section>
+
+<!-- ===================== PANEL 3: WITTE VLEKKEN ===================== -->
+<section class="panel" id="panel-vlekken">
+
+  <div class="section-head">
+    <div class="section-eyebrow">Tab 03 — Wat T&amp;D klas 1 niet dekt</div>
+    <h2>Witte vlekken &amp; waar ze landen</h2>
+    <p>SLO-doelen die in geen enkel blok van T&amp;D klas 1 zijn behandeld. De boodschap is niet "er is een gat", maar: <em>waar landt dit doel wel?</em> — in burgerschap, leerjaar 2, een keuzevak, of moet hier nog een oplossing voor gevonden worden?</p>
+  </div>
+
+  <div class="callout">
+    <strong>Belangrijke kanttekening</strong>
+    T&amp;D klas 1 hoeft niet alle SLO-doelen voor digitale geletterdheid te dekken. Het is één bouwsteen in een breder curriculum. Veel doelen — vooral rond data, sociale media en privacy — passen inhoudelijk beter bij burgerschap of een vervolgjaar.
+  </div>
+
+  <div id="vlekken-container"></div>
+
+</section>
+
+<!-- ===================== PANEL 4: TERUGKOPPELVRAGEN ===================== -->
+<section class="panel" id="panel-vragen">
+
+  <div class="section-head">
+    <div class="section-eyebrow">Tab 04 — Voor het overleg met de werkgroep</div>
+    <h2>Terugkoppelvragen</h2>
+    <p>Concrete vragen aan de werkgroep over koppelingen die volgens deze analyse heroverweging verdienen (over-matching), plus enkele bredere vragen over koers en keuzes.</p>
+  </div>
+
+  <h3 class="blok-section-head">Vragen over specifieke koppelingen</h3>
+  <div id="vragen-specifiek"></div>
+
+  <h3 class="blok-section-head">Bredere vragen over koers</h3>
+  <div id="vragen-algemeen"></div>
+
+</section>
+
+<!-- ===================== PANEL 5: ONDER-MATCHING KANSEN ===================== -->
+<section class="panel" id="panel-kansen">
+
+  <div class="section-head">
+    <div class="section-eyebrow">Tab 05 — Net niet aangevinkt, maar bijna binnen</div>
+    <h2>Onder-matching kansen</h2>
+    <p>Doelen die feitelijk al (deels) behandeld worden in een blok, maar nu nog niet als gekoppeld staan. Met een kleine aanpassing zou de koppeling zuiver gemaakt kunnen worden.</p>
+  </div>
+
+  <div id="kansen-container"></div>
+
+</section>
+
+</main>
+
+<footer class="doc-footer">
+  <strong>SLO-dekkingsoverzicht T&amp;D klas 1</strong> · OBC Bemmel · Intern werkdocument, mei 2026
+</footer>
+
+<script>
+/* ===========================================================
+   DATA
+   =========================================================== */
+
+const BLOKKEN = ["basis", "ambachten", "ontwerpen", "programmeren"];
+const BLOK_LABELS = {
+  basis: "Basis",
+  ambachten: "Ambachten",
+  ontwerpen: "Ontwerpen",
+  programmeren: "Programmeren"
+};
+
+const CLUSTERS = [
+  { id: "21A", name: "Digitale systemen & technologie" },
+  { id: "21B", name: "Informatievaardigheden & media" },
+  { id: "21C", name: "Data" },
+  { id: "21D", name: "Kunstmatige intelligentie" },
+  { id: "22A", name: "Digitale creatie & ontwerp" },
+  { id: "22B", name: "Programmeren & computational thinking" },
+  { id: "23A", name: "Veiligheid & privacy" },
+  { id: "23B", name: "Digitale samenleving" }
+];
+
+// Alle SLO-doelen, met cluster, code, tekst, havo-vwo-flag
+const DOELEN = [
+  // 21A
+  { code: "21A1", cluster: "21A", text: "beschrijven van wat technisch nodig is om digitale systemen te laten werken en in een netwerk te laten samenwerken" },
+  { code: "21A2", cluster: "21A", text: "beschrijven van de werking van internet en de plaats van slimme apparatuur daarin" },
+  { code: "21A3", cluster: "21A", text: "gebruiken van geavanceerde mogelijkheden van software voor communicatie, samenwerken en het creëren en bewerken van verschillende typen bestanden" },
+  { code: "21A4", cluster: "21A", text: "herkennen van digitale systemen die in bedrijven, in de wereld van de media en door de overheid gebruikt worden bij het uitvoeren van taken of het oplossen van problemen" },
+  { code: "21A5", cluster: "21A", text: "bijhouden van nieuwe technologische ontwikkelingen, hun mogelijkheden en beperkingen" },
+
+  // 21B
+  { code: "21B1", cluster: "21B", text: "combineren van geschikte zoekhulpmiddelen, zoekopdrachten en zoekstrategieën" },
+  { code: "21B2", cluster: "21B", text: "beoordelen van aangeboden en gevonden informatie op betrouwbaarheid en bruikbaarheid, rekening houdend met eigenschappen van bronnen, zoekhulpmiddelen en gebruikte media" },
+  { code: "21B3", cluster: "21B", text: "reflecteren op de geschiktheid van gebruikte zoekstrategieën, zoekhulpmiddelen en zoekopdrachten voor het verkrijgen van het gewenste resultaat" },
+  { code: "21B4", cluster: "21B", text: "beschrijven hoe sociale media werken en hoe ze de aandacht van gebruikers trekken, vasthouden en beïnvloeden" },
+  { code: "21B5", cluster: "21B", text: "reflecteren op welke wijze eigen kennis, opvattingen en voorkeuren de interpretatie van digitale informatie beïnvloeden" },
+  { code: "21B6", cluster: "21B", text: "gebruikmaken van vakspecifieke zoekstrategieën, zoekhulpmiddelen en zoekopdrachten", havo: true },
+
+  // 21C
+  { code: "21C1", cluster: "21C", text: "redeneren over hoe een dataset een beperkt beeld geeft van de werkelijkheid" },
+  { code: "21C2", cluster: "21C", text: "uitvoeren van onderzoek met een dataset om een vraag te beantwoorden, een taak uit te voeren of een probleem op te lossen" },
+  { code: "21C3", cluster: "21C", text: "beschrijven van het gebruik van data door bedrijven, instellingen en overheden" },
+  { code: "21C4", cluster: "21C", text: "beschrijven van de toenemende mogelijkheden om datagestuurd te werken" },
+  { code: "21C5", cluster: "21C", text: "reflecteren hoe AI nieuwe manieren om data te verwerken mogelijk maakt" },
+  { code: "21C6", cluster: "21C", text: "gebruiken van open data om een probleem op te lossen of een onderzoek uit te voeren", havo: true },
+
+  // 21D
+  { code: "21D1", cluster: "21D", text: "beschrijven van de rol en invloed van de kwaliteit en eigenschappen van data voor de werking en resultaten van AI-systemen" },
+  { code: "21D2", cluster: "21D", text: "herkennen van veelvoorkomende AI-systemen en hun toepassingen door bedrijven, instellingen en overheden" },
+  { code: "21D3", cluster: "21D", text: "beschrijven van verschillen tussen op regels gebaseerde digitale systemen en op statistiek gebaseerde AI-systemen" },
+  { code: "21D4", cluster: "21D", text: "doelgericht, verantwoord en kritisch interacteren met een AI-systeem" },
+  { code: "21D5", cluster: "21D", text: "experimenteren met het trainen van AI-systemen" },
+  { code: "21D7", cluster: "21D", text: "reflecteren op de mogelijkheden en beperkingen van AI-systemen", havo: true },
+
+  // 22A
+  { code: "22A1", cluster: "22A", text: "experimenteren met ontwikkel- en bewerkingssoftware om gedachten, ideeën of gevoelens uit te drukken" },
+  { code: "22A2", cluster: "22A", text: "ontwikkelen en delen van een digitaal product gericht op het informeren, overtuigen of beïnvloeden" },
+  { code: "22A3", cluster: "22A", text: "afwegen met behulp van computationele denkstrategieën in hoeverre het doel met een digitaal product bereikt kan worden" },
+  { code: "22A4", cluster: "22A", text: "ontwerpen en realiseren van een product aan de hand van ontwerpeisen in een iteratief proces, inclusief reflectie op product en proces" },
+  { code: "22A5", cluster: "22A", text: "rekening houden met auteursrechten, licenties en bron- en naamsvermelding bij het creëren van digitale producten" },
+
+  // 22B
+  { code: "22B1", cluster: "22B", text: "beschrijven van de taak en het doel van een computerprogramma" },
+  { code: "22B2", cluster: "22B", text: "ontwerpen en schematisch weergeven van het algoritme behorende bij een taak" },
+  { code: "22B3", cluster: "22B", text: "gebruikmaken van programmeerconcepten: events, datastructuren en combinaties van logische operatoren" },
+  { code: "22B4", cluster: "22B", text: "documenteren, testen en bijstellen van een eigen computerprogramma of een computerprogramma van anderen" },
+  { code: "22B5", cluster: "22B", text: "aanpakken van een probleem of taak zodanig, dat programmeren gebruikt kan worden om het op te lossen" },
+
+  // 23A
+  { code: "23A1", cluster: "23A", text: "kennis hebben van rechten en plichten van individuen en instellingen ten aanzien van de bescherming van persoonsgegevens, data en privacy" },
+  { code: "23A2", cluster: "23A", text: "herkennen van veiligheidsrisico's bij het gebruik van digitale systemen van bedrijven, instellingen en overheden" },
+  { code: "23A6", cluster: "23A", text: "beschrijven van malware en andere bedreigingen", havo: true },
+
+  // 23B
+  { code: "23B1", cluster: "23B", text: "online communiceren en handelen op respectvolle en verantwoorde wijze" },
+  { code: "23B5", cluster: "23B", text: "verkennen van de eigen interesse in digitale technologie en digitale media in relatie tot studies en beroepen" }
+];
+
+/* Status per (doel, blok). Waarden:
+   - "zuiver" : gekoppeld en de koppeling klopt
+   - "over"   : gekoppeld maar over-matching (heroverweging)
+   - "onder"  : niet gekoppeld maar zou een logische match zijn
+   - null     : niet behandeld in dit blok
+*/
+const KOPPELINGEN = {
+  // BASIS — werkbestand nog niet beschikbaar
+  "21A1": { basis: "zuiver", ontwerpen: "over" },
+  "21A2": {},
+  "21A3": { basis: "zuiver", ontwerpen: "zuiver", programmeren: "zuiver" },
+  "21A4": { programmeren: "onder" },
+  "21A5": { programmeren: "zuiver" },
+
+  "21B1": { basis: "zuiver" },
+  "21B2": { basis: "zuiver" },
+  "21B3": {},
+  "21B4": {},
+  "21B5": {},
+  "21B6": { basis: "zuiver" },
+
+  "21C1": {},
+  "21C2": {},
+  "21C3": {},
+  "21C4": {},
+  "21C5": {},
+  "21C6": {},
+
+  "21D1": {},
+  "21D2": { basis: "zuiver" },
+  "21D3": {},
+  "21D4": { basis: "zuiver" },
+  "21D5": {},
+  "21D7": { basis: "zuiver" },
+
+  "22A1": { basis: "zuiver", ontwerpen: "zuiver", programmeren: "zuiver" },
+  "22A2": { basis: "zuiver", ontwerpen: "zuiver", programmeren: "zuiver" },
+  "22A3": { programmeren: "zuiver", ontwerpen: "onder" },
+  "22A4": { ontwerpen: "zuiver", programmeren: "zuiver" },
+  "22A5": {},
+
+  "22B1": { ontwerpen: "over", programmeren: "zuiver" },
+  "22B2": { programmeren: "zuiver" },
+  "22B3": { programmeren: "zuiver" },
+  "22B4": { programmeren: "zuiver" },
+  "22B5": { programmeren: "zuiver" },
+
+  "23A1": { basis: "zuiver" },
+  "23A2": { basis: "zuiver" },
+  "23A6": { basis: "zuiver" },
+
+  "23B1": { basis: "zuiver", ontwerpen: "zuiver" },
+  "23B5": { ontwerpen: "zuiver" }
+};
+
+// Witte-vlekken-suggesties per doel
+const WITTE_VLEKKEN_SUGGESTIE = {
+  "21A2": "Burgerschap of leerjaar 2",
+  "21B3": "Onderzoeksvaardigheden — verschillende vakken",
+  "21B4": "Burgerschap (mediawijsheid)",
+  "21B5": "Burgerschap / mens & maatschappij",
+  "21C1": "Wiskunde of burgerschap (data-onderdeel)",
+  "21C2": "Wiskunde of onderzoeksvaardigheden",
+  "21C3": "Burgerschap (digitale samenleving)",
+  "21C4": "Burgerschap (digitale samenleving)",
+  "21C5": "Klas 2 AI-blok of keuzevak",
+  "21C6": "Klas 2 of keuzevak (havo-vwo)",
+  "21D1": "Klas 2 AI-blok of keuzevak",
+  "21D3": "Klas 2 AI-blok of keuzevak",
+  "21D5": "Klas 2 AI-blok of keuzevak",
+  "22A5": "Doorschuiven naar leerjaar 2 — werkgroep Programmeren noteerde dit reeds"
+};
+
+// Werkbestand-info per blok
+const BLOK_INFO = {
+  basis: {
+    intro: "Het blok Basis legt de fundering: leerlingen leren met software werken (Word, PowerPoint), zoeken en informatie beoordelen, en bouwen een eerste begrip op van AI, privacy en online gedrag.",
+    leerdoelen: null,
+    leerdoelen_note: "Voor het blok Basis is nog geen werkbestand met expliciete \"Ik kan…\"-leerdoelen beschikbaar. De koppelingen in dit overzicht zijn gebaseerd op de notities van de werkgroep bij de SLO-doelen. Bij beschikbaarheid van een werkbestand wordt dit overzicht aangevuld.",
+    activiteiten: "Op basis van werkgroep-notities: ICT-onderdelen benoemen, netwerken in eenvoudige schema's tekenen, Word/PowerPoint-vaardigheden, zoekmachines kritisch gebruiken, betrouwbaarheid van bronnen beoordelen, kennismaking met AI en veilig & respectvol online handelen."
+  },
+  ambachten: {
+    intro: "Het blok Ambachten richt zich bewust op klassieke techniek: handvaardigheid, materialen, gereedschapsgebruik. Er zijn geen SLO-doelen voor digitale geletterdheid aan dit blok gekoppeld.",
+    leerdoelen: null,
+    bewust: true,
+    bewust_uitleg: "De werkgroep heeft expliciet gekozen om in Ambachten geen SLO-doelen digitale geletterdheid te koppelen. Het blok behandelt klassiek ambachtelijk werk en biedt geen natuurlijke aanknopingspunten op niveau van klas 1. Het forceren van koppelingen zou tot papieren matches leiden die onderwijskundig geen waarde toevoegen. De doelen die niet door Ambachten worden opgepakt, worden gedragen door de andere blokken of elders in het curriculum belegd."
+  },
+  ontwerpen: {
+    intro: "Het blok Ontwerpen brengt leerlingen in de rol van ontwerper. Aan de hand van een concreet ontwerpprobleem (\"Help! Pien kan het concert niet zien!\") doorlopen ze het hele ontwerpproces: brainstormen, schetsen, 3D-modelleren in Tinkercad, prototypen bouwen, en presenteren met een productposter (Canva) en pitch.",
+    leerdoelen: [
+      "Ik kan uitleggen wat het probleem of de opdracht is",
+      "Ik kan ontwerpeisen gebruiken om mijn product te maken",
+      "Ik kan werken volgens de DTMC-methode",
+      "Ik kan ideeën bedenken, schetsen en mijn ontwerp netjes en overzichtelijk uitwerken",
+      "Ik kan een 3D-model maken in Tinkercad door te bouwen",
+      "Ik kan veilig omgaan met handgereedschap (zaag, vijl, hamer)",
+      "Ik kan een poster ontwerpen in Canva met een duidelijk doel en doelgroep",
+      "Ik kan mijn presentatie geven met hulp van mijn PowerPoint-slides",
+      "Ik kan gelijkwaardig en respectvol samenwerken in projecten"
+    ],
+    activiteiten: "Tinkercad (3D-modelleren), RD-Works (lasersnijder), prototypen bouwen in werkplaats, Canva (poster), PowerPoint (pitch), DTMC-methode voor iteratief ontwerpen, groepswerk."
+  },
+  programmeren: {
+    intro: "Het blok Programmeren leert leerlingen computational thinking en de basis van programmeren via twee tools: Delightex (3D-werelden bouwen met blokprogrammeren) en de Micro:bit (met sensoren en actuatoren). Het accent ligt op stap-voor-stap problemen oplossen.",
+    leerdoelen: [
+      "Ik kan visueel (blok)programmeren in Delightex en Makecode",
+      "Ik kan blokken gebruiken om iets te laten bewegen, reageren of een actie uitvoeren",
+      "Ik kan invoerblokken zoals A- en B-knoppen en beweging gebruiken",
+      "Ik kan een als-dan-anders-blok gebruiken",
+      "Ik kan werken met sensoren",
+      "Ik weet wat een variabele is en kan die gebruiken in een programma",
+      "Ik kan fouten in een programma opsporen en verbeteren",
+      "Ik weet dat de volgorde van stappen belangrijk is en kan een stroomdiagram lezen",
+      "Ik kan een nieuw project aanmaken en mijn programma op de Micro:bit zetten",
+      "Ik kan mijn Micro:bit-programma opslaan en verplaatsen naar mijn OneDrive",
+      "Ik kan een eigen 3D-wereld ontwerpen met een doel of thema",
+      "Ik weet wat een Virtual of Augmented Reality omgeving is",
+      "Ik kan samenwerken aan een project, taken verdelen en mijn werk presenteren aan anderen"
+    ],
+    activiteiten: "Delightex (3D-werelden + CoBlocks), Micro:bit-programmering, sensoren & actuatoren, stroomdiagrammen, DTMC-methode, eigen eindprogramma in tweetal."
+  }
+};
+
+// Compacte koppellijnen (activiteit → codes) per blok
+const KOPPELLIJNEN = {
+  basis: [
+    { activity: "Word/PowerPoint werken & opmaak", codes: ["21A3"] },
+    { activity: "ICT-onderdelen & netwerken benoemen", codes: ["21A1"] },
+    { activity: "Zoeken & bronnen beoordelen", codes: ["21B1", "21B2", "21B6"] },
+    { activity: "Eerste kennismaking AI", codes: ["21D2", "21D4", "21D7"] },
+    { activity: "Digitale producten maken (PowerPoint)", codes: ["22A1", "22A2"] },
+    { activity: "Privacy & veilig online", codes: ["23A1", "23A2", "23A6", "23B1"] }
+  ],
+  ambachten: [],
+  ontwerpen: [
+    { activity: "Tinkercad (3D-modelleren) & 3D-print", codes: ["21A3", "22A1"] },
+    { activity: "RD-Works (lasersnijder)", codes: ["22A1", "22B1"] },
+    { activity: "Canva-poster maken (promotie)", codes: ["22A2"] },
+    { activity: "Pitch + PowerPoint-presentatie", codes: ["22A2"] },
+    { activity: "Volledig DTMC-ontwerpproces", codes: ["22A4"] },
+    { activity: "Groepswerk & samenwerken", codes: ["23B1"] },
+    { activity: "Reflectie op beroepen ontwerper", codes: ["23B5"] }
+  ],
+  programmeren: [
+    { activity: "Delightex 3D-werelden + CoBlocks", codes: ["22A1", "22A2"] },
+    { activity: "Bestanden naar OneDrive", codes: ["21A3"] },
+    { activity: "Micro:bit programmeren (basis)", codes: ["22B1", "22B3"] },
+    { activity: "Stroomdiagrammen & als-dan-anders", codes: ["22A3", "22B2"] },
+    { activity: "Debuggen & verbeteren", codes: ["22B4"] },
+    { activity: "Eigen eindprogramma (DTMC)", codes: ["22A4", "22B5"] },
+    { activity: "Verkennen mogelijkheden programmeren", codes: ["21A5"] }
+  ]
+};
+
+// Gedetailleerde koppelingen per blok (alleen die met "zuiver" of "over")
+const KOPPEL_DETAILS = {
+  basis: [
+    { code: "21A1", oordeel: "zuiver", vanuit: "Het blok behandelt wat technisch nodig is om digitale systemen te laten werken: computeronderdelen (processor, geheugen, opslag, besturingssysteem) en eenvoudige netwerkschema's.", leerdoelen: ["Ik kan uitleggen wat ICT is en waarom het belangrijk is", "Ik kan de belangrijkste onderdelen van een computer benoemen", "Ik kan een eenvoudig schema tekenen van een lokaal netwerk"], oordeel_tekst: "Inhoud sluit goed aan op het SLO-doel — leerlingen leren zowel apparaten als netwerksamenwerking beschrijven." },
+    { code: "21A3", oordeel: "zuiver", vanuit: "Leerlingen werken met Word (opslaan, opmaken met kopjes, afbeeldingen invoegen) en PowerPoint (meerdere dia's, vormgeving). Dit valt onder \"geavanceerde mogelijkheden van software voor het creëren en bewerken van verschillende typen bestanden\".", leerdoelen: ["Ik kan tekst opmaken in Word met kopjes en afbeeldingen", "Ik kan een PowerPoint maken met overzichtelijke dia's"], oordeel_tekst: "Goede match — de softwarevaardigheden zijn precies wat het doel beschrijft." },
+    { code: "21B1", oordeel: "zuiver", vanuit: "Leerlingen leren wat een zoekmachine is en hoe je goede zoekwoorden kiest.", leerdoelen: ["Ik kan uitleggen wat een zoekmachine is", "Ik kan goede zoekwoorden gebruiken"], oordeel_tekst: "Past goed bij het combineren van zoekhulpmiddelen en zoekstrategieën." },
+    { code: "21B2", oordeel: "zuiver", vanuit: "Beoordelen of een website betrouwbaar is wordt expliciet behandeld.", leerdoelen: ["Ik kan beoordelen of een website betrouwbaar is"], oordeel_tekst: "Zuivere match — dit is exact wat het doel vraagt." },
+    { code: "21B6", oordeel: "zuiver", vanuit: "De zoek-vaardigheden worden ook gericht op vakspecifieke zoekstrategieën aangeboden (havo/vwo-niveau).", leerdoelen: ["Verdieping op zoekstrategieën voor havo-vwo"], oordeel_tekst: "Logische uitbreiding voor havo-vwo." },
+    { code: "21D2", oordeel: "zuiver", vanuit: "Leerlingen maken kennis met AI: wat is het, waarvoor wordt het gebruikt door bedrijven en instellingen.", leerdoelen: ["Ik kan uitleggen wat AI is en waarvoor je het kunt gebruiken"], oordeel_tekst: "Past bij herkennen van veelvoorkomende AI-systemen." },
+    { code: "21D4", oordeel: "zuiver", vanuit: "Leerlingen leren een vraag stellen aan AI en AI veilig en eerlijk te gebruiken voor school.", leerdoelen: ["Ik kan een duidelijke vraag stellen aan AI", "Ik kan AI veilig en eerlijk gebruiken voor school"], oordeel_tekst: "Sluit goed aan op doelgericht en verantwoord interacteren met AI." },
+    { code: "21D7", oordeel: "zuiver", vanuit: "Voor havo-vwo wordt aandacht besteed aan mogelijkheden én beperkingen van AI.", leerdoelen: ["Reflectie op wat AI wel en niet kan"], oordeel_tekst: "Logische uitbreiding voor havo-vwo." },
+    { code: "22A1", oordeel: "zuiver", vanuit: "Leerlingen experimenteren met PowerPoint om presentaties te maken die ideeën uitdrukken.", leerdoelen: ["Ik kan een PowerPoint maken met meerdere dia's", "Ik kan titels, tekst en afbeeldingen goed gebruiken"], oordeel_tekst: "Goede match — PowerPoint als ontwikkel- en bewerkingssoftware." },
+    { code: "22A2", oordeel: "zuiver", vanuit: "Een PowerPoint-presentatie maken is een digitaal product om mee te informeren.", leerdoelen: ["Ik kan een overzichtelijke en aantrekkelijke presentatie maken"], oordeel_tekst: "Zuivere match met het ontwikkelen en delen van een informerend digitaal product." },
+    { code: "23A1", oordeel: "zuiver", vanuit: "Leerlingen leren veilig en respectvol omgaan met anderen online en onveilige online situaties herkennen.", leerdoelen: ["Ik kan veilig omgaan met anderen online", "Ik kan onveilige situaties herkennen"], oordeel_tekst: "Sluit aan bij kennis over privacy en persoonsgegevens." },
+    { code: "23A2", oordeel: "zuiver", vanuit: "Het herkennen van onveilige online situaties dekt veiligheidsrisico's bij digitale systemen.", leerdoelen: ["Ik kan onveilige online situaties herkennen"], oordeel_tekst: "Zuivere match." },
+    { code: "23A6", oordeel: "zuiver", vanuit: "Voor havo-vwo wordt malware en online bedreigingen besproken.", leerdoelen: ["Verdieping bedreigingen voor havo-vwo"], oordeel_tekst: "Logische havo-vwo-uitbreiding." },
+    { code: "23B1", oordeel: "zuiver", vanuit: "Respectvol online communiceren is een expliciet leerpunt in dit blok.", leerdoelen: ["Ik kan veilig en respectvol omgaan met anderen online"], oordeel_tekst: "Zuivere match." }
+  ],
+  ontwerpen: [
+    { code: "21A1", oordeel: "over", vanuit: "De werkgroep heeft 21A1 gekoppeld aan een leerdoel rond Tinkercad en de 3D-printer. Inhoudelijk gaat 21A1 echter over netwerken en digitale systemen — niet over CAD-software bedienen.", leerdoelen: ["Ik kan een 3D-model maken in Tinkercad", "Ik snap hoe ik een model moet versturen naar de 3D-printer"], oordeel_tekst: "Heroverweging: deze leerdoelen passen veel beter bij 22A1 (experimenteren met ontwikkelsoftware). Zie tab Terugkoppelvragen." },
+    { code: "21A3", oordeel: "zuiver", vanuit: "Leerlingen werken met 3D-modelleersoftware en Canva — typische voorbeelden van \"geavanceerde mogelijkheden van software voor het creëren en bewerken van verschillende typen bestanden\".", leerdoelen: ["Ik kan een 3D-model maken in Tinkercad", "Ik kan een poster ontwerpen in Canva"], oordeel_tekst: "Past goed bij dit doel." },
+    { code: "22A1", oordeel: "zuiver", vanuit: "Het hart van dit blok: leerlingen experimenteren met Tinkercad, lasersnijder-software en Canva om ideeën uit te drukken.", leerdoelen: ["Ik kan een 3D-model maken in Tinkercad", "Ik kan werken met software voor de lasersnijder", "Ik kan een poster ontwerpen in Canva"], oordeel_tekst: "Sterke en zuivere koppeling — exact wat dit doel vraagt." },
+    { code: "22A2", oordeel: "zuiver", vanuit: "Leerlingen maken een productposter in Canva om hun ontwerp op de markt te promoten, en geven een pitch waarin ze het product overtuigend presenteren.", leerdoelen: ["Ik kan een poster ontwerpen in Canva met duidelijk doel en doelgroep", "Ik kan een pitch geven met PowerPoint"], oordeel_tekst: "Zuivere match — \"informeren, overtuigen of beïnvloeden\" is precies wat de poster en pitch beogen." },
+    { code: "22A4", oordeel: "zuiver", vanuit: "Het hele blok is opgebouwd rond een iteratief ontwerpproces: brainstorm → schets → 3D-model → prototype → reflectie. De DTMC-methode wordt expliciet als leidraad gebruikt.", leerdoelen: ["Ik kan ideeën bedenken, schetsen en uitwerken", "Ik kan ontwerpeisen gebruiken", "Ik kan werken volgens DTMC", "Ik kan reflecteren op proces en product"], oordeel_tekst: "Kerncoupling van dit blok — zuiver en overtuigend." },
+    { code: "22B1", oordeel: "over", vanuit: "De werkgroep heeft 22B1 gekoppeld aan Tinkercad-modelleren en de lasersnijder. Dit doel gaat echter over het beschrijven van \"taak en doel van een computerprogramma\" in programmeerkundige zin.", leerdoelen: ["Tinkercad, lasersnijder, Canva"], oordeel_tekst: "Heroverweging: dit doel hoort eerder in het blok Programmeren. Zie tab Terugkoppelvragen." },
+    { code: "23B1", oordeel: "zuiver", vanuit: "Leerlingen werken in groepen aan een ontwerpopdracht en leren gelijkwaardig en respectvol samenwerken.", leerdoelen: ["Ik kan gelijkwaardig en respectvol samenwerken in projecten"], oordeel_tekst: "Sluit aan op respectvol online en offline handelen." },
+    { code: "23B5", oordeel: "zuiver", vanuit: "Het blok laat leerlingen kennismaken met het beroep van ontwerper en met digitale ontwerptools — een verkenning van interesse in digitale technologie.", leerdoelen: ["Kennismaking met beroep ontwerper", "Werken met digitale ontwerptools"], oordeel_tekst: "Goede koppeling met verkenning van studies en beroepen." }
+  ],
+  programmeren: [
+    { code: "21A3", oordeel: "zuiver", vanuit: "Leerlingen leren hun Micro:bit-programma opslaan en verplaatsen naar de OneDrive — werken met bestanden en cloudopslag.", leerdoelen: ["Ik kan mijn Micro:bit-programma opslaan en verplaatsen naar OneDrive"], oordeel_tekst: "Past bij geavanceerde softwaremogelijkheden voor samenwerken en bestanden." },
+    { code: "21A5", oordeel: "zuiver", vanuit: "Het blok geeft leerlingen zicht op moderne programmeer-mogelijkheden (visueel programmeren, sensoren, VR/AR via Delightex) en hun beperkingen.", leerdoelen: ["Ik weet wat een VR/AR-omgeving is", "Ik kan blokprogrammeren met diverse tools"], oordeel_tekst: "Past bij het bijhouden van technologische ontwikkelingen." },
+    { code: "22A1", oordeel: "zuiver", vanuit: "Leerlingen ontwerpen een eigen 3D-wereld in Delightex met een gekozen thema — experimenteren met ontwikkelsoftware om ideeën uit te drukken.", leerdoelen: ["Ik kan een eigen 3D-wereld ontwerpen met een doel of thema"], oordeel_tekst: "Zuivere match." },
+    { code: "22A2", oordeel: "zuiver", vanuit: "De Delightex-tentoonstelling is een digitaal product met een doel of thema, gericht op vertellen of beïnvloeden.", leerdoelen: ["Ik kan een eigen 3D-wereld ontwerpen met een doel of thema"], oordeel_tekst: "Past bij ontwikkelen en delen van digitaal product." },
+    { code: "22A3", oordeel: "zuiver", vanuit: "Leerlingen leren stroomdiagrammen lezen, denken in volgorde van stappen en fouten opsporen — kerncomponenten van computational thinking.", leerdoelen: ["Ik kan fouten in een programma opsporen en verbeteren", "Ik weet dat volgorde van stappen belangrijk is", "Ik kan een stroomdiagram lezen"], oordeel_tekst: "Sterke match met computationele denkstrategieën." },
+    { code: "22A4", oordeel: "zuiver", vanuit: "Het eigen Micro:bit-programma wordt iteratief gebouwd via DTMC: ontwerpen, programmeren, testen, verbeteren.", leerdoelen: ["Ik kan een nieuw project aanmaken en uploaden naar Micro:bit", "Ik kan blokken gebruiken voor beweging en reactie", "Ik kan een als-dan-anders-blok gebruiken"], oordeel_tekst: "Past bij iteratief ontwerpen met reflectie." },
+    { code: "22B1", oordeel: "zuiver", vanuit: "Het beschrijven van taak en doel van een programma is impliciet onderdeel van het werken aan eigen Micro:bit-programma's met sensoren en actuatoren.", leerdoelen: ["DTMC-formulier waarin doel en plan worden vastgelegd"], oordeel_tekst: "Goede match met dit programmeerdoel." },
+    { code: "22B2", oordeel: "zuiver", vanuit: "Leerlingen leren een stroomdiagram lezen en zelf maken — schematisch weergeven van algoritmen.", leerdoelen: ["Ik kan een stroomdiagram lezen", "Ik teken een stroomdiagram voor mijn eigen programma"], oordeel_tekst: "Zuivere match." },
+    { code: "22B3", oordeel: "zuiver", vanuit: "Leerlingen werken met events (knopdrukken, sensoren), variabelen en als-dan-anders-blokken (logische operatoren).", leerdoelen: ["Ik kan invoerblokken gebruiken", "Ik weet wat een variabele is", "Ik kan een als-dan-anders-blok gebruiken"], oordeel_tekst: "Sterke match — alle drie de programmeerconcepten worden expliciet behandeld." },
+    { code: "22B4", oordeel: "zuiver", vanuit: "Leerlingen testen hun programma op de Micro:bit, beoordelen of het doet wat verwacht, en verbeteren het — gestructureerd via twee testrondes.", leerdoelen: ["Ik kan fouten in een programma opsporen en verbeteren"], oordeel_tekst: "Zuivere match." },
+    { code: "22B5", oordeel: "zuiver", vanuit: "Het eigen eindprogramma start met een probleem of opdracht waar leerlingen een programmeer-oplossing voor bedenken.", leerdoelen: ["Ik kan een probleem of taak omzetten in een programma"], oordeel_tekst: "Sterke match." }
+  ]
+};
+
+// Terugkoppelvragen
+const VRAGEN_SPECIFIEK = [
+  {
+    code: "21A1",
+    blok: "Ontwerpen",
+    eyebrow: "Over-matching — Ontwerpen, 21A1",
+    titel: "21A1 in Ontwerpen: Tinkercad-modelleren vs. netwerkbegrip",
+    context: "In Ontwerpen is 21A1 (\"beschrijven van wat technisch nodig is om digitale systemen te laten werken en in een netwerk te laten samenwerken\") gekoppeld aan het leerdoel rond Tinkercad en de 3D-printer. Inhoudelijk gaat 21A1 echter over netwerken en systeemarchitectuur, niet over CAD-software bedienen.",
+    vraag: "Zou deze koppeling beter losgelaten kunnen worden, omdat de bedoelde leerdoelen al onder 22A1 (experimenteren met ontwikkelsoftware) vallen? Of zit er een netwerk-aspect in dit blok dat we hier missen?"
+  },
+  {
+    code: "22B1",
+    blok: "Ontwerpen",
+    eyebrow: "Over-matching — Ontwerpen, 22B1",
+    titel: "22B1 in Ontwerpen: hoort dit hier of bij Programmeren?",
+    context: "22B1 (\"beschrijven van de taak en het doel van een computerprogramma\") is in Ontwerpen gekoppeld aan Tinkercad, lasersnijder-software en Canva. Dit doel hoort echter inhoudelijk thuis bij programmeren — het gaat om het beschrijven van een programma als softwareproduct, niet over CAD- of ontwerptools.",
+    vraag: "Kan deze koppeling losgelaten worden bij Ontwerpen, aangezien Programmeren dit doel al zuiver afdekt?"
+  }
+];
+
+const VRAGEN_ALGEMEEN = [
+  {
+    eyebrow: "Vastlegging",
+    titel: "Ambachten bewust leeg: leggen we deze keuze formeel vast?",
+    context: "De werkgroep heeft bewust gekozen om in Ambachten geen SLO-doelen digitale geletterdheid te koppelen. Dit is een verdedigbare onderwijskundige keuze, maar wel een die uitgelegd moet worden aan derden (sectiehoofd, schoolleiding, inspectie).",
+    vraag: "Willen we deze keuze vastleggen in een korte onderbouwing die bij dit overzicht hoort, zodat de \"witte kolom\" niet als gebrek wordt geïnterpreteerd?"
+  },
+  {
+    eyebrow: "Auteursrecht & bronvermelding",
+    titel: "22A5 ontbreekt in alle blokken — terwijl leerlingen wél Canva, beelden en social media gebruiken",
+    context: "Het doel 22A5 (\"rekening houden met auteursrechten, licenties en bron- en naamsvermelding bij het creëren van digitale producten\") staat in geen enkel blok aangevinkt. De werkgroep Programmeren noteerde \"Oppakken voor leerjaar 2\". Tegelijk maken leerlingen in Ontwerpen wél een Canva-poster met beelden, en wordt social media-promotie genoemd.",
+    vraag: "Verschuiven we 22A5 inderdaad naar leerjaar 2, of nemen we het in Ontwerpen kort op bij de productposter-opdracht (waar het natuurlijk landt)?"
+  },
+  {
+    eyebrow: "Data-cluster",
+    titel: "Heel domein 21C (data) ontbreekt — is dit een bewuste keuze?",
+    context: "Geen enkel blok dekt het 21C-cluster: dataset-onderzoek, data-gebruik door bedrijven, datagestuurd werken. De werkgroep Programmeren noteert dat Delightex hier potentie biedt, maar nog niet geïmplementeerd is.",
+    vraag: "Is data een bewuste keuze om te beleggen in burgerschap of leerjaar 2, of een blinde vlek die we voor klas 1 alsnog willen invullen?"
+  },
+  {
+    eyebrow: "Informatievaardigheden",
+    titel: "Wie pakt 21B3, B4 en B5 op? (reflectie op zoeken, sociale media, eigen vooringenomenheid)",
+    context: "Basis dekt 21B1 en B2 goed (zoeken en bronnen beoordelen), maar de reflectieve doelen — geschiktheid van eigen strategie, hoe sociale media werken, eigen vooringenomenheid — vallen buiten T&D klas 1.",
+    vraag: "Liggen deze doelen bij burgerschap/mediawijsheid, of moet Basis hier in klas 1 al iets in oppakken?"
+  },
+];
+
+// Onder-matching kansen
+const KANSEN = [
+  {
+    code: "21A4",
+    blok: "Programmeren",
+    eyebrow: "Onder-matching — Programmeren, 21A4",
+    titel: "Programmeren raakt 21A4 al in de introductie",
+    context: "De inleidende tekst van het werkbestand Programmeren noemt expliciet dat programma's overal zitten: \"De spelletjes die je speelt, apps zoals YouTube of TikTok, de navigatie in de auto, en zelfs stoplichten — ze werken allemaal dankzij programma's.\" Dit is precies wat 21A4 vraagt: herkennen van digitale systemen in bedrijven, media en overheid.",
+    actie: "<strong>Kleine actie</strong> — expliciet maken in les 1 dat dit kennismaken met 21A4 is, eventueel met een korte klassikale brainstorm: \"waar zit programmering om je heen?\". Daarmee is de koppeling zuiver te claimen."
+  },
+  {
+    code: "22A3",
+    blok: "Ontwerpen",
+    eyebrow: "Onder-matching — Ontwerpen, 22A3",
+    titel: "DTMC-werkwijze in Ontwerpen raakt computationeel denken",
+    context: "22A3 (\"afwegen met behulp van computationele denkstrategieën in hoeverre het doel met een digitaal product bereikt kan worden\") is alleen aan Programmeren gekoppeld. In Ontwerpen gebruiken leerlingen echter ook de DTMC-methode — Denken, Tekenen, Maken, Controleren — die structureel computationeel denken inzet bij het bepalen of het ontwerp aan eisen voldoet.",
+    actie: "<strong>Overweging</strong> — als de C-fase van DTMC expliciet als afwegingsmoment wordt benoemd, kan 22A3 ook in Ontwerpen zuiver gekoppeld worden. Anders bewust laten staan dat Programmeren dit doel exclusief afdekt."
+  }
+];
+
+/* ===========================================================
+   RENDERING
+   =========================================================== */
+
+// === Helpers ===
+function getStatus(code, blok) {
+  const koppels = KOPPELINGEN[code] || {};
+  return koppels[blok] || null;
+}
+
+function getEindStatus(code) {
+  const koppels = KOPPELINGEN[code] || {};
+  const statuses = Object.values(koppels);
+  const hasZuiver = statuses.some(s => s === "zuiver");
+  const hasOver = statuses.some(s => s === "over");
+  const hasOnder = statuses.some(s => s === "onder");
+  if (hasZuiver) return "gedekt";
+  if (hasOver && !hasZuiver) return "discussie";
+  if (hasOnder) return "kans";
+  return "wit";
+}
+
+function getEindStatusLabel(status) {
+  switch(status) {
+    case "gedekt": return { label: "Gedekt", cls: "gedekt" };
+    case "discussie": return { label: "Discussie", cls: "discussie" };
+    case "kans": return { label: "Kans", cls: "kans" };
+    case "wit": return { label: "Witte vlek", cls: "wit" };
+  }
+}
+
+function markerHTML(status, isAmbachten) {
+  if (isAmbachten) return '<span class="marker leeg">·</span>';
+  if (status === "zuiver") return '<span class="marker zuiver">✓</span>';
+  if (status === "over") return '<span class="marker over">?</span>';
+  if (status === "onder") return '<span class="marker onder">⟡</span>';
+  return '<span class="marker leeg">·</span>';
+}
+
+// === MATRIX ===
+function renderMatrix() {
+  const t = document.getElementById("matrix");
+  let html = "<thead><tr><th>Code</th><th>SLO-doel</th>";
+  BLOKKEN.forEach(b => {
+    const cls = b === "ambachten" ? "col-blok ambachten" : "col-blok";
+    html += `<th class="${cls}">${BLOK_LABELS[b]}</th>`;
+  });
+  html += '<th class="col-status">Status</th></tr></thead><tbody>';
+
+  CLUSTERS.forEach(cluster => {
+    html += `<tr class="cluster-row"><td colspan="${3 + BLOKKEN.length}">
+      <div class="cluster-label">${cluster.id} <span class="cluster-name">${cluster.name}</span></div>
+    </td></tr>`;
+
+    const doelen = DOELEN.filter(d => d.cluster === cluster.id);
+    doelen.forEach(d => {
+      html += `<tr><td class="cell-code">${d.code}${d.havo ? '<span class="havo-tag">havo-vwo</span>' : ''}</td>`;
+      html += `<td class="cell-text">${d.text}</td>`;
+      BLOKKEN.forEach(b => {
+        const status = getStatus(d.code, b);
+        const cls = b === "ambachten" ? "cell-blok ambachten" : "cell-blok";
+        html += `<td class="${cls}">${markerHTML(status, b === "ambachten")}</td>`;
+      });
+      const eind = getEindStatus(d.code);
+      const el = getEindStatusLabel(eind);
+      let extra = "";
+      if (eind === "wit" && WITTE_VLEKKEN_SUGGESTIE[d.code]) {
+        extra = `<div style="font-size:11px;color:var(--ink-muted);margin-top:4px;font-family:var(--serif);font-style:italic;">→ ${WITTE_VLEKKEN_SUGGESTIE[d.code]}</div>`;
+      }
+      html += `<td class="cell-status"><span class="status-badge ${el.cls}">${el.label}</span>${extra}</td></tr>`;
+    });
+  });
+
+  html += "</tbody>";
+  t.innerHTML = html;
+}
+
+// === KOPPELLIJNEN OVERZICHT ===
+function renderKoppellijnen() {
+  const c = document.getElementById("koppellijnen");
+  let html = "";
+  BLOKKEN.forEach(b => {
+    const lijnen = KOPPELLIJNEN[b];
+    const isAmb = b === "ambachten";
+    html += `<div class="koppel-card ${isAmb ? "ambachten" : ""}">`;
+    html += `<h3>${BLOK_LABELS[b]}</h3>`;
+    html += `<div class="blok-subtitle">Blokactiviteit → SLO-doel</div>`;
+    if (isAmb || lijnen.length === 0) {
+      html += `<p style="font-family:var(--serif);font-style:italic;color:var(--ink-muted);font-size:14px;margin:0;">Bewust geen koppelingen — zie tab "Per blok".</p>`;
+    } else {
+      lijnen.forEach(l => {
+        html += `<div class="koppel-line">
+          <span class="activity">${l.activity}</span>
+          <span class="arrow">→</span>
+          <span class="codes">${l.codes.map(c => `<span class="code">${c}</span>`).join("")}</span>
+        </div>`;
+      });
+    }
+    html += `</div>`;
+  });
+  c.innerHTML = html;
+}
+
+// === PER BLOK ===
+function renderBlokDetail(blokId) {
+  const info = BLOK_INFO[blokId];
+  const details = KOPPEL_DETAILS[blokId] || [];
+  const container = document.getElementById("subpanel-" + blokId);
+
+  let html = "";
+
+  // Intro
+  const isAmb = blokId === "ambachten";
+  html += `<div class="blok-intro ${isAmb ? "ambachten" : ""}">`;
+  html += `<h3>${BLOK_LABELS[blokId]}</h3>`;
+  html += `<div class="blok-meta">Blokomschrijving</div>`;
+  html += `<p>${info.intro}</p>`;
+  if (info.bewust) {
+    html += `<p style="margin-top:14px;font-family:var(--serif);font-style:italic;">${info.bewust_uitleg}</p>`;
+  }
+  if (!isAmb) {
+    const zuiverCount = details.filter(d => d.oordeel === "zuiver").length;
+    const overCount = details.filter(d => d.oordeel === "over").length;
+    html += `<div class="blok-stats">
+      <div class="blok-stat"><span class="num">${details.length}</span>gekoppelde SLO-doelen</div>
+      <div class="blok-stat"><span class="num zuiver">${zuiverCount}</span>zuivere koppelingen</div>
+      ${overCount > 0 ? `<div class="blok-stat"><span class="num over">${overCount}</span>verdienen heroverweging</div>` : ""}
+    </div>`;
+  }
+  html += `</div>`;
+
+  if (isAmb) {
+    container.innerHTML = html;
+    return;
+  }
+
+  // Disclaimer voor basis
+  if (blokId === "basis") {
+    html += `<div class="disclaimer"><strong>Werkbestand nog niet beschikbaar</strong> — ${info.leerdoelen_note}</div>`;
+  }
+
+  // Eigen leerdoelen blok
+  if (info.leerdoelen) {
+    html += `<h3 class="blok-section-head">Eigen leerdoelen — uit werkbestand</h3>`;
+    html += `<div class="leerdoelen-block"><ul>`;
+    info.leerdoelen.forEach(l => html += `<li>${l}</li>`);
+    html += `</ul></div>`;
+  }
+
+  if (info.activiteiten) {
+    html += `<h3 class="blok-section-head">Centrale activiteiten</h3>`;
+    html += `<div class="leerdoelen-block"><p class="note">${info.activiteiten}</p></div>`;
+  }
+
+  // Koppelingen
+  html += `<h3 class="blok-section-head">SLO-koppelingen in detail</h3>`;
+  details.forEach(d => {
+    const doel = DOELEN.find(x => x.code === d.code);
+    if (!doel) return;
+    html += `<div class="koppel-detail ${d.oordeel}">`;
+    html += `<div class="koppel-detail-head">
+      <span class="code-big">${d.code}</span>
+      <div class="doel-text">${doel.text}${doel.havo ? '<span class="havo-tag">havo-vwo</span>' : ''}</div>
+    </div>`;
+    html += `<div class="koppel-detail-body">`;
+    html += `<div class="koppel-detail-row"><div class="label">Vanuit het blok</div><div class="value">${d.vanuit}</div></div>`;
+    if (d.leerdoelen && d.leerdoelen.length) {
+      html += `<div class="koppel-detail-row"><div class="label">Verbonden leerdoelen</div><div class="value"><ul>${d.leerdoelen.map(l => `<li>${l}</li>`).join("")}</ul></div></div>`;
+    }
+    html += `<div class="koppel-detail-row oordeel"><div class="label">Oordeel</div><div class="value">${d.oordeel === "zuiver" ? '<span class="status-badge gedekt">Zuiver</span>' : '<span class="status-badge discussie">Over-matching</span>'} — ${d.oordeel_tekst}</div></div>`;
+    html += `</div></div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+// === WITTE VLEKKEN ===
+function renderVlekken() {
+  const c = document.getElementById("vlekken-container");
+  let html = "";
+
+  CLUSTERS.forEach(cluster => {
+    const doelen = DOELEN.filter(d => d.cluster === cluster.id);
+    const vlekken = doelen.filter(d => getEindStatus(d.code) === "wit");
+    if (vlekken.length === 0) return;
+
+    html += `<div class="vlek-cluster">
+      <div class="vlek-cluster-head">
+        <h3>${cluster.id} — ${cluster.name}</h3>
+        <span class="count">${vlekken.length} doel${vlekken.length === 1 ? "" : "en"} niet behandeld</span>
+      </div>`;
+
+    vlekken.forEach(d => {
+      const sug = WITTE_VLEKKEN_SUGGESTIE[d.code] || "Nog geen voorgestelde plek — bespreken";
+      const isGap = !WITTE_VLEKKEN_SUGGESTIE[d.code];
+      html += `<div class="vlek-doel">
+        <div class="code">${d.code}${d.havo ? ' <span style="font-size:9px;color:var(--ink-muted);">havo-vwo</span>' : ''}</div>
+        <div class="doel-tekst">${d.text}</div>
+        <div class="suggestie ${isGap ? "gap" : ""}">${isGap ? "↗ " : "→ "}${sug}</div>
+      </div>`;
+    });
+
+    html += `</div>`;
+  });
+
+  c.innerHTML = html;
+}
+
+// === TERUGKOPPELVRAGEN ===
+function renderVragen() {
+  let html = "";
+  VRAGEN_SPECIFIEK.forEach(v => {
+    html += `<div class="vraag-card">
+      <div class="vraag-eyebrow">${v.eyebrow}</div>
+      <h4>${v.titel}</h4>
+      <p class="context">${v.context}</p>
+      <div class="vraag-zelf">${v.vraag}</div>
+    </div>`;
+  });
+  document.getElementById("vragen-specifiek").innerHTML = html;
+
+  html = "";
+  VRAGEN_ALGEMEEN.forEach(v => {
+    html += `<div class="vraag-card algemeen">
+      <div class="vraag-eyebrow">${v.eyebrow}</div>
+      <h4>${v.titel}</h4>
+      <p class="context">${v.context}</p>
+      <div class="vraag-zelf">${v.vraag}</div>
+    </div>`;
+  });
+  document.getElementById("vragen-algemeen").innerHTML = html;
+}
+
+// === KANSEN ===
+function renderKansen() {
+  const c = document.getElementById("kansen-container");
+  let html = "";
+  KANSEN.forEach(k => {
+    html += `<div class="kans-card">
+      <div class="kans-eyebrow">${k.eyebrow}</div>
+      <h4>${k.titel}</h4>
+      <p class="kans-context">${k.context}</p>
+      <div class="kans-actie">${k.actie}</div>
+    </div>`;
+  });
+  c.innerHTML = html;
+}
+
+/* ===========================================================
+   TAB INTERACTIE
+   =========================================================== */
+
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const target = btn.dataset.tab;
+    document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("panel-" + target).classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+
+document.querySelectorAll(".subtab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const target = btn.dataset.subtab;
+    document.querySelectorAll(".subtab").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".subpanel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("subpanel-" + target).classList.add("active");
+  });
+});
+
+/* ===========================================================
+   START
+   =========================================================== */
+
+renderMatrix();
+renderKoppellijnen();
+BLOKKEN.forEach(renderBlokDetail);
+renderVlekken();
+renderVragen();
+renderKansen();
+
+</script>
+</body>
+</html>

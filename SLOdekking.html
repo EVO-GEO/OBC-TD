@@ -739,6 +739,144 @@
     color: white;
   }
 
+  /* === Werkgroep-agenda (tab 04) === */
+  .agenda-sectie {
+    margin-bottom: 36px;
+  }
+  .agenda-sectie:last-child { margin-bottom: 0; }
+  .agenda-sectie-head {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .agenda-sectie-head h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0 0 4px;
+    letter-spacing: -0.005em;
+  }
+  .agenda-sectie-intro {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  details.agenda-item {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    margin-bottom: 6px;
+    transition: border-color 0.15s;
+  }
+  details.agenda-item:hover {
+    border-color: var(--obc-green);
+  }
+  details.agenda-item[open] {
+    border-color: var(--obc-green);
+    background: var(--obc-green-faint);
+  }
+  summary.agenda-item-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 18px;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+  summary.agenda-item-head::-webkit-details-marker { display: none; }
+  .agenda-nr {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    flex-shrink: 0;
+    width: 22px;
+  }
+  .agenda-eyebrow {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 2px;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+    background: var(--paper-warm);
+    color: var(--ink-soft);
+  }
+  /* Eyebrow-kleur per categorie */
+  details.agenda-item .agenda-eyebrow:is([data-cat]) { /* placeholder */ }
+  .agenda-sectie:nth-child(1) .agenda-eyebrow {
+    background: var(--status-over-bg);
+    color: var(--status-over);
+  }
+  .agenda-sectie:nth-child(2) .agenda-eyebrow {
+    background: var(--niveau-0-bg);
+    color: var(--niveau-0);
+  }
+  .agenda-sectie:nth-child(3) .agenda-eyebrow {
+    background: var(--status-onder-bg);
+    color: var(--status-onder);
+  }
+  .agenda-kop {
+    flex: 1;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.4;
+    min-width: 0;
+  }
+  .agenda-toggle {
+    flex-shrink: 0;
+    font-family: var(--mono);
+    font-size: 16px;
+    color: var(--ink-muted);
+    width: 20px;
+    text-align: center;
+    transition: transform 0.2s;
+  }
+  details.agenda-item[open] .agenda-toggle {
+    transform: rotate(45deg);
+    color: var(--obc-green-dark);
+  }
+  .agenda-item-body {
+    padding: 0 20px 18px 54px;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 14px;
+    margin-top: 0;
+  }
+  .agenda-context {
+    margin: 0 0 12px;
+    font-family: var(--serif);
+    font-size: 14.5px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .agenda-vraag {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14.5px;
+    color: var(--ink);
+    padding: 10px 14px;
+    background: white;
+    border-left: 3px solid var(--obc-green);
+    border-radius: 0 2px 2px 0;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 880px) {
+    summary.agenda-item-head { flex-wrap: wrap; }
+    .agenda-kop { flex: 1 0 100%; order: 3; margin-top: 4px; }
+    .agenda-item-body { padding-left: 20px; }
+  }
+
   /* === Section headings === */
   .section-head {
     margin-bottom: 28px;
@@ -1577,7 +1715,7 @@
     <button class="tab" data-tab="overzicht"><span class="num">01</span>Overzicht</button>
     <button class="tab" data-tab="perblok"><span class="num">02</span>Per blok</button>
     <button class="tab" data-tab="vlekken"><span class="num">03</span>Witte vlekken</button>
-    <button class="tab" data-tab="vragen"><span class="num">04</span>Terugkoppelvragen</button>
+    <button class="tab" data-tab="vragen"><span class="num">04</span>Te bespreken</button>
     <button class="tab" data-tab="kansen"><span class="num">05</span>Onder-matching kansen</button>
   </div>
 </nav>
@@ -1720,16 +1858,12 @@
 <section class="panel" id="panel-vragen">
 
   <div class="section-head">
-    <div class="section-eyebrow">Tab 04 — Voor het overleg met de werkgroep</div>
-    <h2>Terugkoppelvragen</h2>
-    <p>Concrete vragen aan de werkgroep over koppelingen die volgens deze analyse heroverweging verdienen (over-matching), plus enkele bredere vragen over koers en keuzes.</p>
+    <div class="section-eyebrow">Tab 04 — De agenda voor de werkgroep</div>
+    <h2>Te bespreken</h2>
+    <p>Een gestructureerde agenda met openstaande punten: heroverwegingen van koppelingen, witte vlekken waarvan de landingsplek nog bepaald moet worden, en beslissingen die binnen de eigen sectie liggen. Klik op een item voor de onderbouwing.</p>
   </div>
 
-  <h3 class="blok-section-head">Vragen over specifieke koppelingen</h3>
-  <div id="vragen-specifiek"></div>
-
-  <h3 class="blok-section-head">Bredere vragen over koers</h3>
-  <div id="vragen-algemeen"></div>
+  <div id="agenda-container"></div>
 
 </section>
 
@@ -2067,59 +2201,92 @@ const KOPPEL_DETAILS = {
   ]
 };
 
-// Terugkoppelvragen
-const VRAGEN_SPECIFIEK = [
+// Werkgroep-agenda — gestructureerd in drie categorieën
+const AGENDA = [
   {
-    code: "21A1",
-    blok: "Ontwerpen",
-    eyebrow: "Over-matching — Ontwerpen, 21A1",
-    titel: "21A1 in Ontwerpen: Tinkercad-modelleren vs. netwerkbegrip",
-    context: "In Ontwerpen is 21A1 (\"beschrijven van wat technisch nodig is om digitale systemen te laten werken en in een netwerk te laten samenwerken\") gekoppeld aan het leerdoel rond Tinkercad en de 3D-printer. Inhoudelijk gaat 21A1 echter over netwerken en systeemarchitectuur, niet over CAD-software bedienen.",
-    vraag: "Zou deze koppeling beter losgelaten kunnen worden, omdat de bedoelde leerdoelen al onder 22A1 (experimenteren met ontwikkelsoftware) vallen? Of zit er een netwerk-aspect in dit blok dat we hier missen?"
+    categorie: "Heroverwegingen",
+    intro: "Koppelingen die volgens de analyse heroverweging verdienen — verwachte tijd: kort, gericht.",
+    items: [
+      {
+        kop: "21A1 in Ontwerpen — netwerk-doel gekoppeld aan CAD-software",
+        eyebrow: "Over-matching",
+        context: "De werkgroep heeft 21A1 (netwerken en systeemsamenwerking) gekoppeld aan het leerdoel rond Tinkercad en de 3D-printer. Inhoudelijk past dit beter bij 22A1 (ontwikkelsoftware).",
+        vraag: "Koppeling losmaken bij 21A1, en alleen onder 22A1 laten staan?"
+      },
+      {
+        kop: "22B1 in Ontwerpen — programma-doel bij ontwerpvak",
+        eyebrow: "Over-matching",
+        context: "22B1 (beschrijven van taak en doel van een computerprogramma) is in Ontwerpen gekoppeld aan Tinkercad, lasersnijder en Canva. Het doel hoort inhoudelijk bij Programmeren, dat het al zuiver dekt.",
+        vraag: "Koppeling losmaken bij Ontwerpen?"
+      },
+      {
+        kop: "22A5 in Programmeren — auteursrecht: aangevinkt maar onduidelijk",
+        eyebrow: "Over-matching",
+        context: "22A5 staat aangevinkt voor Programmeren, maar in het werkbestand komen auteursrecht, licenties en bronvermelding niet expliciet voor. Tegelijk maken leerlingen in Ontwerpen wél een Canva-poster met beelden — daar zou het natuurlijk landen.",
+        vraag: "Wat is de feitelijke behandeling in Programmeren? Verplaatsen naar Ontwerpen bij de productposter-opdracht?"
+      }
+    ]
   },
   {
-    code: "22B1",
-    blok: "Ontwerpen",
-    eyebrow: "Over-matching — Ontwerpen, 22B1",
-    titel: "22B1 in Ontwerpen: hoort dit hier of bij Programmeren?",
-    context: "22B1 (\"beschrijven van de taak en het doel van een computerprogramma\") is in Ontwerpen gekoppeld aan Tinkercad, lasersnijder-software en Canva. Dit doel hoort echter inhoudelijk thuis bij programmeren — het gaat om het beschrijven van een programma als softwareproduct, niet over CAD- of ontwerptools.",
-    vraag: "Kan deze koppeling losgelaten worden bij Ontwerpen, aangezien Programmeren dit doel al zuiver afdekt?"
+    categorie: "Witte vlekken — landingsplek nog te bepalen",
+    intro: "Kerndoelen die in T&D klas 1 niet of nauwelijks aan bod komen. Per kerndoel ligt een open vraag: opnemen in T&D, doorschuiven binnen het curriculum, of beleggen bij een andere sectie — dat moet eerst onderzocht worden.",
+    items: [
+      {
+        kop: "Kerndoel 21C (data) — landingsplek nog te bepalen",
+        eyebrow: "Niet geraakt",
+        context: "Het volledige kerndoel data (6 aspecten, van dataset-onderzoek tot datagestuurd werken) komt nergens aan bod. Mogelijke richtingen: opnemen in T&D, wiskunde, onderzoeksvaardigheden, een AI-blok in leerjaar 2, of een keuzevak.",
+        vraag: "Eerst binnen de werkgroep verkennen waar 21C het best landt — daarna eventueel breder bespreken."
+      },
+      {
+        kop: "Kerndoel 23C (maatschappij & ethiek) — landingsplek nog te bepalen",
+        eyebrow: "Niet geraakt",
+        context: "Het volledige kerndoel (5 aspecten over ethische dilemma's, invloed van techbedrijven, democratische waarden) komt niet aan bod. Inhoudelijk zou het in T&D kunnen passen of bij burgerschap; dat moet nog onderzocht worden.",
+        vraag: "Verkennen of dit kerndoel binnen T&D opgepakt kan worden, of dat een andere plek in het curriculum logischer is."
+      },
+      {
+        kop: "Kerndoel 21B-rest (sociale media, reflectie) — waar landt dit?",
+        eyebrow: "Deels geraakt",
+        context: "Basis dekt 21B1 en 21B2 (zoeken en bronnen beoordelen), maar 21B3 (reflectie op zoekstrategieën), 21B4 (werking van sociale media) en 21B5 (eigen vooringenomenheid) niet. Inhoudelijk zou dit in Basis verder uitgewerkt kunnen worden, of elders.",
+        vraag: "Past dit in Basis uitgebreider, of zoeken we een andere plek?"
+      },
+      {
+        kop: "Kerndoel 23B-rest (digitale samenleving) — waar landt dit?",
+        eyebrow: "Deels geraakt",
+        context: "T&D dekt 23B1 (online respectvol communiceren) en 23B5 (interesse in beroepen), maar 23B2 (invloed van techniek op eigen denken/gedrag), 23B3 (mentale gezondheid) en 23B4 (online identiteit) niet.",
+        vraag: "Verkennen waar deze aspecten thuishoren — binnen T&D, in een ander vak, of in het mentoruur."
+      },
+      {
+        kop: "Kerndoel 21D-rest (AI verdieping) — wanneer en waar?",
+        eyebrow: "Deels geraakt",
+        context: "Basis dekt 21D2 (AI herkennen) en 21D4 (verantwoord met AI omgaan). 21D1, D3 en D5-D7 (rol van data, statistische vs regel-gebaseerde AI, AI trainen) zijn verdiepende aspecten.",
+        vraag: "Verdiepen in klas 1, doorschuiven naar leerjaar 2, of in een keuzevak — bepalen waar en wanneer."
+      }
+    ]
   },
   {
-    code: "22A5",
-    blok: "Programmeren",
-    eyebrow: "Over-matching — Programmeren, 22A5",
-    titel: "22A5 in Programmeren: waar zit het auteursrecht-onderdeel?",
-    context: "22A5 (\"rekening houden met auteursrechten, licenties en bron- en naamsvermelding bij het creëren van digitale producten\") is door de werkgroep aangevinkt voor Programmeren, maar in het werkbestand komt auteursrecht, licenties of bronvermelding niet expliciet terug als leerdoel of activiteit. Tegelijk maken leerlingen in Ontwerpen volop gebruik van beelden in Canva, waar dit doel ook natuurlijk zou landen.",
-    vraag: "Wat is de feitelijke behandeling van 22A5 in Programmeren? Als het niet expliciet aan bod komt, zou Ontwerpen — bij de productposter-opdracht — een passender plek zijn."
+    categorie: "Eigen sectie — vast te leggen",
+    intro: "Beslissingen die binnen de werkgroep T&D zelf liggen.",
+    items: [
+      {
+        kop: "Ambachten bewust leeg — formaliseren als keuze",
+        eyebrow: "Vastlegging",
+        context: "De werkgroep heeft bewust gekozen om in Ambachten geen SLO-doelen digitale geletterdheid te koppelen. Deze keuze is verdedigbaar maar moet uitlegbaar zijn voor derden (schoolleiding, inspectie).",
+        vraag: "Korte onderbouwing van deze keuze formeel vastleggen bij het document."
+      },
+      {
+        kop: "23A5 (omgaan met ongepaste content) — al onderdeel van Basis?",
+        eyebrow: "Mogelijke uitbreiding",
+        context: "Basis dekt 23A1 (privacy) en 23A2 (risico's), maar 23A5 (omgaan met ongepaste content en gedrag) niet expliciet. Voor klas 1-leerlingen praktisch zeer relevant; werkgroep-notities bij 23A1 noemen al \"onveilige situaties herkennen\".",
+        vraag: "Is dit al impliciet onderdeel van Basis, of expliciet leerdoel maken?"
+      },
+      {
+        kop: "23A3 + 23A4 — veiligheid breder maken in Basis?",
+        eyebrow: "Mogelijke uitbreiding",
+        context: "Naast 23A5 ontbreekt ook 23A3 (jezelf beschermen tegen zwakke plekken in systemen) en 23A4 (hoe anderen omgaan met jouw data). Beide praktisch relevant voor klas 1.",
+        vraag: "Klas 1 uitbreiden, doorschuiven naar leerjaar 2, of bij digitale veiligheidsmodule beleggen?"
+      }
+    ]
   }
-];
-
-const VRAGEN_ALGEMEEN = [
-  {
-    eyebrow: "Vastlegging",
-    titel: "Ambachten bewust leeg: leggen we deze keuze formeel vast?",
-    context: "De werkgroep heeft bewust gekozen om in Ambachten geen SLO-doelen digitale geletterdheid te koppelen. Dit is een verdedigbare onderwijskundige keuze, maar wel een die uitgelegd moet worden aan derden (sectiehoofd, schoolleiding, inspectie).",
-    vraag: "Willen we deze keuze vastleggen in een korte onderbouwing die bij dit overzicht hoort, zodat de \"witte kolom\" niet als gebrek wordt geïnterpreteerd?"
-  },
-  {
-    eyebrow: "Veiligheid in Basis",
-    titel: "23A5 (omgaan met ongepaste content) — hoort dit nog bij Basis?",
-    context: "Basis dekt 23A1 (privacy en persoonsgegevens) en 23A2 (veiligheidsrisico's), maar 23A5 — \"adequaat omgaan met ongepaste content, ongepast gedrag en veiligheidsrisico's in digitale omgevingen\" — staat niet aangevinkt. Dit is voor klas 1-leerlingen wel een zeer praktisch relevant onderwerp, en de werkgroep-notities bij 23A1 noemen al \"onveilige situaties herkennen\". Het lijkt erop dat dit doel inhoudelijk dichtbij ligt zonder als zodanig benoemd te worden.",
-    vraag: "Is omgaan met ongepaste content al onderdeel van Basis (impliciet bij 23A1/A2), of moet dit als apart leerdoel worden opgenomen? En zo niet bij Basis, waar dan wel?"
-  },
-  {
-    eyebrow: "Data-cluster",
-    titel: "Heel domein 21C (data) ontbreekt — waar leggen we dit neer?",
-    context: "Geen enkel blok dekt het 21C-cluster: dataset-onderzoek, data-gebruik door bedrijven, datagestuurd werken. De werkgroep Programmeren noteert dat Delightex hier potentie biedt, maar nog niet geïmplementeerd is. Dit is een echte witte vlek waarvoor nog geen plek is gevonden.",
-    vraag: "Pakken we 21C alsnog op in T&amp;D klas 1, beleggen we het bij burgerschap, schuiven we het naar leerjaar 2, of plaatsen we het in een keuzevak? Dit vraagt een afweging — niet alleen binnen onze werkgroep, maar in afstemming met de betrokken collega's."
-  },
-  {
-    eyebrow: "Informatievaardigheden",
-    titel: "Wie pakt 21B3, B4 en B5 op? (reflectie op zoeken, sociale media, eigen vooringenomenheid)",
-    context: "Basis dekt 21B1 en B2 goed (zoeken en bronnen beoordelen), maar de reflectieve doelen — geschiktheid van eigen strategie, hoe sociale media werken, eigen vooringenomenheid — vallen buiten T&D klas 1.",
-    vraag: "Liggen deze doelen bij burgerschap/mediawijsheid, of moet Basis hier in klas 1 al iets in oppakken?"
-  },
 ];
 
 // Onder-matching kansen
@@ -2406,7 +2573,7 @@ function renderVlekken() {
     if (isAandacht) {
       const aandachtTekst = cl.id === "21C"
         ? "Voor dit volledige kerndoel is nog geen logische landingsplek bepaald. Anders dan bij 21B (informatievaardigheden, dat goed bij burgerschap aansluit), past data inhoudelijk eerder bij wiskunde, onderzoeksvaardigheden, een AI-blok in leerjaar 2, of een keuzevak. Hier ligt een open afweging die in overleg met collega-secties opgepakt moet worden."
-        : "Dit volledige kerndoel — ethische dilemma's, maatschappelijke invloed van techbedrijven, democratische waarden in digitale context — komt in T&amp;D klas 1 niet aan bod. Inhoudelijk past het sterk bij burgerschap. Een afweging met de sectie burgerschap is hier op zijn plaats.";
+        : "Dit volledige kerndoel — ethische dilemma's, maatschappelijke invloed van techbedrijven, democratische waarden in digitale context — komt in T&amp;D klas 1 niet aan bod. Mogelijke richtingen: opnemen in T&amp;D, of beleggen elders in het curriculum. Hier ligt een open verkenning.";
       html += `<div class="aandacht-note">${aandachtTekst}</div>`;
     }
 
@@ -2427,29 +2594,39 @@ function renderVlekken() {
   c.innerHTML = html;
 }
 
-// === TERUGKOPPELVRAGEN ===
-function renderVragen() {
+// === WERKGROEP-AGENDA ===
+function renderAgenda() {
+  const c = document.getElementById("agenda-container");
   let html = "";
-  VRAGEN_SPECIFIEK.forEach(v => {
-    html += `<div class="vraag-card">
-      <div class="vraag-eyebrow">${v.eyebrow}</div>
-      <h4>${v.titel}</h4>
-      <p class="context">${v.context}</p>
-      <div class="vraag-zelf">${v.vraag}</div>
-    </div>`;
-  });
-  document.getElementById("vragen-specifiek").innerHTML = html;
+  let nr = 0;
 
-  html = "";
-  VRAGEN_ALGEMEEN.forEach(v => {
-    html += `<div class="vraag-card algemeen">
-      <div class="vraag-eyebrow">${v.eyebrow}</div>
-      <h4>${v.titel}</h4>
-      <p class="context">${v.context}</p>
-      <div class="vraag-zelf">${v.vraag}</div>
-    </div>`;
+  AGENDA.forEach(sectie => {
+    html += `<div class="agenda-sectie">
+      <div class="agenda-sectie-head">
+        <h3>${sectie.categorie}</h3>
+        <p class="agenda-sectie-intro">${sectie.intro}</p>
+      </div>`;
+
+    sectie.items.forEach(item => {
+      nr++;
+      html += `<details class="agenda-item">
+        <summary class="agenda-item-head">
+          <span class="agenda-nr">${String(nr).padStart(2, "0")}</span>
+          <span class="agenda-eyebrow">${item.eyebrow}</span>
+          <span class="agenda-kop">${item.kop}</span>
+          <span class="agenda-toggle">+</span>
+        </summary>
+        <div class="agenda-item-body">
+          <p class="agenda-context">${item.context}</p>
+          <div class="agenda-vraag">${item.vraag}</div>
+        </div>
+      </details>`;
+    });
+
+    html += `</div>`;
   });
-  document.getElementById("vragen-algemeen").innerHTML = html;
+
+  c.innerHTML = html;
 }
 
 // === KANSEN ===
@@ -2516,8 +2693,9 @@ function renderKortKPIs() {
     else nietGeraakt++;
   });
   const totaalKerndoelen = CLUSTERS.length;
-  const specifiekeVragen = VRAGEN_SPECIFIEK.length;
-  const algemeneVragen = VRAGEN_ALGEMEEN.length;
+  // Tel agenda-items: heroverwegingen apart, witte vlekken + eigen samen
+  const heroverwegingen = AGENDA[0].items.length;
+  const overigeItems = AGENDA[1].items.length + AGENDA[2].items.length;
 
   const kpis = [
     {
@@ -2531,9 +2709,9 @@ function renderKortKPIs() {
       sub: "Kerndoelen waarbij geen enkel aspect aan bod komt"
     },
     {
-      label: "Open vragen werkgroep",
-      value: `${specifiekeVragen}<span class="small"> + ${algemeneVragen}</span>`,
-      sub: "Specifiek over koppelingen + bredere vragen over koers"
+      label: "Te bespreken",
+      value: `${heroverwegingen + overigeItems}`,
+      sub: `${heroverwegingen} heroverwegingen + ${overigeItems} curriculaire afwegingen`
     },
     {
       label: "Aspecten geraakt",
@@ -2662,7 +2840,7 @@ function renderKortBlocks() {
     },
     {
       titel: "Mogelijke volgende stap",
-      tekst: "Dit overzicht dient als startpunt voor: (1) een werkgroep-overleg over de open vragen, (2) afstemming met de sectie burgerschap over kerndoelen die daar landen, en (3) bewuste verbindingen leggen met leerjaar 2 voor kerndoelen die nu naar later worden geschoven."
+      tekst: "Dit overzicht dient als startpunt voor: (1) een werkgroep-overleg over de openstaande punten, (2) verkennen waar witte vlekken inhoudelijk thuishoren, en (3) bewuste keuzes vastleggen over wat T&amp;D klas 1 wel en niet oppakt."
     }
   ];
 
@@ -2710,7 +2888,7 @@ renderKerndoelFilter();
 renderKoppellijnen();
 BLOKKEN.forEach(renderBlokDetail);
 renderVlekken();
-renderVragen();
+renderAgenda();
 renderKansen();
 renderKortLede();
 renderKortKPIs();
